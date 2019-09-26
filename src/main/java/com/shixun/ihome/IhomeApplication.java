@@ -9,7 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @EnableCaching
-@MapperScan({"com.shixun.ihome.test.mapper"})
+@MapperScan({"com.shixun.ihome.test.mapper","com.shixun.ihome.publicservice.mapper"})
 public class IhomeApplication {
 
     public static void main(String[] args) {
