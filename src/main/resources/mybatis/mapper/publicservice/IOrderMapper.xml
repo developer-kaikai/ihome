@@ -288,4 +288,11 @@
       comm = #{comm,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="listAllByName" resultMap="">
+    select o.id,u.name,a.* from
+  </select>
+  
+  <resultMap id="" type=""
+  
 </mapper>

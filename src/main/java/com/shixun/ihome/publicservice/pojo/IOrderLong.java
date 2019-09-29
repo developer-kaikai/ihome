@@ -9,6 +9,8 @@ public class IOrderLong {
 
     private String aboutFile;
 
+    private Integer orderId;
+
     public Integer getId() {
         return id;
     }
@@ -39,5 +41,13 @@ public class IOrderLong {
 
     public void setAboutFile(String aboutFile) {
         this.aboutFile = aboutFile == null ? null : aboutFile.trim();
+    }
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 }

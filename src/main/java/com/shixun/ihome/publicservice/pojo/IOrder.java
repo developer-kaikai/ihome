@@ -6,10 +6,13 @@ public class IOrder {
     private Integer id;
 
     private Integer userId;
+    private String username;
 
     private Integer useraddressId;
+    private IUserDetail userDetail;
 
     private Integer detailtypeId;
+    private String typename;
 
     private Date startTime;
 
@@ -22,6 +25,30 @@ public class IOrder {
     private Integer state;
 
     private String comm;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public IUserDetail getUserDetail() {
+        return userDetail;
+    }
+
+    public void setUserDetail(IUserDetail userDetail) {
+        this.userDetail = userDetail;
+    }
+
+    public String getTypename() {
+        return typename;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
 
     public Integer getId() {
         return id;

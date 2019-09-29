@@ -28,4 +28,7 @@ public interface IOrderMapper {
     int updateByPrimaryKeySelective(IOrder record);
 
     int updateByPrimaryKey(IOrder record);
+
+    /*显示所有订单，把id显示为名字*/
+    IOrder listAllByName();
 }
