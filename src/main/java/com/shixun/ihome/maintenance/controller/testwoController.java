@@ -1,5 +1,6 @@
 package com.shixun.ihome.maintenance.controller;
 
+import com.shixun.ihome.config.RedisCache;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.maintenance.service.testwoService;
@@ -22,19 +23,29 @@ import java.util.List;
 public class testwoController {
     @Autowired
     private testwoService testwoService1;
+    @Autowired
+    private RedisCache cache;
+
+    static class CacheNameHeleper{
+        public static final String listall="postlistall";
+    }
 
     @ApiOperation(value="列举职位")
     @GetMapping("/IPositionAll")
-    @ResponseBody
     public void listAll(HttpServletResponse response)throws IOException {
         response.setContentType("application/json;charset=utf-8");
-
-        List<IPosition> listp=testwoService1.iPositionListAll();
-        String json ;
-        json = Result.build(ResultType.Success).appendData("listp", listp).convertIntoJSON();
-
+        String json =cache.get(CacheNameHeleper.listall);
+        if(json==null) {
+            List<IPosition> listp=testwoService1.iPositionListAll();
+            json = Result.build(ResultType.Success).appendData("listp", listp).convertIntoJSON();
+            cache.set(CacheNameHeleper.listall,json);
+        }
         response.getWriter().write(json);
-
-
     }
+
+
+
+
+
+
 }
