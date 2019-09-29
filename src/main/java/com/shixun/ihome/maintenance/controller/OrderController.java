@@ -2,6 +2,7 @@ package com.shixun.ihome.maintenance.controller;
 
 import com.shixun.ihome.config.RedisCache;
 import com.shixun.ihome.json.Result;
+import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.maintenance.service.OrderService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import io.swagger.annotations.Api;
@@ -10,6 +11,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 @Controller
 @Api(description = "订单维修模块测试")
@@ -55,13 +60,20 @@ public class OrderController {
         boolean success=orderService.addEvaluate(id,quality_valuation,attitude_valuation,describe);
         return true;
     }
-
+//
 //    @ApiOperation(value ="查看所有订单")
 //    @RequestMapping(value="/listAll",method = RequestMethod.GET)
 //    @ResponseBody
-//    public Boolean addEvaluate(){
-//        boolean success=
-//        return true;
+//    public void addEvaluate(HttpServletResponse response)throws IOException {
+//
+//        List<IOrder> orderList=orderService.listAll();
+//        System.out.println(orderList.get(0).getUser().getName());
+//        response.setContentType("application/json;charset=utf-8");
+//        String json ;
+//        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
+//
+//        response.getWriter().write(json);
+//
 //    }
 
 

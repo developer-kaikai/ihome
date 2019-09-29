@@ -289,10 +289,19 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="listAllByName" resultMap="">
-    select o.id,u.name,a.* from
-  </select>
-  
-  <resultMap id="" type=""
-  
+  <!--<select id="listAllByName" resultMap="listAll">-->
+    <!--select * from i_order-->
+  <!--</select>-->
+
+  <!--<resultMap type="com.shixun.ihome.publicservice.pojo.IOrder" id="listAll" >-->
+  <!--<id column="id" property="id"/>-->
+  <!--<association property="user" javaType="com.shixun.ihome.publicservice.pojo.IUser">-->
+  <!--</association>-->
+    <!--<association property="userDetail" javaType="com.shixun.ihome.publicservice.pojo.IUserDetail">-->
+    <!--</association>-->
+    <!--<association property="detailtype" javaType="com.shixun.ihome.publicservice.pojo.IDetailtype">-->
+    <!--</association>-->
+
+  <!--</resultMap>-->
+  <!---->
 </mapper>

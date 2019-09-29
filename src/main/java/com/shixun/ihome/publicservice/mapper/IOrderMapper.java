@@ -30,5 +30,5 @@ public interface IOrderMapper {
     int updateByPrimaryKey(IOrder record);
 
     /*显示所有订单，把id显示为名字*/
-    IOrder listAllByName();
+    List<IOrder> listAllByName();
 }
