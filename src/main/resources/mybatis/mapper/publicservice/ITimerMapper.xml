@@ -193,4 +193,18 @@
       staff_id = #{staffId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectFreeStaff"  parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.ITimer">
+    SELECT id, timer, update_time, staff_id
+      FROM i_timer
+      where ( timer &lt;&lt; (datediff(now(), update_time) * 2) &amp; 16383) &amp; #{timer} = 0
+
+  </select>
+
+  <select id="selectFreeStaffForStaffId"  parameterType="int" resultType="java.lang.Integer">
+    SELECT staff_id
+      FROM i_timer
+      where ( timer &lt;&lt; (datediff(now(), update_time) * 2) &amp; 16383) &amp; #{timer} = 0
+
+  </select>
 </mapper>
