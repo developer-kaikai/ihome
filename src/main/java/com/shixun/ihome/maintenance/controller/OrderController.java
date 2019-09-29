@@ -56,13 +56,13 @@ public class OrderController {
         return true;
     }
 
-    @ApiOperation(value ="查看所有订单")
-    @RequestMapping(value="/listAll",method = RequestMethod.GET)
-    @ResponseBody
-    public Boolean addEvaluate(){
-        boolean success=
-        return true;
-    }
+//    @ApiOperation(value ="查看所有订单")
+//    @RequestMapping(value="/listAll",method = RequestMethod.GET)
+//    @ResponseBody
+//    public Boolean addEvaluate(){
+//        boolean success=
+//        return true;
+//    }
 
 
 
