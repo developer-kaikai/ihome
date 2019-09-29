@@ -7,6 +7,8 @@ public class IUser {
 
     private String phone;
 
+    private String name;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class IUser {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 }

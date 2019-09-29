@@ -42,9 +42,26 @@ public class OrderController {
     @ApiOperation(value = "填写维修详情")
     @RequestMapping(value="/addDetail",method=RequestMethod.POST)
     @ResponseBody
-    public Boolean addOrderNew(int id,String odescribe,String sovle){
-           boolean success=orderService.addDetail(id,odescribe,sovle);
-           return  true;
+    public Boolean addOrderNew(int id,String odescribe,String sovle,Double price){
+           boolean success=orderService.addDetail(id,odescribe,sovle,price);
+           return true;
+    }
+
+
+    @ApiOperation(value ="订单评价")
+    @RequestMapping(value="/addEvaluate",method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean addEvaluate(int id, int quality_valuation, int attitude_valuation, String describe){
+        boolean success=orderService.addEvaluate(id,quality_valuation,attitude_valuation,describe);
+        return true;
+    }
+
+    @ApiOperation(value ="查看所有订单")
+    @RequestMapping(value="/listAll",method = RequestMethod.GET)
+    @ResponseBody
+    public Boolean addEvaluate(){
+        boolean success=
+        return true;
     }
 
 

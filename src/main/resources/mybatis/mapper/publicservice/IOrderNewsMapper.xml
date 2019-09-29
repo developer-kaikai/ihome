@@ -193,4 +193,8 @@
       solve = #{solve,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByOrderID" parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.IOrderNews">
+    select * from i_order_news where order_id=#{id}
+  </select>
 </mapper>

@@ -9,7 +9,7 @@ public class IEvaluate {
 
     private Integer attitudeValuation;
 
-    private String describe;
+    private String eDescribe;
 
     public Integer getId() {
         return id;
@@ -43,11 +43,11 @@ public class IEvaluate {
         this.attitudeValuation = attitudeValuation;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String geteDescribe() {
+        return eDescribe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void seteDescribe(String eDescribe) {
+        this.eDescribe = eDescribe == null ? null : eDescribe.trim();
     }
 }

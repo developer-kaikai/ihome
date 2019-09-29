@@ -28,4 +28,6 @@ public interface IOrderNewsMapper {
     int updateByPrimaryKeySelective(IOrderNews record);
 
     int updateByPrimaryKey(IOrderNews record);
+
+    IOrderNews selectByOrderID(int id);
 }
