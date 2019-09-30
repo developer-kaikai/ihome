@@ -1,18 +1,19 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class IOrder {
+public class IOrder implements Serializable {
     private Integer id;
 
     private Integer userId;
-    private String username;
+    private IUser user;
 
     private Integer useraddressId;
     private IUserDetail userDetail;
 
     private Integer detailtypeId;
-    private String typename;
+    private IDetailtype detailtype;
 
     private Date startTime;
 
@@ -26,12 +27,12 @@ public class IOrder {
 
     private String comm;
 
-    public String getUsername() {
-        return username;
+    public IUser getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(IUser user) {
+        this.user = user;
     }
 
     public IUserDetail getUserDetail() {
@@ -42,12 +43,12 @@ public class IOrder {
         this.userDetail = userDetail;
     }
 
-    public String getTypename() {
-        return typename;
+    public IDetailtype getDetailtype() {
+        return detailtype;
     }
 
-    public void setTypename(String typename) {
-        this.typename = typename;
+    public void setDetailtype(IDetailtype detailtype) {
+        this.detailtype = detailtype;
     }
 
     public Integer getId() {

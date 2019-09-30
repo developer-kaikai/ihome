@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@Api(description = "维修模块测试")
+@Api(description = "模块测试")
 @RequestMapping("json/test")
 public class testwoController {
     @Autowired

@@ -1,6 +1,8 @@
 package com.shixun.ihome.publicservice.pojo;
 
-public class IUser {
+import java.io.Serializable;
+
+public class IUser implements Serializable {
     private Integer id;
 
     private Integer weixinId;
