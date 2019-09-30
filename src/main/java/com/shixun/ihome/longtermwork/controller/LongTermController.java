@@ -29,7 +29,7 @@ public class LongTermController {
 
     @ApiOperation(value = "添加长期工订单")
     @ApiImplicitParam(name = "order",value="订单实体类",required = true,dataType = "IOrder")
-    @PostMapping("addOrder")
+    @PostMapping("/addOrder")
     @ResponseBody
     public Boolean addOrder(@RequestBody IOrder order){
         IOrderLong orderLong=new  IOrderLong();
@@ -134,7 +134,7 @@ public class LongTermController {
             BufferedInputStream bis = null;
 
             OutputStream os = null; //输出流
-            System.out.println("----------file download" + filename);
+            //System.out.println("----------file download" + filename);
             try {
                 os = response.getOutputStream();
                 fis = new FileInputStream(file);
@@ -149,12 +149,12 @@ public class LongTermController {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            System.out.println("----------file download" + filename);
+
             try {
                 bis.close();
                 fis.close();
 
-
+                System.out.println("----------file download" + filename);
             } catch (IOException e) {
 
                 e.printStackTrace();
