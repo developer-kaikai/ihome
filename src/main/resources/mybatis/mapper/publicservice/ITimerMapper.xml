@@ -194,6 +194,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+
+  <!--通过时间表timer搜索空闲员工-->
   <select id="selectFreeStaff"  parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.ITimer">
     SELECT id, timer, update_time, staff_id
       FROM i_timer
@@ -201,6 +203,7 @@
 
   </select>
 
+  <!--通过时间表搜索空闲员工的员工id-->
   <select id="selectFreeStaffForStaffId"  parameterType="int" resultType="java.lang.Integer">
     SELECT staff_id
       FROM i_timer

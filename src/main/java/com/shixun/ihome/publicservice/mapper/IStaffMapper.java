@@ -5,6 +5,7 @@ import com.shixun.ihome.publicservice.pojo.IStaffExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IStaffMapper {
     int countByExample(IStaffExample example);
@@ -28,4 +29,18 @@ public interface IStaffMapper {
     int updateByPrimaryKeySelective(IStaff record);
 
     int updateByPrimaryKey(IStaff record);
+
+    /**
+     * 根据服务类型搜索员工
+     * @param servicetype_id 服务类型id
+     * @return
+     */
+    List<IStaff> selectStaffByServicetypeId(int servicetype_id);
+
+    /**
+     * 根据条件搜索员工
+     * @param istaff
+     * @return
+     */
+    List<IStaff> selectStaffs(Map<String,Object> istaff);
 }
