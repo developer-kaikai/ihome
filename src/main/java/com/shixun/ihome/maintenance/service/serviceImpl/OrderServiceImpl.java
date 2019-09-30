@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
         IOrderNews iOrderNews=new IOrderNews();
         iOrderNews.setOrderId(order.getId());
         orderNewsMapper.insert(iOrderNews);
-        List<IOrder> orderList=orderMapper.listAllByName();
+        List<IOrder> orderList=orderMapper.listAll();
         redisTemplate.opsForValue().set("orderall", orderList);
 
         return true;
@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
         List<IOrder> orderList = (List<IOrder>) redisTemplate.opsForValue().get("orderall");
         System.out.println("从Redis缓存中读出");
         if(orderList==null){
-            orderList=orderMapper.listAllByName();
+            orderList=orderMapper.listAll();
             System.out.println("从数据库中读出");
             redisTemplate.opsForValue().set("orderall", orderList);
         }
