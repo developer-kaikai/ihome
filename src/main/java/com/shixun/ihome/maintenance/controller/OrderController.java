@@ -1,6 +1,5 @@
 package com.shixun.ihome.maintenance.controller;
 
-import com.shixun.ihome.config.RedisCache;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.maintenance.service.OrderService;
@@ -60,20 +59,20 @@ public class OrderController {
         return true;
     }
 
-//    @ApiOperation(value ="查看所有订单")
-//    @RequestMapping(value="/listAll",method = RequestMethod.GET)
-//    @ResponseBody
-//    public void orderAll(HttpServletResponse response)throws IOException {
-//
-//        List<IOrder> orderList=orderService.listAll();
-//
-//
-//        response.setContentType("application/json;charset=utf-8");
-//        String json ;
-//        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
-//
-//        response.getWriter().write(json);
-//
-//    }
+    @ApiOperation(value ="查看所有订单")
+    @RequestMapping(value="/listAll",method = RequestMethod.GET)
+    @ResponseBody
+    public void orderAll(HttpServletResponse response)throws IOException {
+
+        List<IOrder> orderList=orderService.listAll();
+
+
+        response.setContentType("application/json;charset=utf-8");
+        String json ;
+        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
+
+        response.getWriter().write(json);
+
+    }
 
 }
