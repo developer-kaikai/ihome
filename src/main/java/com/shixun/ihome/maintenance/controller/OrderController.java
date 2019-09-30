@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@Api(description = "订单维修模块测试")
+@Api(description = "维修类订单模块测试")
 @RequestMapping("json/order")
 public class OrderController {
     @Autowired
@@ -60,20 +60,20 @@ public class OrderController {
         return true;
     }
 
-    @ApiOperation(value ="查看所有订单")
-    @RequestMapping(value="/listAll",method = RequestMethod.GET)
-    @ResponseBody
-    public void addEvaluate(HttpServletResponse response)throws IOException {
-
-        List<IOrder> orderList=orderService.listAll();
-
-
-        response.setContentType("application/json;charset=utf-8");
-        String json ;
-        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
-
-        response.getWriter().write(json);
-
-    }
+//    @ApiOperation(value ="查看所有订单")
+//    @RequestMapping(value="/listAll",method = RequestMethod.GET)
+//    @ResponseBody
+//    public void orderAll(HttpServletResponse response)throws IOException {
+//
+//        List<IOrder> orderList=orderService.listAll();
+//
+//
+//        response.setContentType("application/json;charset=utf-8");
+//        String json ;
+//        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
+//
+//        response.getWriter().write(json);
+//
+//    }
 
 }
