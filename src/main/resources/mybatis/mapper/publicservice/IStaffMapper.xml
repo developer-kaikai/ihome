@@ -74,6 +74,9 @@
   <sql id="Base_Column_List" >
     id, name, sex, phone, detailtype_id, wechat_id, qualification, health, id_card, status
   </sql>
+  <sql id="Alias_Column_List">
+     s.id, s.name, s.sex, s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
+  </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shixun.ihome.publicservice.pojo.IStaffExample" >
     select
     <if test="distinct" >
@@ -287,4 +290,52 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectStaffByServicetypeId" parameterType="java.lang.Integer" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
+    select
+    <include refid="Alias_Column_List"></include>
+    from i_staff s
+    left join i_detailtype d on s.detailtype_id = d.id
+    where d.servicetpye_id = #{servicetype_id}
+  </select>
+
+
+  <select id="selectStaffs" parameterType="java.util.HashMap" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
+    select
+    <include refid="Alias_Column_List"></include>
+    from i_staff s
+    <where>
+      <if test="_parameter.containsKey('id')">
+          and s.id = #{id}
+      </if>
+      <if test="_parameter.containsKey('name')">
+        and s.name= #{name}
+      </if>
+      <if test="_parameter.containsKey('sex')">
+        and  s.sex= #{sex}
+      </if>
+      <if test="_parameter.containsKey('phone')">
+        and  s.phone= #{phone}
+      </if>
+      <if test="_parameter.containsKey('detailtypeId')">
+        and  s.detailtype_id = #{detailtypeId}
+      </if>
+      <if test="_parameter.containsKey('wechatId')">
+        and    s.wechat_id = #{wechatId}
+      </if>
+      <if test="_parameter.containsKey('qualification')">
+        and  s.qualification = #{qualification}
+      </if>
+      <if test="_parameter.containsKey('health')">
+        and   s.health = #{health}
+      </if>
+      <if test="_parameter.containsKey('idCard')">
+        and   s.id_card = #{idCard}
+      </if>
+      <if test="_parameter.containsKey('status')">
+        and   s.status = #{status}
+      </if>
+    </where>
+  </select>
 </mapper>
