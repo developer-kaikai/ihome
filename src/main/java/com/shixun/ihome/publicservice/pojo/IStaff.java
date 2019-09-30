@@ -100,4 +100,20 @@ public class IStaff {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "IStaff{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sex=" + sex +
+                ", phone='" + phone + '\'' +
+                ", detailtypeId=" + detailtypeId +
+                ", wechatId=" + wechatId +
+                ", qualification='" + qualification + '\'' +
+                ", health='" + health + '\'' +
+                ", idCard='" + idCard + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

@@ -28,4 +28,14 @@ public interface ITimerMapper {
     int updateByPrimaryKeySelective(ITimer record);
 
     int updateByPrimaryKey(ITimer record);
+
+    //人工代码
+
+    /**
+     * 搜索空闲的员工
+     * @param timer
+     * @return
+     */
+    List<ITimer> selectFreeStaff(int timer);
+    List<Integer> selectFreeStaffForStaffId(int timer);
 }

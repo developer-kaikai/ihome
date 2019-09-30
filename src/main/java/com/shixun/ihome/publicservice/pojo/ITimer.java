@@ -3,9 +3,10 @@ package com.shixun.ihome.publicservice.pojo;
 import java.util.Date;
 
 public class ITimer {
+
     private Integer id;
 
-    private Boolean timer;
+    private Integer timer;
 
     private Date updateTime;
 
@@ -19,11 +20,11 @@ public class ITimer {
         this.id = id;
     }
 
-    public Boolean getTimer() {
+    public Integer getTimer() {
         return timer;
     }
 
-    public void setTimer(Boolean timer) {
+    public void setTimer(Integer timer) {
         this.timer = timer;
     }
 
