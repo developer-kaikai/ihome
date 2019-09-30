@@ -1,6 +1,8 @@
 package com.shixun.ihome.publicservice.pojo;
 
-public class IDetailtype {
+import java.io.Serializable;
+
+public class IDetailtype implements Serializable {
     private Integer id;
 
     private String type;

@@ -288,20 +288,24 @@
       comm = #{comm,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap type="com.shixun.ihome.publicservice.pojo.IOrder" id="listall"  extends="BaseResultMap">
+    <id column="id" property="id"/>
+    <association property="user" javaType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="com.shixun.ihome.publicservice.mapper.IUserMapper.BaseResultMap">
+
+    </association>
+    <association property="userDetail" javaType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="com.shixun.ihome.publicservice.mapper.IUserDetailMapper.BaseResultMap">
+
+    </association>
+    <association property="detailtype" javaType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="com.shixun.ihome.publicservice.mapper.IDetailtypeMapper.BaseResultMap">
+
+    </association>
+
+  </resultMap>
   
-  <!--<select id="listAllByName" resultMap="listAll">-->
-    <!--select * from i_order-->
-  <!--</select>-->
+  <select id="listAllByName" resultMap="listall">
+    select * from i_order o,i_user u,i_detailtype d,i_user_detail a where o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id
+  </select>
 
-  <!--<resultMap type="com.shixun.ihome.publicservice.pojo.IOrder" id="listAll" >-->
-  <!--<id column="id" property="id"/>-->
-  <!--<association property="user" javaType="com.shixun.ihome.publicservice.pojo.IUser">-->
-  <!--</association>-->
-    <!--<association property="userDetail" javaType="com.shixun.ihome.publicservice.pojo.IUserDetail">-->
-    <!--</association>-->
-    <!--<association property="detailtype" javaType="com.shixun.ihome.publicservice.pojo.IDetailtype">-->
-    <!--</association>-->
 
-  <!--</resultMap>-->
-  <!---->
+
 </mapper>

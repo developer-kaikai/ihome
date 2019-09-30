@@ -22,8 +22,7 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private RedisCache cache;
+
 
     @ApiOperation(value = "增加维修订单")
     @ApiImplicitParam(name="order",value ="订单实体类", required = true, dataType ="IOrder")
@@ -60,22 +59,21 @@ public class OrderController {
         boolean success=orderService.addEvaluate(id,quality_valuation,attitude_valuation,describe);
         return true;
     }
-//
-//    @ApiOperation(value ="查看所有订单")
-//    @RequestMapping(value="/listAll",method = RequestMethod.GET)
-//    @ResponseBody
-//    public void addEvaluate(HttpServletResponse response)throws IOException {
-//
-//        List<IOrder> orderList=orderService.listAll();
-//        System.out.println(orderList.get(0).getUser().getName());
-//        response.setContentType("application/json;charset=utf-8");
-//        String json ;
-//        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
-//
-//        response.getWriter().write(json);
-//
-//    }
+
+    @ApiOperation(value ="查看所有订单")
+    @RequestMapping(value="/listAll",method = RequestMethod.GET)
+    @ResponseBody
+    public void addEvaluate(HttpServletResponse response)throws IOException {
+
+        List<IOrder> orderList=orderService.listAll();
 
 
+        response.setContentType("application/json;charset=utf-8");
+        String json ;
+        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
+
+        response.getWriter().write(json);
+
+    }
 
 }
