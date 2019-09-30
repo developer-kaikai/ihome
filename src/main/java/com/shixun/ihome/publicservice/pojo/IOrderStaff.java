@@ -5,9 +5,7 @@ public class IOrderStaff {
 
     private Integer orderId;
 
-    private String complaint;
-
-    private String solve;
+    private Integer staffId;
 
     public Integer getId() {
         return id;
@@ -25,19 +23,11 @@ public class IOrderStaff {
         this.orderId = orderId;
     }
 
-    public String getComplaint() {
-        return complaint;
+    public Integer getStaffId() {
+        return staffId;
     }
 
-    public void setComplaint(String complaint) {
-        this.complaint = complaint == null ? null : complaint.trim();
-    }
-
-    public String getSolve() {
-        return solve;
-    }
-
-    public void setSolve(String solve) {
-        this.solve = solve == null ? null : solve.trim();
+    public void setStaffId(Integer staffId) {
+        this.staffId = staffId;
     }
 }
