@@ -40,4 +40,10 @@ public class LongTermServiceImpl implements LongTermService {
         orderMapper.updateByPrimaryKeySelective(order);
         return true;
     }
+
+    @Override
+    public boolean addOrderLong(IOrderLong orderLong) {
+        orderLongMapper.insert(orderLong);
+        return true;
+    }
 }

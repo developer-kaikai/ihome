@@ -17,5 +17,8 @@ public interface LongTermService {
     * 确认订单
     * */
     boolean confirmOrder(int id);
-
+    /*
+    * 分配员工，上传员工信息
+    * */
+    boolean addOrderLong(IOrderLong orderLong);
 }
