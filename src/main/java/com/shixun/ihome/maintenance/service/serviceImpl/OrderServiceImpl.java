@@ -4,12 +4,13 @@ import com.shixun.ihome.maintenance.service.OrderService;
 import com.shixun.ihome.publicservice.mapper.IEvaluateMapper;
 import com.shixun.ihome.publicservice.mapper.IOrderMapper;
 import com.shixun.ihome.publicservice.mapper.IOrderNewsMapper;
-import com.shixun.ihome.publicservice.mapper.IToolrecordMapper;
 import com.shixun.ihome.publicservice.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -19,13 +20,18 @@ public class OrderServiceImpl implements OrderService {
     private IOrderNewsMapper orderNewsMapper;
     @Autowired
     private IEvaluateMapper evaluateMapper;
+   @Autowired
+    private RedisTemplate<Object,Object> redisTemplate;
 
     @Override
     public boolean addOrder(IOrder order) {
+        redisTemplate.delete("orderall");
         orderMapper.insert(order);
         IOrderNews iOrderNews=new IOrderNews();
         iOrderNews.setOrderId(order.getId());
         orderNewsMapper.insert(iOrderNews);
+        List<IOrder> orderList=orderMapper.listAllByName();
+        redisTemplate.opsForValue().set("orderall", orderList);
 
         return true;
     }
@@ -67,5 +73,18 @@ public class OrderServiceImpl implements OrderService {
         evaluateMapper.insert(evaluate);
 
         return true;
+    }
+
+    @Override
+    public List<IOrder> listAll() {
+        List<IOrder> orderList = (List<IOrder>) redisTemplate.opsForValue().get("orderall");
+        System.out.println("从Redis缓存中读出");
+        if(orderList==null){
+            orderList=orderMapper.listAllByName();
+            System.out.println("从数据库中读出");
+            redisTemplate.opsForValue().set("orderall", orderList);
+        }
+
+        return orderList;
     }
 }

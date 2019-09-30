@@ -2,6 +2,7 @@ package com.shixun.ihome.maintenance.controller;
 
 import com.shixun.ihome.config.RedisCache;
 import com.shixun.ihome.json.Result;
+import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.maintenance.service.OrderService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import io.swagger.annotations.Api;
@@ -11,14 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+
 @Controller
 @Api(description = "订单维修模块测试")
 @RequestMapping("json/order")
 public class OrderController {
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private RedisCache cache;
+
 
     @ApiOperation(value = "增加维修订单")
     @ApiImplicitParam(name="order",value ="订单实体类", required = true, dataType ="IOrder")
@@ -56,14 +60,20 @@ public class OrderController {
         return true;
     }
 
-//    @ApiOperation(value ="查看所有订单")
-//    @RequestMapping(value="/listAll",method = RequestMethod.GET)
-//    @ResponseBody
-//    public Boolean addEvaluate(){
-//        boolean success=
-//        return true;
-//    }
+    @ApiOperation(value ="查看所有订单")
+    @RequestMapping(value="/listAll",method = RequestMethod.GET)
+    @ResponseBody
+    public void addEvaluate(HttpServletResponse response)throws IOException {
+
+        List<IOrder> orderList=orderService.listAll();
 
 
+        response.setContentType("application/json;charset=utf-8");
+        String json ;
+        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
+
+        response.getWriter().write(json);
+
+    }
 
 }
