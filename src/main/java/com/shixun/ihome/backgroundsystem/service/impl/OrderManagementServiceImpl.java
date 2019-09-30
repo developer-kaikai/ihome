@@ -22,12 +22,13 @@ public class OrderManagementServiceImpl implements OrderManagementService {
     @Autowired
     private RedisTemplate<Object,Object> redisTemplate;
 
+
     @Override
     public List<IOrder> listAll() {
         List<IOrder> orderList = (List<IOrder>) redisTemplate.opsForValue().get("orderall");
         System.out.println("从Redis缓存中读出");
         if(orderList==null){
-            orderList=orderMapper.listAllByName();
+            orderList=orderMapper.listAll();
             System.out.println("从数据库中读出");
             redisTemplate.opsForValue().set("orderall", orderList);
         }
@@ -41,9 +42,21 @@ public class OrderManagementServiceImpl implements OrderManagementService {
         order.setState(5);
         orderMapper.updateByPrimaryKeySelective(order);
         //更新缓存
-        List<IOrder> orderList=orderMapper.listAllByName();
+        List<IOrder> orderList=orderMapper.listAll();
         redisTemplate.opsForValue().set("orderall", orderList);
 
         return true;
+    }
+
+    @Override
+    public List<IOrder> listByCondition(IOrder order) {
+//        List<IOrder> listh=(List<IOrder>) redisTemplate.opsForValue().get("orderbyCondition");
+//        System.out.println("从缓存读出");
+//        if (listh==null) {
+//            listh=orderMapper.listByCondition(order);
+//            System.out.println("从数据库读取");
+//            redisTemplate.opsForValue().set("orderall", listh);
+//        }
+        return orderMapper.listByCondition(order);
     }
 }
