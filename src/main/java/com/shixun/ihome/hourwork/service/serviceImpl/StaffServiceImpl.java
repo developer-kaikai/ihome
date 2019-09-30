@@ -1,5 +1,6 @@
-package com.shixun.ihome.maintenance.service.serviceImpl;
+package com.shixun.ihome.hourwork.service.serviceImpl;
 
+import com.shixun.ihome.hourwork.service.StaffService;
 import com.shixun.ihome.publicservice.mapper.IRecordMapper;
 import com.shixun.ihome.publicservice.mapper.IStaffMapper;
 import com.shixun.ihome.publicservice.pojo.IRecord;
@@ -9,12 +10,10 @@ import com.shixun.ihome.publicservice.util.Qutil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
-public class StaffServiceImpl implements com.shixun.ihome.maintenance.service.StaffService {
+public class StaffServiceImpl implements StaffService {
     @Autowired
     private IStaffMapper iStaffMapper;
     @Autowired
@@ -35,13 +34,48 @@ public class StaffServiceImpl implements com.shixun.ihome.maintenance.service.St
     }
 
     @Override
-    public List<IStaff> selectStaffs(Map<String,Object> istaff) {
-        return iStaffMapper.selectStaffs(istaff);
+    public List<IStaff> selectStaffs(IStaff istaff) {
+        IStaffExample iStaffExample = new IStaffExample();
+        IStaffExample.Criteria criteria = iStaffExample.createCriteria();
+        if (istaff.getId()!= null) {
+            criteria.andIdEqualTo(istaff.getId());
+        }
+        if(istaff.getDetailtypeId() != null) {
+            criteria.andIdEqualTo(istaff.getDetailtypeId());
+        }
+        if (istaff.getHealth() != null){
+            criteria.andHealthEqualTo(istaff.getHealth());
+        }
+        if(istaff.getIdCard() != null) {
+            criteria.andIdCardEqualTo(istaff.getIdCard());
+        }
+        if(istaff.getName() != null) {
+            criteria.andNameEqualTo(istaff.getName());
+        }
+        if (istaff.getPhone() != null ){
+            criteria.andPhoneEqualTo(istaff.getPhone());
+        }
+        if(istaff.getQualification() != null){
+            criteria.andQualificationEqualTo(istaff.getQualification());
+        }
+        if(istaff.getSex() != null) {
+            criteria.andSexEqualTo(istaff.getSex());
+        }
+        if(istaff.getStatus() != null) {
+            criteria.andStatusEqualTo(istaff.getStatus());
+        }
+        if(istaff.getWechatId() != null) {
+            criteria.andWechatIdEqualTo(istaff.getWechatId());
+        }
+        iStaffExample.setOrderByClause("id desc");
+        return iStaffMapper.selectByExample(iStaffExample);
     }
 
     @Override
     public int insertStaff(IStaff iStaff, String byWho) {
-        return 0;
+        IRecord iRecord = Qutil.createRecord(0, byWho, "i_staff", "",iStaff.toString() );
+        iRecordMapper.insert(iRecord);
+        return iStaffMapper.insert(iStaff);
     }
 
     @Override

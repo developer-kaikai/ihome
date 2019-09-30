@@ -1,7 +1,7 @@
 package com.shixun.ihome;
 
-import com.shixun.ihome.maintenance.service.StaffService;
-import com.shixun.ihome.maintenance.service.TimerService;
+import com.shixun.ihome.hourwork.service.StaffService;
+import com.shixun.ihome.hourwork.service.TimerService;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.ITimer;
 import org.junit.Test;
@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,26 +25,13 @@ public class qiaoTests {
 
     @Test
     public void selectFreeStaff(){
-        List<ITimer> timer = timerService.selectFreeStaff(16383);
-        System.out.println(timer);
-        int i = 0;
+        List<ITimer> timer = timerService.selectFreeStaff(0);
         for (ITimer t: timer
              ) {
-            System.out.println("no:" + i);
-            System.out.println(t.getId());
-            System.out.println(t.getTimer());
-            System.out.println(t.getUpdateTime());
-            System.out.println(t.getStaffId());
+            System.out.println(t.toString());
         }
     }
-    @Test
-    public void selectFreeStaffForStaffId(){
-        List<Integer> t = timerService.selectFreeStaffForStaffId(16383);
-        for (int i: t){
-            System.out.println(i);
-        }
 
-    }
     @Test
     public void selectStaffByStatus() {
         List<IStaff> iStaffs =staffService.selectStaffByState(0);
@@ -77,8 +62,7 @@ public class qiaoTests {
     }
     @Test
     public void selectStaffs(){
-        Map<String,Object> istaff = new HashMap<String,Object>();
-        istaff.put("id", 1);
+        IStaff istaff = new IStaff();
         List<IStaff> iStaffs = staffService.selectStaffs(istaff);
         for (IStaff i: iStaffs
              ) {
@@ -90,5 +74,24 @@ public class qiaoTests {
     public void deleteStaff(){
         int result = staffService.deleteStaff(1,"乔哥233");
         System.out.println(result);
+    }
+
+    @Test
+    public void insertStaff(){
+        IStaff iStaff = new IStaff();
+        iStaff.setStatus(0);
+        iStaff.setDetailtypeId(1);
+        iStaff.setHealth("无");
+        iStaff.setIdCard("5643468476535");
+        iStaff.setName("李四");
+        iStaff.setPhone("3465456");
+        iStaff.setQualification("无");
+        iStaff.setSex(0);
+        iStaff.setWechatId(3);
+    }
+
+    @Test
+    public void updateTimer(){
+        timerService.updateTimer(2, "0000000101");
     }
 }

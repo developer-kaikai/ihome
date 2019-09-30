@@ -12,12 +12,33 @@ public class ITimer {
 
     private Integer staffId;
 
+    private IStaff iStaff;
+
+    public IStaff getiStaff() {
+        return iStaff;
+    }
+
+    public void setiStaff(IStaff iStaff) {
+        this.iStaff = iStaff;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "ITimer{" +
+                "id=" + id +
+                ", timer=" + timer +
+                ", updateTime=" + updateTime +
+                ", staffId=" + staffId +
+                ", iStaff=" + iStaff +
+                '}';
     }
 
     public Integer getTimer() {
