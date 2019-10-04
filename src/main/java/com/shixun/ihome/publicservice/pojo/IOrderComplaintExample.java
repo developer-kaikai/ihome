@@ -3,14 +3,14 @@ package com.shixun.ihome.publicservice.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IOrderStaffExample {
+public class IOrderComplaintExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public IOrderStaffExample() {
+    public IOrderComplaintExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -224,63 +224,143 @@ public class IOrderStaffExample {
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdIsNull() {
-            addCriterion("staff_id is null");
+        public Criteria andComplaintIsNull() {
+            addCriterion("complaint is null");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdIsNotNull() {
-            addCriterion("staff_id is not null");
+        public Criteria andComplaintIsNotNull() {
+            addCriterion("complaint is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdEqualTo(Integer value) {
-            addCriterion("staff_id =", value, "staffId");
+        public Criteria andComplaintEqualTo(String value) {
+            addCriterion("complaint =", value, "complaint");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdNotEqualTo(Integer value) {
-            addCriterion("staff_id <>", value, "staffId");
+        public Criteria andComplaintNotEqualTo(String value) {
+            addCriterion("complaint <>", value, "complaint");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdGreaterThan(Integer value) {
-            addCriterion("staff_id >", value, "staffId");
+        public Criteria andComplaintGreaterThan(String value) {
+            addCriterion("complaint >", value, "complaint");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("staff_id >=", value, "staffId");
+        public Criteria andComplaintGreaterThanOrEqualTo(String value) {
+            addCriterion("complaint >=", value, "complaint");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdLessThan(Integer value) {
-            addCriterion("staff_id <", value, "staffId");
+        public Criteria andComplaintLessThan(String value) {
+            addCriterion("complaint <", value, "complaint");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdLessThanOrEqualTo(Integer value) {
-            addCriterion("staff_id <=", value, "staffId");
+        public Criteria andComplaintLessThanOrEqualTo(String value) {
+            addCriterion("complaint <=", value, "complaint");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdIn(List<Integer> values) {
-            addCriterion("staff_id in", values, "staffId");
+        public Criteria andComplaintLike(String value) {
+            addCriterion("complaint like", value, "complaint");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdNotIn(List<Integer> values) {
-            addCriterion("staff_id not in", values, "staffId");
+        public Criteria andComplaintNotLike(String value) {
+            addCriterion("complaint not like", value, "complaint");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdBetween(Integer value1, Integer value2) {
-            addCriterion("staff_id between", value1, value2, "staffId");
+        public Criteria andComplaintIn(List<String> values) {
+            addCriterion("complaint in", values, "complaint");
             return (Criteria) this;
         }
 
-        public Criteria andStaffIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("staff_id not between", value1, value2, "staffId");
+        public Criteria andComplaintNotIn(List<String> values) {
+            addCriterion("complaint not in", values, "complaint");
+            return (Criteria) this;
+        }
+
+        public Criteria andComplaintBetween(String value1, String value2) {
+            addCriterion("complaint between", value1, value2, "complaint");
+            return (Criteria) this;
+        }
+
+        public Criteria andComplaintNotBetween(String value1, String value2) {
+            addCriterion("complaint not between", value1, value2, "complaint");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveIsNull() {
+            addCriterion("solve is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveIsNotNull() {
+            addCriterion("solve is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveEqualTo(String value) {
+            addCriterion("solve =", value, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveNotEqualTo(String value) {
+            addCriterion("solve <>", value, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveGreaterThan(String value) {
+            addCriterion("solve >", value, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveGreaterThanOrEqualTo(String value) {
+            addCriterion("solve >=", value, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveLessThan(String value) {
+            addCriterion("solve <", value, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveLessThanOrEqualTo(String value) {
+            addCriterion("solve <=", value, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveLike(String value) {
+            addCriterion("solve like", value, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveNotLike(String value) {
+            addCriterion("solve not like", value, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveIn(List<String> values) {
+            addCriterion("solve in", values, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveNotIn(List<String> values) {
+            addCriterion("solve not in", values, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveBetween(String value1, String value2) {
+            addCriterion("solve between", value1, value2, "solve");
+            return (Criteria) this;
+        }
+
+        public Criteria andSolveNotBetween(String value1, String value2) {
+            addCriterion("solve not between", value1, value2, "solve");
             return (Criteria) this;
         }
     }
