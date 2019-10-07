@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @Api(description = "后台订单管理模块测试")
-@RequestMapping("json/oOrderManagement")
+@RequestMapping("json/OrderManagement")
 public class OrderManagementController {
     @Autowired
     private OrderManagementService orderManagementService;
