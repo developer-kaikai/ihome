@@ -47,4 +47,15 @@ public interface IStaffMapper {
      */
     List<IStaff> selectStaffByServicetypeId(int servicetype_id);
 
+    /**
+     * 根据条件搜索员工
+     * @param istaff
+     * @return
+     */
+    List<IStaff> selectStaffs(Map<String,Object> istaff);
+
+    /*
+    * 查询空闲长期工
+    * */
+    List<IStaff> selectLongTermStaffs();
 }
