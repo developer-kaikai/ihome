@@ -43,4 +43,9 @@ public interface IStaffMapper {
      * @return
      */
     List<IStaff> selectStaffs(Map<String,Object> istaff);
+
+    /*
+    * 查询空闲长期工
+    * */
+    List<IStaff> selectLongTermStaffs();
 }

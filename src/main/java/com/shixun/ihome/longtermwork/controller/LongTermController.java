@@ -3,6 +3,7 @@ package com.shixun.ihome.longtermwork.controller;
 import com.shixun.ihome.longtermwork.service.LongTermService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
+import com.shixun.ihome.publicservice.pojo.IStaff;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -164,6 +166,13 @@ public class LongTermController {
         }
 
 
+    }
+    @ApiOperation(value = "查看空闲长期工")
+    @RequestMapping(value = "/selectLongTerm",method = RequestMethod.POST)
+    @ResponseBody
+    public List<IStaff> selectLongTermStaffs(){
+        List<IStaff> iStaffList=longTermService.selectLongTermStaffs();
+        return iStaffList;
     }
 
 }
