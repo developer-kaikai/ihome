@@ -1,6 +1,6 @@
 package com.shixun.ihome.hourwork.service.serviceImpl;
 
-import com.shixun.ihome.hourwork.service.StaffService;
+import com.shixun.ihome.hourwork.service.HourworkStaffService;
 import com.shixun.ihome.publicservice.mapper.IRecordMapper;
 import com.shixun.ihome.publicservice.mapper.IStaffMapper;
 import com.shixun.ihome.publicservice.pojo.IRecord;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class StaffServiceImpl implements StaffService {
+public class HourworkStaffServiceImpl implements HourworkStaffService {
     @Autowired
     private IStaffMapper iStaffMapper;
     @Autowired
@@ -28,9 +28,16 @@ public class StaffServiceImpl implements StaffService {
         return iStaffs;
     }
 
+
+
     @Override
     public List<IStaff> selectStaffByServicetypeId(int servicetype_id) {
         return iStaffMapper.selectStaffByServicetypeId(servicetype_id);
+    }
+
+    @Override
+    public IStaff getOne(int id) {
+        return iStaffMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -72,33 +79,20 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public int insertStaff(IStaff iStaff, String byWho) {
-        IRecord iRecord = Qutil.createRecord(0, byWho, "i_staff", "",iStaff.toString() );
-        iRecordMapper.insert(iRecord);
-        return iStaffMapper.insert(iStaff);
+    public boolean addStaff(IStaff record, String byWho) {
+        return iStaffMapper.insert(record) > 0;
     }
 
     @Override
-    public int deleteStaff(int id,String byWho) {
-        IStaff iStaff = new IStaff();
-        iStaff.setId(id);
-        iStaff.setStatus(3);
-
-        //获取旧已记录
-        IStaff oldrecord = iStaffMapper.selectByPrimaryKey(id);
-        IRecord iRecord = Qutil.createRecord(1, byWho, "i_staff", oldrecord.toString(), "以删除");
-       //插入记录
-        iRecordMapper.insert(iRecord);
-        return iStaffMapper.updateByPrimaryKeySelective(iStaff);
+    public boolean deleteStaff(IStaff record,String byWho) {
+        record.setStatus(IStaffMapper.IVALID);
+        return iStaffMapper.updateByPrimaryKeySelective(record) > 0;
     }
 
     @Override
-    public int updateStaff(IStaff iStaff, String byWho) {
+    public boolean updateStaff(IStaff newrecord,IStaff oldrecord, String byWho) {
 
-        IStaff oldrecord = iStaffMapper.selectByPrimaryKey(iStaff.getId());
-        IRecord iRecord = Qutil.createRecord(2, byWho, "i_staff", oldrecord.toString(), iStaff.toString());
-        iRecordMapper.insert(iRecord);
-        return iStaffMapper.updateByPrimaryKeySelective(iStaff);
+        return iStaffMapper.updateByPrimaryKeySelective(newrecord) > 0;
     }
 
 

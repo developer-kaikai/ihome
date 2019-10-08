@@ -5,7 +5,7 @@ import com.shixun.ihome.publicservice.pojo.IStaff;
 import java.util.List;
 import java.util.Map;
 
-public interface StaffService {
+public interface HourworkStaffService {
     /**
      * 通过状态（state）搜索员工
      * @param state
@@ -30,24 +30,27 @@ public interface StaffService {
 
     /**
      * 删除员工，并非真正删除
-     * @param id    员工id
+     * @param record    员工的旧记录
      * @return 更改数据的数量
      */
-    int deleteStaff(int id, String byWho);
+    boolean deleteStaff(IStaff record, String byWho);
 
     /**
      * 修改员工信息
-     * @param iStaff 修改的员工信息
+     * @param newrecord 修改的员工新记录
+     * @param oldrecord 修改的员工旧记录
      * @param byWho 修改人是谁
      * @return 更改数据的数量
      */
-    int updateStaff(IStaff iStaff, String byWho);
+    boolean updateStaff(IStaff newrecord,IStaff oldrecord, String byWho);
 
     /**
      * 新添员工信息
-     * @param iStaff    员工信息
-     * @param byWho 插入
+     * @param record    员工信息
+     * @param byWho     添加人是谁
      * @return 更改数据的数量
      */
-    int insertStaff(IStaff iStaff, String byWho);
+    boolean addStaff(IStaff record, String byWho);
+
+    IStaff getOne(int id);
 }

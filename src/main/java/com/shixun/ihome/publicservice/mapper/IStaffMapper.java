@@ -8,6 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface IStaffMapper {
+    //休闲的
+    int FREE = 0;
+    //假期中
+    int HOLIDAY = 1;
+    //工作中
+    int WORKING = 2;
+    //无效的
+    int IVALID = 3;
+
+
     int countByExample(IStaffExample example);
 
     int deleteByExample(IStaffExample example);

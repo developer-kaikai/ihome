@@ -1,7 +1,7 @@
 package com.shixun.ihome;
 
-import com.shixun.ihome.hourwork.service.StaffService;
-import com.shixun.ihome.hourwork.service.TimerService;
+import com.shixun.ihome.hourwork.service.HourworkStaffService;
+import com.shixun.ihome.hourwork.service.HourworkTimerService;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.ITimer;
 import org.junit.Test;
@@ -17,10 +17,10 @@ import java.util.List;
 public class qiaoTests {
 
     @Autowired
-    private TimerService timerService;
+    private HourworkTimerService timerService;
 
     @Autowired
-    private StaffService staffService;
+    private HourworkStaffService staffService;
 
 
     @Test
@@ -72,7 +72,8 @@ public class qiaoTests {
 
     @Test
     public void deleteStaff(){
-        int result = staffService.deleteStaff(1,"乔哥233");
+        IStaff iStaff = staffService.getOne(1);
+        boolean result = staffService.deleteStaff(iStaff,"乔哥233");
         System.out.println(result);
     }
 
@@ -82,12 +83,22 @@ public class qiaoTests {
         iStaff.setStatus(0);
         iStaff.setDetailtypeId(1);
         iStaff.setHealth("无");
-        iStaff.setIdCard("5643468476535");
-        iStaff.setName("李四");
-        iStaff.setPhone("3465456");
+        iStaff.setIdCard("1124124124");
+        iStaff.setName("铁蛋");
+        iStaff.setPhone("124125124");
         iStaff.setQualification("无");
         iStaff.setSex(0);
-        iStaff.setWechatId(3);
+        iStaff.setWechatId(4);
+        staffService.addStaff(iStaff, "乔233");
+    }
+
+    @Test
+    public void updateStaff(){
+        IStaff iStaff = new IStaff();
+        iStaff.setId(1);
+        iStaff.setName("你麻麻");
+        IStaff oldrecord = staffService.getOne(1);
+        staffService.updateStaff(iStaff,oldrecord,"乔哥");
     }
 
     @Test

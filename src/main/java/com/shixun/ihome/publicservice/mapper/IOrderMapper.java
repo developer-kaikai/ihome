@@ -7,6 +7,15 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface IOrderMapper {
+    //status
+    //    状态\n0：已提交\n1：已取消\n2：待服务\n3：服务中\n4：已完成5:无效
+    int SUBMIT = 0;
+    int CANCEL = 1;
+    int WAITSERVE = 2;
+    int SERVEING = 3;
+    int FINISH = 4;
+    int IVALID = 5;
+
     int countByExample(IOrderExample example);
 
     int deleteByExample(IOrderExample example);

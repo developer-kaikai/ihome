@@ -7,6 +7,13 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface IRecordMapper {
+    //修改
+    int UPDATED = 1;
+    //删除
+    int DELETED = 2;
+    //插入
+    int INSERT = 0;
+
     int countByExample(IRecordExample example);
 
     int deleteByExample(IRecordExample example);
