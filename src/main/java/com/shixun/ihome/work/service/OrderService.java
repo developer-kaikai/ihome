@@ -39,10 +39,9 @@ public interface OrderService {
      *  为订单分配员工
      * @param order     订单
      * @param staffs    员工
-     * @param orderType 订单类型（钟点工，维修工之类的）
      * @return  是否全部添加成功
      */
-    boolean addStaffsForOrder(IOrder order, List<IStaff> staffs, int orderType);
+    boolean addStaffForOrder(IOrder order, IStaff staffs);
 
     /**
      * 移除某订单的某个员工

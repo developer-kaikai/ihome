@@ -161,7 +161,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map"  flushCache="true">
     update i_timer
     set id = #{record.id,jdbcType=INTEGER},
       timer = #{record.timer,jdbcType=BIT},
@@ -171,7 +171,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.shixun.ihome.publicservice.pojo.ITimer" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.shixun.ihome.publicservice.pojo.ITimer" flushCache="true">
     update i_timer
     <set >
       <if test="timer != null" >
@@ -186,7 +186,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.shixun.ihome.publicservice.pojo.ITimer" >
+  <update id="updateByPrimaryKey" parameterType="com.shixun.ihome.publicservice.pojo.ITimer" flushCache="true">
     update i_timer
     set timer = #{timer,jdbcType=BIT},
       update_time = #{updateTime,jdbcType=DATE},
@@ -211,6 +211,12 @@
 
   </select>
   <!--通过时间表搜索空闲员工的员工id-->
+  <update id="updateStaffTime" parameterType="map" flushCache="true">
+    update i_timer t
+    inner join i_staff s on t.staff_id = s.id
+    set t.timer = #{timer}, t.update_time = #{updateTime}
+    where s.id = #{staffId}
+  </update>
 
 
 </mapper>

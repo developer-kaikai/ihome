@@ -3,6 +3,7 @@ package com.shixun.ihome.publicservice.util;
 
 import com.shixun.ihome.publicservice.pojo.IRecord;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,11 +58,13 @@ public class Qutil {
             return 0;
         }
 
-        days = (int) ((newdate.getTime() - olddate.getTime())/ 24 * 3600 * 1000);
-
-
-
-        return days;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(newdate);
+        long time1 = cal.getTimeInMillis();
+        cal.setTime(olddate);
+        long time2 = cal.getTimeInMillis();
+        long between_days=(time1-time2)/(1000*3600*24);
+        return Integer.parseInt(String.valueOf(between_days));
     }
 
     /**

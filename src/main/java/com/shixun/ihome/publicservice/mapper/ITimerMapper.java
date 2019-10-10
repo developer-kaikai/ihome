@@ -5,6 +5,7 @@ import com.shixun.ihome.publicservice.pojo.ITimerExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ITimerMapper {
     int countByExample(ITimerExample example);
@@ -37,6 +38,13 @@ public interface ITimerMapper {
      * @return  空闲员工列表
      */
     List<ITimer> selectFreeStaff(int timer);
+
+    /**
+     * 更新员工的时间表
+     * @param params timer:时间表 int   staffId：员工Id int updateTime：更新时间
+     * @return  更新数据的条目
+     */
+    int updateStaffTime(Map<String, Object> params);
 
 
 }

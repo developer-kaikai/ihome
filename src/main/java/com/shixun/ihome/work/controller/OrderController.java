@@ -8,6 +8,7 @@ import com.shixun.ihome.publicservice.pojo.IOrderLong;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.work.service.OrderService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
+import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,6 +27,9 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private TimeService timeService;
+
 
 
     @ApiOperation(value = "增加维修订单")
@@ -106,9 +110,27 @@ public class OrderController {
     @ResponseBody
     @PostMapping(value = "plantHourworkStaff")
     public ResultBase plantHourworkStaff(@RequestBody HourWork hourWork){
-
-
-        return new ResultBase(400, "插入失败");
+        //为订单分配员工
+        if (hourWork != null){
+            if(hourWork.getStaffs() != null){
+                try{
+                    for (IStaff staff: hourWork.getStaffs()
+                    ) {
+                        //插入到订单员工表中
+                        orderService.addStaffForOrder(hourWork.getOrder(), staff);
+                        //更新员工的时间表
+                        timeService.updateTimer(staff.getId(), hourWork.getTimer());
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return new ResultBase(400, "员工安排出现问题");
+                }
+                return new ResultBase(200, "员工安排成功");
+            }else{
+                return new ResultBase(400, "员工选择不能为空");
+            }
+        }
+        return new ResultBase(400, "数据存在问题");
     }
 
 
