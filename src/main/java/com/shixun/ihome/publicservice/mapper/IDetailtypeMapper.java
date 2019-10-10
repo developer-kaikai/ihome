@@ -28,4 +28,6 @@ public interface IDetailtypeMapper {
     int updateByPrimaryKeySelective(IDetailtype record);
 
     int updateByPrimaryKey(IDetailtype record);
+
+    IDetailtype selectByid(int typeid);
 }

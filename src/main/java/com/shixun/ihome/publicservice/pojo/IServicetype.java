@@ -5,7 +5,7 @@ public class IServicetype {
 
     private String serviceType;
 
-    private String describe;
+    private String sdescribe;
 
     public Integer getId() {
         return id;
@@ -23,11 +23,11 @@ public class IServicetype {
         this.serviceType = serviceType == null ? null : serviceType.trim();
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getSdescribe() {
+        return sdescribe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setSdescribe(String sdescribe) {
+        this.sdescribe = sdescribe == null ? null : sdescribe.trim();
     }
 }
