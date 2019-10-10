@@ -28,4 +28,6 @@ public interface IWeixinMapper {
     int updateByPrimaryKeySelective(IWeixin record);
 
     int updateByPrimaryKey(IWeixin record);
+
+    IWeixin selectByopenid(String openid);
 }

@@ -176,4 +176,8 @@
       position_id = #{positionId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByopenid" parameterType="String" resultType="com.shixun.ihome.publicservice.pojo.IWeixin">
+      select * from i_weixin where open_id=#{openid}
+  </select>
 </mapper>
