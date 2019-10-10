@@ -13,6 +13,16 @@ public class IToolrecord {
 
     private Integer state;
 
+    private ITool iTool;
+
+    public ITool getiTool() {
+        return iTool;
+    }
+
+    public void setiTool(ITool iTool) {
+        this.iTool = iTool;
+    }
+
     public Integer getId() {
         return id;
     }

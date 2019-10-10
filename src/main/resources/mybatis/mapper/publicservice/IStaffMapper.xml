@@ -338,4 +338,22 @@
       </if>
     </where>
   </select>
+  <select id="selectLongTermStaffs"  resultType="com.shixun.ihome.publicservice.pojo.IStaff">
+    select
+    <include refid="Alias_Column_List"></include>
+    from i_staff s
+    WHERE
+    s.id &lt;&gt; ALL (
+    SELECT
+    b.staff_id
+    FROM
+    i_order a,
+    i_order_staff b
+    WHERE
+    a.id = b.order_id
+    AND a.state IN ( 0, 2, 3 )
+    )
+    AND `status` =0
+  </select>
+
 </mapper>

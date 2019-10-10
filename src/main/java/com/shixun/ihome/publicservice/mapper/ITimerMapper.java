@@ -33,9 +33,10 @@ public interface ITimerMapper {
 
     /**
      * 搜索空闲的员工
-     * @param timer
-     * @return
+     * @param timer 时间表
+     * @return  空闲员工列表
      */
     List<ITimer> selectFreeStaff(int timer);
-    List<Integer> selectFreeStaffForStaffId(int timer);
+
+
 }

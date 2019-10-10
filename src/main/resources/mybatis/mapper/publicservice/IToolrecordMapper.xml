@@ -8,6 +8,12 @@
     <result column="tool_id" property="toolId" jdbcType="INTEGER" />
     <result column="count" property="count" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
+    <association property="iTool" >
+      <id column="rid" property="id" jdbcType="INTEGER"/>
+      <result column="rcount" property="count" jdbcType="INTEGER" />
+      <result column="rname" property="name" jdbcType="VARCHAR" />
+      <result column="rdetailtype_id" property="detailtypeId" jdbcType="INTEGER" />
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >

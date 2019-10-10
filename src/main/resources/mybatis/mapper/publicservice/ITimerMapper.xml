@@ -195,19 +195,22 @@
   </update>
 
 
+
+  <resultMap autoMapping="true" id="staffAndTimer" type="com.shixun.ihome.publicservice.pojo.ITimer">
+    <id column="id" property="id"></id>
+    <association autoMapping="true"  property="iStaff" javaType="com.shixun.ihome.publicservice.pojo.IStaff">
+      <id column="sid" property="id"></id>
+    </association>
+  </resultMap>
   <!--通过时间表timer搜索空闲员工-->
-  <select id="selectFreeStaff"  parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.ITimer">
-    SELECT id, timer, update_time, staff_id
-      FROM i_timer
+  <select id="selectFreeStaff"  parameterType="int" resultMap="staffAndTimer">
+    SELECT t.id, t.timer, t.update_time, t.staff_id, s.id as sid, s.name, s.sex
+    , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
+      FROM i_timer t left join i_staff s on s.id = t.staff_id
       where ( timer &lt;&lt; (datediff(now(), update_time) * 2) &amp; 16383) &amp; #{timer} = 0
 
   </select>
-
   <!--通过时间表搜索空闲员工的员工id-->
-  <select id="selectFreeStaffForStaffId"  parameterType="int" resultType="java.lang.Integer">
-    SELECT staff_id
-      FROM i_timer
-      where ( timer &lt;&lt; (datediff(now(), update_time) * 2) &amp; 16383) &amp; #{timer} = 0
 
-  </select>
+
 </mapper>
