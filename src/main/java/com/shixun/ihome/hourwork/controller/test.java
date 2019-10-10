@@ -1,5 +1,5 @@
-package com.shixun.ihome.hourwork.controller;
-
-public class test {
-    private int tes;
-}
+//package com.shixun.ihome.hourwork.controller;
+//
+//public class test {
+//    private int tes;
+//}

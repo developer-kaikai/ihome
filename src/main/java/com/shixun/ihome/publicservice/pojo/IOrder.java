@@ -1,7 +1,10 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class IOrder implements Serializable {
     private Integer id;
@@ -14,6 +17,8 @@ public class IOrder implements Serializable {
 
     private Integer detailtypeId;
     private IDetailtype detailtype;
+    private List<IStaff> staffs;
+
 
     private Date startTime;
 
@@ -29,6 +34,15 @@ public class IOrder implements Serializable {
 
     public IUser getUser() {
         return user;
+    }
+
+
+    public List<IStaff> getStaffs() {
+        return staffs;
+    }
+
+    public void setStaffs(List<IStaff> staffs) {
+        this.staffs = staffs;
     }
 
     public void setUser(IUser user) {
@@ -129,5 +143,22 @@ public class IOrder implements Serializable {
 
     public void setComm(String comm) {
         this.comm = comm == null ? null : comm.trim();
+    }
+
+
+    @Override
+    public String toString() {
+        return "IOrder{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", useraddressId=" + useraddressId +
+                ", detailtypeId=" + detailtypeId +
+                ", startTime=" + startTime +
+                ", price=" + price +
+                ", orderTime=" + orderTime +
+                ", finalyTime=" + finalyTime +
+                ", state=" + state +
+                ", comm='" + comm + '\'' +
+                '}';
     }
 }

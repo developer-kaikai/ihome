@@ -338,22 +338,38 @@
       </if>
     </where>
   </select>
-  <select id="selectLongTermStaffs"  resultType="com.shixun.ihome.publicservice.pojo.IStaff">
-    select
-    <include refid="Alias_Column_List"></include>
-    from i_staff s
-    WHERE
-    s.id &lt;&gt; ALL (
-    SELECT
-    b.staff_id
-    FROM
-    i_order a,
-    i_order_staff b
-    WHERE
-    a.id = b.order_id
-    AND a.state IN ( 0, 2, 3 )
-    )
-    AND `status` =0
+  <select id="selectStaffByServiceTypeAndStatus" parameterType="map"  resultType="com.shixun.ihome.publicservice.pojo.IStaff">
+    SELECT s.id, s.name, s.sex, s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
+FROM ihome.i_staff s left join i_detailtype d on s.detailtype_id = d.id left join i_servicetype st on st.id = d.servicetpye_id
+where st.id = #{type} and status = #{status}
+  </select>
+
+  <select id="selectHourworkStaffsByStatus" parameterType="map" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
+    SELECT s.id , s.name, s.sex
+    , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
+    FROM i_timer t left join i_staff s on s.id = t.staff_id
+    <where>
+      <if test="_parameter.containsKey('timer')">
+        ( timer &lt;&lt; (datediff(now(), update_time) * 2) &amp; 16383) &amp; #{timer} = 0
+      </if>
+      <if test="_parameter.containsKey('status')">
+        and s.status = #{status}
+      </if>
+      <if test="_parameter.containsKey('sex')">
+        and s.sex = #{sex}
+      </if>
+      <if test="_parameter.containsKey('name')">
+        and s.name like #{name}
+      </if>
+      <if test="_parameter.containsKey('phone')">
+        and s.phone like #{phone}
+      </if>
+      <if test="_parameter.containsKey('idCard')">
+        and s.id_card = #{idCard}
+      </if>
+
+
+    </where>
   </select>
 
 </mapper>

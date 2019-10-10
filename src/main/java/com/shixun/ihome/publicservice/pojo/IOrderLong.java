@@ -11,6 +11,17 @@ public class IOrderLong {
 
     private Integer orderId;
 
+    private IOrder order;
+
+
+    public IOrder getOrder() {
+        return order;
+    }
+
+    public void setOrder(IOrder order) {
+        this.order = order;
+    }
+
     public Integer getId() {
         return id;
     }

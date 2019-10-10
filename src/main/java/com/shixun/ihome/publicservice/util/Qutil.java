@@ -73,9 +73,9 @@ public class Qutil {
     public static String getTableName (String s, int status){
         String pattern = null;
         switch (status){
-            case 1: pattern = "update(\\w*)";break;
-            case 2: pattern = "delete(\\w*)";break;
-            default:pattern = "add(\\w*)";break;
+            case 1: pattern = "update(\\w*)Record";break;
+            case 2: pattern = "delete(\\w*)Record";break;
+            default:pattern = "add(\\w*)Record";break;
         }
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(s);

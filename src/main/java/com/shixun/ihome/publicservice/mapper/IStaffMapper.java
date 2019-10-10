@@ -54,8 +54,17 @@ public interface IStaffMapper {
      */
     List<IStaff> selectStaffs(Map<String,Object> istaff);
 
-    /*
-    * 查询空闲长期工
-    * */
-    List<IStaff> selectLongTermStaffs();
+    /**
+     * 根据服务类型（1：钟点工，2：一般家政，3：家维修，4：长期工） 以及状态（0：空闲中，1：休假中，2：服务中，3：无效）搜索员工
+     * @param map type：服务类型   status：状态
+     * @return 员工列表
+     */
+    List<IStaff> selectStaffByServiceTypeAndStatus(Map<String, Object> map);
+
+    /**
+     * 根据条件查询钟点工
+     * @param map timer：时间表，status：状态，sex：性别，name：姓名，phone：手机号，idCard：身份证
+     * @return 钟点工List
+     */
+    List<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map);
 }
