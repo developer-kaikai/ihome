@@ -44,13 +44,12 @@ public interface OrderService {
     boolean addStaffForOrder(IOrder order, IStaff staffs);
 
     /**
-     * 移除某订单的某个员工
-     * @param order 订单
-     * @param staff 员工
-     * @param orderType 订单类型
-     * @return 是否移除成功
+     * 移除订单中分配的一个人员
+     * @param orderId  订单id
+     * @param staffId   员工id
+     * @return
      */
-    boolean removeStaffForOrder(IOrder order, IStaff staff, int orderType);
+    boolean removeStaffForOrder(int orderId, int staffId);
 
     /*订单高级筛选*/
     List<IOrder> listByCondition(IOrder order);

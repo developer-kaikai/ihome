@@ -133,6 +133,20 @@ public class OrderController {
         return new ResultBase(400, "数据存在问题");
     }
 
+    @ApiOperation(value="钟点工服务订单移除员工")
+    @ResponseBody
+    @PostMapping("removeHourwordStaff")
+    public ResultBase removeHourwordStaff(int orderId, int staffId, String timer){
+        if(orderService.removeStaffForOrder(orderId, staffId)){
+            timeService.updateTimerRemove(staffId, timer);
+            return new ResultBase(200, "员工移除成功");
+        }
+
+        return new ResultBase(400, "员工移除失败");
+    }
+
+
+
     @ApiOperation(value ="删除订单")
     @RequestMapping(value="/deleteOrder",method = RequestMethod.GET)
     @ResponseBody

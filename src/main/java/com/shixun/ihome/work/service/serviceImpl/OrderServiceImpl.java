@@ -157,8 +157,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean removeStaffForOrder(IOrder order, IStaff staff, int orderType) {
-        return false;
+    public boolean removeStaffForOrder(int orderId, int staffId) {
+        IOrderStaffExample iOrderStaffExample = new IOrderStaffExample();
+        IOrderStaffExample.Criteria criteria = iOrderStaffExample.createCriteria();
+        criteria.andStaffIdEqualTo(staffId);
+        criteria.andOrderIdEqualTo(orderId);
+
+        if(orderStaffMapper.deleteByExample(iOrderStaffExample) == 0){
+            throw new RuntimeException("确定订单是否分配了该员工");
+        }
+        return true;
     }
 
     @Override
