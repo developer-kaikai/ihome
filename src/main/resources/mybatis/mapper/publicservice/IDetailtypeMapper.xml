@@ -3,12 +3,12 @@
 <mapper namespace="com.shixun.ihome.publicservice.mapper.IDetailtypeMapper" >
   <resultMap id="BaseResultMap" type="com.shixun.ihome.publicservice.pojo.IDetailtype" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="typename" property="typename" jdbcType="VARCHAR" />
     <result column="servicetpye_id" property="servicetpyeId" jdbcType="INTEGER" />
-    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="ddescribe" property="ddescribe" jdbcType="VARCHAR" />
     <result column="charge_type" property="chargeType" jdbcType="VARCHAR" />
     <result column="comm" property="comm" jdbcType="VARCHAR" />
-    <result column="explain" property="explain" jdbcType="VARCHAR" />
+    <result column="explains" property="explains" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, type, servicetpye_id, describe, charge_type, comm, explain
+    id, typename, servicetpye_id, ddescribe, charge_type, comm, explains
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shixun.ihome.publicservice.pojo.IDetailtypeExample" >
     select
@@ -105,11 +105,11 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into i_detailtype (type, servicetpye_id, describe, 
-      charge_type, comm, explain
+    insert into i_detailtype (typename, servicetpye_id, ddescribe, 
+      charge_type, comm, explains
       )
-    values (#{type,jdbcType=VARCHAR}, #{servicetpyeId,jdbcType=INTEGER}, #{describe,jdbcType=VARCHAR}, 
-      #{chargeType,jdbcType=VARCHAR}, #{comm,jdbcType=VARCHAR}, #{explain,jdbcType=VARCHAR}
+    values (#{typename,jdbcType=VARCHAR}, #{servicetpyeId,jdbcType=INTEGER}, #{ddescribe,jdbcType=VARCHAR}, 
+      #{chargeType,jdbcType=VARCHAR}, #{comm,jdbcType=VARCHAR}, #{explains,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.IDetailtype" >
@@ -118,14 +118,14 @@
     </selectKey>
     insert into i_detailtype
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="type != null" >
-        type,
+      <if test="typename != null" >
+        typename,
       </if>
       <if test="servicetpyeId != null" >
         servicetpye_id,
       </if>
-      <if test="describe != null" >
-        describe,
+      <if test="ddescribe != null" >
+        ddescribe,
       </if>
       <if test="chargeType != null" >
         charge_type,
@@ -133,19 +133,19 @@
       <if test="comm != null" >
         comm,
       </if>
-      <if test="explain != null" >
-        explain,
+      <if test="explains != null" >
+        explains,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="type != null" >
-        #{type,jdbcType=VARCHAR},
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
       </if>
       <if test="servicetpyeId != null" >
         #{servicetpyeId,jdbcType=INTEGER},
       </if>
-      <if test="describe != null" >
-        #{describe,jdbcType=VARCHAR},
+      <if test="ddescribe != null" >
+        #{ddescribe,jdbcType=VARCHAR},
       </if>
       <if test="chargeType != null" >
         #{chargeType,jdbcType=VARCHAR},
@@ -153,8 +153,8 @@
       <if test="comm != null" >
         #{comm,jdbcType=VARCHAR},
       </if>
-      <if test="explain != null" >
-        #{explain,jdbcType=VARCHAR},
+      <if test="explains != null" >
+        #{explains,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -170,14 +170,14 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=VARCHAR},
+      <if test="record.typename != null" >
+        typename = #{record.typename,jdbcType=VARCHAR},
       </if>
       <if test="record.servicetpyeId != null" >
         servicetpye_id = #{record.servicetpyeId,jdbcType=INTEGER},
       </if>
-      <if test="record.describe != null" >
-        describe = #{record.describe,jdbcType=VARCHAR},
+      <if test="record.ddescribe != null" >
+        ddescribe = #{record.ddescribe,jdbcType=VARCHAR},
       </if>
       <if test="record.chargeType != null" >
         charge_type = #{record.chargeType,jdbcType=VARCHAR},
@@ -185,8 +185,8 @@
       <if test="record.comm != null" >
         comm = #{record.comm,jdbcType=VARCHAR},
       </if>
-      <if test="record.explain != null" >
-        explain = #{record.explain,jdbcType=VARCHAR},
+      <if test="record.explains != null" >
+        explains = #{record.explains,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -196,12 +196,12 @@
   <update id="updateByExample" parameterType="map" >
     update i_detailtype
     set id = #{record.id,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=VARCHAR},
+      typename = #{record.typename,jdbcType=VARCHAR},
       servicetpye_id = #{record.servicetpyeId,jdbcType=INTEGER},
-      describe = #{record.describe,jdbcType=VARCHAR},
+      ddescribe = #{record.ddescribe,jdbcType=VARCHAR},
       charge_type = #{record.chargeType,jdbcType=VARCHAR},
       comm = #{record.comm,jdbcType=VARCHAR},
-      explain = #{record.explain,jdbcType=VARCHAR}
+      explains = #{record.explains,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -209,14 +209,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.shixun.ihome.publicservice.pojo.IDetailtype" >
     update i_detailtype
     <set >
-      <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
+      <if test="typename != null" >
+        typename = #{typename,jdbcType=VARCHAR},
       </if>
       <if test="servicetpyeId != null" >
         servicetpye_id = #{servicetpyeId,jdbcType=INTEGER},
       </if>
-      <if test="describe != null" >
-        describe = #{describe,jdbcType=VARCHAR},
+      <if test="ddescribe != null" >
+        ddescribe = #{ddescribe,jdbcType=VARCHAR},
       </if>
       <if test="chargeType != null" >
         charge_type = #{chargeType,jdbcType=VARCHAR},
@@ -224,20 +224,37 @@
       <if test="comm != null" >
         comm = #{comm,jdbcType=VARCHAR},
       </if>
-      <if test="explain != null" >
-        explain = #{explain,jdbcType=VARCHAR},
+      <if test="explains != null" >
+        explains = #{explains,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shixun.ihome.publicservice.pojo.IDetailtype" >
     update i_detailtype
-    set type = #{type,jdbcType=VARCHAR},
+    set typename = #{typename,jdbcType=VARCHAR},
       servicetpye_id = #{servicetpyeId,jdbcType=INTEGER},
-      describe = #{describe,jdbcType=VARCHAR},
+      ddescribe = #{ddescribe,jdbcType=VARCHAR},
       charge_type = #{chargeType,jdbcType=VARCHAR},
       comm = #{comm,jdbcType=VARCHAR},
-      explain = #{explain,jdbcType=VARCHAR}
+      explains = #{explains,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <resultMap id="detailMap" type="com.shixun.ihome.publicservice.pojo.IDetailtype" extends="BaseResultMap">
+        <id column="id" property="id"/>
+        <association property="iServiceItem" javaType="com.shixun.ihome.publicservice.pojo.IServiceItem">
+            <id column="sid" property="id" jdbcType="INTEGER" />
+            <result column="detailtype_id" property="detailtypeId" jdbcType="INTEGER" />
+            <result column="content" property="content" jdbcType="VARCHAR" />
+            <result column="standard" property="standard" jdbcType="VARCHAR" />
+            <result column="scomm" property="comm" jdbcType="VARCHAR" />
+
+        </association>
+    </resultMap>
+
+    <select id="selectByid" parameterType="int" resultMap="detailMap">
+        select d.*,s.id as sid,s.detailtype_id,s.content,s.standard,s.comm as scomm from i_detailtype d,i_service_item s where d.id=#{id} and d.id=s.detailtype_id
+    </select>
+
 </mapper>

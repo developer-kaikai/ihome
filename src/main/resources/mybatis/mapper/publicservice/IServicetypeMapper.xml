@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.shixun.ihome.publicservice.pojo.IServicetype" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="service_type" property="serviceType" jdbcType="VARCHAR" />
-    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="sdescribe" property="sdescribe" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, service_type, describe
+    id, service_type, sdescribe
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shixun.ihome.publicservice.pojo.IServicetypeExample" >
     select
@@ -101,8 +101,8 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into i_servicetype (service_type, describe)
-    values (#{serviceType,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR})
+    insert into i_servicetype (service_type, sdescribe)
+    values (#{serviceType,jdbcType=VARCHAR}, #{sdescribe,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.IServicetype" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -113,16 +113,16 @@
       <if test="serviceType != null" >
         service_type,
       </if>
-      <if test="describe != null" >
-        describe,
+      <if test="sdescribe != null" >
+        sdescribe,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="serviceType != null" >
         #{serviceType,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null" >
-        #{describe,jdbcType=VARCHAR},
+      <if test="sdescribe != null" >
+        #{sdescribe,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -141,8 +141,8 @@
       <if test="record.serviceType != null" >
         service_type = #{record.serviceType,jdbcType=VARCHAR},
       </if>
-      <if test="record.describe != null" >
-        describe = #{record.describe,jdbcType=VARCHAR},
+      <if test="record.sdescribe != null" >
+        sdescribe = #{record.sdescribe,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -153,7 +153,7 @@
     update i_servicetype
     set id = #{record.id,jdbcType=INTEGER},
       service_type = #{record.serviceType,jdbcType=VARCHAR},
-      describe = #{record.describe,jdbcType=VARCHAR}
+      sdescribe = #{record.sdescribe,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -164,8 +164,8 @@
       <if test="serviceType != null" >
         service_type = #{serviceType,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null" >
-        describe = #{describe,jdbcType=VARCHAR},
+      <if test="sdescribe != null" >
+        sdescribe = #{sdescribe,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -173,7 +173,7 @@
   <update id="updateByPrimaryKey" parameterType="com.shixun.ihome.publicservice.pojo.IServicetype" >
     update i_servicetype
     set service_type = #{serviceType,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR}
+      sdescribe = #{sdescribe,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

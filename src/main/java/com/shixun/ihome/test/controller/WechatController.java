@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,13 +35,14 @@ public class WechatController {
     public int getOpenid(@RequestBody JSONObject getcode) {
 
         String code=getcode.getString("getcode");
+        JSONObject userInfo=getcode.getJSONObject("userInfo");
+        String name=userInfo.getString("nickName");
+        System.out.println(name);
 //        code = StringEscapeUtils.unescapeJava(code);
 //        JSONObject jsonObject= JSON.parseObject(code);
 //        String data = jsonObject.getString("data");
 //        JSONObject jsondata= JSON.parseObject(data);
 //        String token = jsondata.getString("getcode");
-
-        System.out.println(code);
         String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 
         String requestUrl = WX_URL.replace("APPID","wx28d20808cea0c171").

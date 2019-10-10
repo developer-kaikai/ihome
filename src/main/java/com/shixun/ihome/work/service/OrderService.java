@@ -52,4 +52,7 @@ public interface OrderService {
      */
     boolean removeStaffForOrder(IOrder order, IStaff staff, int orderType);
 
+    /*订单高级筛选*/
+    List<IOrder> listByCondition(IOrder order);
+
 }

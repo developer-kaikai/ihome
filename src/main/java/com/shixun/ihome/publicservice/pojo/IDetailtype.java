@@ -1,21 +1,29 @@
 package com.shixun.ihome.publicservice.pojo;
 
-import java.io.Serializable;
-
-public class IDetailtype implements Serializable {
+public class IDetailtype {
     private Integer id;
 
-    private String type;
+    private String typename;
 
     private Integer servicetpyeId;
 
-    private String describe;
+    private String ddescribe;
 
     private String chargeType;
 
     private String comm;
 
-    private String explain;
+    private String explains;
+
+    private IServiceItem iServiceItem;
+
+    public IServiceItem getiServiceItem() {
+        return iServiceItem;
+    }
+
+    public void setiServiceItem(IServiceItem iServiceItem) {
+        this.iServiceItem = iServiceItem;
+    }
 
     public Integer getId() {
         return id;
@@ -25,12 +33,12 @@ public class IDetailtype implements Serializable {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getTypename() {
+        return typename;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setTypename(String typename) {
+        this.typename = typename == null ? null : typename.trim();
     }
 
     public Integer getServicetpyeId() {
@@ -41,12 +49,12 @@ public class IDetailtype implements Serializable {
         this.servicetpyeId = servicetpyeId;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDdescribe() {
+        return ddescribe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setDdescribe(String ddescribe) {
+        this.ddescribe = ddescribe == null ? null : ddescribe.trim();
     }
 
     public String getChargeType() {
@@ -65,11 +73,11 @@ public class IDetailtype implements Serializable {
         this.comm = comm == null ? null : comm.trim();
     }
 
-    public String getExplain() {
-        return explain;
+    public String getExplains() {
+        return explains;
     }
 
-    public void setExplain(String explain) {
-        this.explain = explain == null ? null : explain.trim();
+    public void setExplains(String explains) {
+        this.explains = explains == null ? null : explains.trim();
     }
 }
