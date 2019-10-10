@@ -50,13 +50,13 @@ public class OrderManagementServiceImpl implements OrderManagementService {
 
     @Override
     public List<IOrder> listByCondition(IOrder order) {
-//        List<IOrder> listh=(List<IOrder>) redisTemplate.opsForValue().get("orderbyCondition");
-//        System.out.println("从缓存读出");
-//        if (listh==null) {
-//            listh=orderMapper.listByCondition(order);
-//            System.out.println("从数据库读取");
-//            redisTemplate.opsForValue().set("orderall", listh);
-//        }
+        List<IOrder> listh=(List<IOrder>) redisTemplate.opsForValue().get("orderbyCondition");
+        System.out.println("从缓存读出");
+        if (listh==null) {
+            listh=orderMapper.listByCondition(order);
+            System.out.println("从数据库读取");
+            redisTemplate.opsForValue().set("orderall", listh);
+        }
         return orderMapper.listByCondition(order);
     }
 }

@@ -111,5 +111,22 @@ public class OrderController {
         return new ResultBase(400, "插入失败");
     }
 
+    @ApiOperation(value ="删除订单")
+    @RequestMapping(value="/deleteOrder",method = RequestMethod.GET)
+    @ResponseBody
+    public void deleteorder(int id){
+        boolean success=orderService.deleteOrder(id);
+    }
 
+    @ApiOperation(value ="高级查询订单")
+    @RequestMapping(value="/listByType",method = RequestMethod.POST)
+    @ResponseBody
+    public void orderAllByType(@RequestBody IOrder order, HttpServletResponse response)throws IOException {
+
+        List<IOrder> orderList=orderService.listByCondition(order);
+        response.setContentType("application/json;charset=utf-8");
+        String json ;
+        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
+        response.getWriter().write(json);
+    }
 }
