@@ -18,7 +18,7 @@ public interface OrderService {
     int PERMANENTWORKER = 4;
 
     /*用户下单*/
-    IOrder addOrderRecord(IOrder order, String bywho);
+    boolean addOrderRecord(IOrder order, String bywho);
     /*取消订单*/
     boolean cancelOrder(int id);
     /*维修详情*/

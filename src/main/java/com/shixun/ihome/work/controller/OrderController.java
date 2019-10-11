@@ -3,20 +3,17 @@ package com.shixun.ihome.work.controller;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
-import com.shixun.ihome.publicservice.pojo.HourWork;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
-import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.work.service.OrderService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.work.service.StaffService;
 import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -33,27 +30,25 @@ public class OrderController {
 
 
     @ApiOperation(value = "增加维修订单")
+    @Transactional
     @ApiImplicitParam(name = "order", value = "订单实体类", required = true, dataType = "IOrder")
     @PostMapping("addIOrder")
-    public Object addorder(@RequestBody IOrder order) {
-        IOrder order1 = orderService.addOrderRecord(order, "乔哥");
-        if (order1 != null) {
-            return "订单插入成功";
+    public ResultBase addorder(@RequestBody IOrder order) {
+        if (orderService.addOrderRecord(order, "乔哥")){
+            return new ResultBase(200, "维修单添加添加成功");
         }
-        return "订单插入失败";
+        return new ResultBase(400, "维修单添加失败");
     }
 
 
     @ApiOperation(value = "添加长期工的订单")
+    @Transactional
     @ApiImplicitParam(name = "orderLong", value = "长期工订单实体类", dataType = "IOrderLong")
     @PostMapping("addLongOrder")
     public ResultBase addLongOrder(@RequestBody IOrderLong orderLong) {
-        IOrder order1 = orderService.addOrderRecord(orderLong.getOrder(), "乔哥");
-        if (order1 == null) {
-            return new ResultBase(400, "订单数据存在错误");
+        if( orderService.addOrderRecord(orderLong.getOrder(), "乔哥")){
+            return new ResultBase(400,"长期工订单添加失败");
         }
-        orderLong.setId(null);
-        orderLong.setOrderId(order1.getId());
         if (orderService.addOrderLong(orderLong)) {
             return new ResultBase(200, "插入成功");
         }
@@ -62,17 +57,23 @@ public class OrderController {
     }
 
     @ApiOperation(value = "取消维修订单")
+    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "int")
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
     public Boolean cancelOrder(int id) {
         boolean success = orderService.cancelOrder(id);
         return success;
-
     }
 
     @ApiOperation(value = "填写维修详情")
     @RequestMapping(value = "/addDetail", method = RequestMethod.POST)
-    public Boolean addOrderNew(int id, String odescribe, String sovle, Double price) {
-        boolean success = orderService.addDetail(id, odescribe, sovle, price);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="id", value = "维修情况订单id", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name="describe", value = "维修的情况解释", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name="solve", value = "作出的维修情报解决方案", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name="price", value = "价格", required = true, dataType = "Double", paramType = "query")
+    })
+    public Boolean addOrderNew(int id, String describe, String solve, Double price) {
+        boolean success = orderService.addDetail(id, describe, solve, price);
         return true;
     }
 
@@ -105,7 +106,19 @@ public class OrderController {
 
     }
 
+
+    @ApiOperation(value = "查看所有订单测试")
+    @RequestMapping(value = "/listAllTest", method = RequestMethod.GET)
+    public ResultBase orderAllTest() {
+
+        List<IOrder> orderList = orderService.listAll();
+        return new ResultBase(200, orderList);
+
+
+    }
+
     @ApiOperation(value = "安排钟点工")
+    @Transactional
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "int", paramType = "query")
@@ -131,6 +144,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "移除订单中的某个员工（钟点工）")
+    @Transactional
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "Integer", paramType = "query"),
@@ -147,6 +161,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "移除订单中的某个员工（其他服务）")
+    @Transactional
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "Integer", paramType = "query"),
@@ -180,7 +195,9 @@ public class OrderController {
         response.getWriter().write(json);
     }
 
+
     @ApiOperation(value = "其他服务的员工安排")
+    @Transactional
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "int", paramType = "query")

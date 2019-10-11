@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface TimeService {
     //根据时间表搜索空闲的员工
+
+    boolean addTimer(int staffId);
+
     List<ITimer> selectFreeStaff(int timer);
 
     //更新员工时间

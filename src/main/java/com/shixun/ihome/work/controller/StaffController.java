@@ -9,6 +9,7 @@ import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -30,14 +31,15 @@ public class StaffController {
     @ApiImplicitParam(name="iStaff", required = true, dataType = "IStaff" )
     @ResponseBody
     @PostMapping("addStaff")
-    public ResultBase  addStaff(@RequestBody IStaff iStaff, HttpSession session){
+    @Transactional
+    public ResultBase  addStaff(@RequestBody IStaff iStaff){
         //获取session中的工号
-        String who = (String) session.getAttribute("id");
-        IStaff iStaff1 =  staffService.addStaffRecord(iStaff, who);
-        int staffId = iStaff1.getId();
+        staffService.addStaffRecord(iStaff, "乔哥");
+        //为员工添加时间表
+        timerService.addTimer(iStaff.getId());
 
 
-        return new ResultBase(400, "添加员工失败");
+        return new ResultBase(200, "添加员工成功");
     }
 
     @ApiOperation(value = "获取所有员工")
@@ -88,6 +90,7 @@ public class StaffController {
     @ApiImplicitParam(name="iStaff", required = true, dataType ="IStaff")
     @ResponseBody
     @PostMapping("updateStaff")
+    @Transactional
     public Object updateStaff(@RequestBody IStaff iStaff) {
         //获取旧记录
         IStaff iStaff1 = staffService.getOne(iStaff.getId());
@@ -105,6 +108,7 @@ public class StaffController {
     @ApiImplicitParam(name="id", required = true, dataType ="Integer")
     @ResponseBody
     @GetMapping("deleteStaff")
+    @Transactional
     public ResultBase deleteStaff(int id) {
         IStaff record = staffService.getOne(id);
         if(staffService.deleteStaffRecord(record, "乔哥").equals("员工删除成功")){

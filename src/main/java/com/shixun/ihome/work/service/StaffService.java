@@ -25,7 +25,7 @@ public interface StaffService {
     boolean updateStaffRecord(IStaff newrecord,IStaff oldrecord, String byWho);
 
     //新增员工信息
-    IStaff addStaffRecord(IStaff record, String byWho);
+    boolean addStaffRecord(IStaff record, String byWho);
     //获取单个员工信息
     IStaff getOne(int id);
 

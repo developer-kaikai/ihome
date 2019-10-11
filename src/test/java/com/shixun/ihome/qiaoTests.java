@@ -39,20 +39,4 @@ public class qiaoTests {
         orderTimer.setDays(1);
     }
 
-    @Test
-    public void test2() {
-        IStaff iStaff  = new IStaff();
-        iStaff.setStatus(0);
-        iStaff.setSex(0);
-        iStaff.setName("你老爸");
-        iStaff.setWechatId(1);
-        iStaff.setQualification("asdasdasd");
-        iStaff.setDetailtypeId(3);
-        iStaff.setPhone("asdasdasdads");
-        iStaff.setIdCard("asdadsad");
-        iStaff.setHealth("asdasdasd");
-        IStaff staff = staffService.addStaffRecord(iStaff, "qiaoge");
-        System.out.println(iStaff);
-        System.out.println(staff);
-    }
 }

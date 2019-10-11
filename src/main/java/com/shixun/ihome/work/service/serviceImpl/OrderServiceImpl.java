@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private IOrderStaffMapper orderStaffMapper;
 
     @Override
-    public IOrder addOrderRecord(IOrder order, String byWho) {
+    public boolean addOrderRecord(IOrder order, String byWho) {
         redisTemplate.delete("orderall");
         orderMapper.insert(order);
         IOrderNews iOrderNews=new IOrderNews();
@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
         List<IOrder> orderList=orderMapper.listAll();
         redisTemplate.opsForValue().set("orderall", orderList);
 
-        return order;
+        return true;
     }
 
     @Override

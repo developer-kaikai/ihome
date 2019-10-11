@@ -92,4 +92,15 @@ public class TimeServiceImpl implements TimeService {
         return itimer;
     }
 
+    @Override
+    public boolean addTimer(int staffId) {
+        ITimer timer = new ITimer();
+        timer.setStaffId(staffId);
+        timer.setTimer(0);
+        timer.setUpdateTime(new Date());
+        if(iTimerMapper.insertSelective(timer) == 0) {
+            throw new RuntimeException("员工时间表插入失败");
+        }
+        return true;
+    }
 }
