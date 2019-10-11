@@ -32,4 +32,8 @@ public interface IDetailtypeMapper {
     int updateByPrimaryKey(IDetailtype record);
 
     IDetailtype selectByid(int typeid);
+
+    List<IDetailtype> selectByname(String typename);
+
+    List<IDetailtype> selectByServicetypeid(int serviceid);
 }

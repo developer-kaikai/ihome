@@ -87,11 +87,11 @@ public class OrderServiceImpl implements OrderService {
     public List<IOrder> listAll() {
         List<IOrder> orderList = (List<IOrder>) redisTemplate.opsForValue().get("orderall");
         System.out.println("从Redis缓存中读出");
-        if(orderList==null){
-            orderList=orderMapper.listAll();
-            System.out.println("从数据库中读出");
-            redisTemplate.opsForValue().set("orderall", orderList);
-        }
+       if(orderList==null){
+        orderList=orderMapper.listAll();
+           System.out.println("从数据库中读出");
+           redisTemplate.opsForValue().set("orderall", orderList);
+       }
 
         return orderList;
     }
