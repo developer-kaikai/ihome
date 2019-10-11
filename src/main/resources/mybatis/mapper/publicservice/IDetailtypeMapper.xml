@@ -257,4 +257,14 @@
         select d.*,s.id as sid,s.detailtype_id,s.content,s.standard,s.comm as scomm from i_detailtype d,i_service_item s where d.id=#{id} and d.id=s.detailtype_id
     </select>
 
+  <select id="selectByname" parameterType="String" resultMap="BaseResultMap">
+      select * from i_detailtype where typename like "%"#{typename}"%"
+  </select>
+
+
+  <select id="selectByServicetypeid" parameterType="int" resultMap="BaseResultMap">
+    select * from i_detailtype where servicetpye_id=#{serviceid}
+  </select>
+
+
 </mapper>

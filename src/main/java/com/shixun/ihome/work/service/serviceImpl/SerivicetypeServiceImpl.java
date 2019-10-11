@@ -8,6 +8,8 @@ import com.shixun.ihome.work.service.ServicetypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SerivicetypeServiceImpl implements ServicetypeService {
     @Autowired
@@ -26,5 +28,16 @@ public class SerivicetypeServiceImpl implements ServicetypeService {
     public IDetailtype selectBytypeid(int typeid) {
 
         return iDetailtypeMapper.selectByid(typeid);
+    }
+
+    @Override
+    public List<IDetailtype> selectByname(String typename) {
+
+        return iDetailtypeMapper.selectByname(typename);
+    }
+
+    @Override
+    public List<IDetailtype> selectByServicetypeid(int serviceid) {
+        return iDetailtypeMapper.selectByServicetypeid(serviceid);
     }
 }
