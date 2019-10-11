@@ -36,6 +36,7 @@ public class test {
         map.put("ids", ids);
         map.put("timer", timer);
         map.put("id", id);
+        return new ResultBase(200, map);
     }
 
 }
