@@ -25,18 +25,16 @@ public class TimeServiceImpl implements TimeService {
 
 
     @Override
-    public boolean updateTimer(int id, String timer) {
+    public boolean updateTimer(int id, int timer) {
         ITimer iTimer = getITimeByStaffId(id);
         if (iTimer == null){
             throw new RuntimeException("时间表存在空值");
         }
         Date date = new Date();
         int newtimer = timerLeft(iTimer, date);
-        //修改时间表
-        int result = Qutil.string2timer(timer);
         //开始运算
-        if( (newtimer & result) == 0) {
-            newtimer = (newtimer | result ) & 16383;
+        if( (newtimer & timer) == 0) {
+            newtimer = (newtimer | timer ) & 16383;
         }else{
             throw new RuntimeException("员工在该时间段已被占用");
         }
@@ -46,15 +44,13 @@ public class TimeServiceImpl implements TimeService {
 
 
     @Override
-    public boolean updateTimerRemove(int id, String timer) {
+    public boolean updateTimerRemove(int id, int timer ) {
         //根据StaffId查询时间表
         ITimer iTimer = getITimeByStaffId(id);
         Date date = new Date();
         int newtimer = timerLeft(iTimer,date);
-        //修改时间表
-        int result = Qutil.string2timer(timer);
-        if ((newtimer & result) != 0){
-            newtimer = (newtimer ^ result) & 16383;
+        if ((newtimer & timer) != 0){
+            newtimer = (newtimer ^ timer) & 16383;
         }else{
             throw new RuntimeException("该员工所在的时间端是空闲的，请检测数据是否错误");
         }

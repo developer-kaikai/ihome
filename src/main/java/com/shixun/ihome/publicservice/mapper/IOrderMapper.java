@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IOrderMapper {
     //status
     //    状态\n0：已提交\n1：已取消\n2：待服务\n3：服务中\n4：已完成5:无效

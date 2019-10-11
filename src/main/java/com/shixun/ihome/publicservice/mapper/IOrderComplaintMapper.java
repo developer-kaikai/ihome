@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IOrderComplaint;
 import com.shixun.ihome.publicservice.pojo.IOrderComplaintExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IOrderComplaintMapper {
     int countByExample(IOrderComplaintExample example);
 

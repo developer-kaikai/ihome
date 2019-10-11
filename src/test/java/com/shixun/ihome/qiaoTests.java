@@ -37,10 +37,4 @@ public class qiaoTests {
         orderTimer.setDays(1);
 
     }
-    @Test
-    public void test2(){
-        System.out.println(timeService.updateTimer(1, "1"));
-
-    }
-
 }

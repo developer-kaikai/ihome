@@ -1,6 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
 public class IStaff {
+
     private Integer id;
 
     private String name;

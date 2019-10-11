@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IEvaluate;
 import com.shixun.ihome.publicservice.pojo.IEvaluateExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IEvaluateMapper {
     int countByExample(IEvaluateExample example);
 

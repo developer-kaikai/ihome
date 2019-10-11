@@ -3,10 +3,12 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.ITimer;
 import com.shixun.ihome.publicservice.pojo.ITimerExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public interface ITimerMapper {
     int countByExample(ITimerExample example);
 

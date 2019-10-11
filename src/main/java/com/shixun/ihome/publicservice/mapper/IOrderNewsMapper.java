@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IOrderNews;
 import com.shixun.ihome.publicservice.pojo.IOrderNewsExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IOrderNewsMapper {
     int countByExample(IOrderNewsExample example);
 

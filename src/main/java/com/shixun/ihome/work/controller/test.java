@@ -10,9 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @Api(description = "测试模块")
 @RequestMapping("json/test")
 public class test {
@@ -29,4 +30,12 @@ public class test {
         data.put("password", password);
         return new ResultBase(200, data);
     }
+
+    public ResultBase test2(@RequestParam(name = "ids[]") List<Integer> ids, int timer, int id){
+        Map<String, Object> map = new HashMap<String,Object>();
+        map.put("ids", ids);
+        map.put("timer", timer);
+        map.put("id", id);
+    }
+
 }

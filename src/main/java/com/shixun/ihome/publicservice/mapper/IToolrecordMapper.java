@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IToolrecord;
 import com.shixun.ihome.publicservice.pojo.IToolrecordExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IToolrecordMapper {
     int countByExample(IToolrecordExample example);
 

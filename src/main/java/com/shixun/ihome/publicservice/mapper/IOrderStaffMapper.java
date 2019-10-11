@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IOrderStaff;
 import com.shixun.ihome.publicservice.pojo.IOrderStaffExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IOrderStaffMapper {
     int countByExample(IOrderStaffExample example);
 

@@ -41,7 +41,7 @@ public interface OrderService {
      * @param staffs    员工
      * @return  是否全部添加成功
      */
-    boolean addStaffForOrder(IOrder order, IStaff staffs);
+    boolean addStaffForOrder(int orderId, int staffId);
 
     /**
      * 移除订单中分配的一个人员

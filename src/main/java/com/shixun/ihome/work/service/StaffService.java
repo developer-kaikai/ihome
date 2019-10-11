@@ -31,5 +31,8 @@ public interface StaffService {
 
     //获取钟点工
     List<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map);
-}
 
+    //员工服务状态修改（不记录）
+    boolean updateStaffStatus(int staffId , int staffStatus);
+
+}

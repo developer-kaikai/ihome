@@ -1,11 +1,15 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 public class HourWork {
     private List<IStaff> staffs;
+    @ApiModelProperty(name = "order", value = "订单")
     private IOrder order;
-    private String timer;
+    @ApiModelProperty(name = "tiemr", value = "时间表（别管，发回来就好）")
+    private Integer timer;
 
 
     public List<IStaff> getStaffs() {
@@ -24,14 +28,13 @@ public class HourWork {
         this.order = order;
     }
 
-    public String getTimer() {
+    public Integer getTimer() {
         return timer;
     }
 
-    public void setTimer(String timer) {
+    public void setTimer(Integer timer) {
         this.timer = timer;
     }
-
 
     @Override
     public String toString() {

@@ -9,8 +9,8 @@ public interface TimeService {
     List<ITimer> selectFreeStaff(int timer);
 
     //更新员工时间
-    boolean updateTimer(int id, String timer);
+    boolean updateTimer(int id, int timer);
 
     //移除员工更新时间
-    boolean updateTimerRemove(int id, String timer);
+    boolean updateTimerRemove(int id, int timer);
 }

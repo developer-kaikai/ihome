@@ -3,10 +3,12 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.IStaffExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public interface IStaffMapper {
     //休闲的
     int FREE = 0;

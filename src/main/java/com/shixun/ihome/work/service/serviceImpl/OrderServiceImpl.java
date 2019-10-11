@@ -141,19 +141,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean addStaffForOrder(IOrder order, IStaff staff) {
+    public boolean addStaffForOrder(int orderId, int staffId) {
         //根据订单的预约时间，和工作时间更新员工的工作时间之类的。
 
-        boolean result = false;
-        try{
-            IOrderStaff orderStaff = new IOrderStaff();
-            orderStaff.setOrderId(order.getId());
-            orderStaff.setStaffId(staff.getId());
-            result = orderStaffMapper.insert(orderStaff) > 0;
-        }catch (Exception e){
-            throw new RuntimeException("员工在订单中插入失败");
+        IOrderStaff orderStaff = new IOrderStaff();
+        orderStaff.setOrderId(orderId);
+        orderStaff.setStaffId(staffId);
+        if (orderStaffMapper.insert(orderStaff) > 0){
+            throw new RuntimeException("为订单添加员工失败");
         }
-        return result;
+        return true;
     }
 
     @Override

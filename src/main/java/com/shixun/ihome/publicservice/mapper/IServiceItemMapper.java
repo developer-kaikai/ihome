@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IServiceItem;
 import com.shixun.ihome.publicservice.pojo.IServiceItemExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IServiceItemMapper {
     int countByExample(IServiceItemExample example);
 

@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IWeixin;
 import com.shixun.ihome.publicservice.pojo.IWeixinExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IWeixinMapper {
     int countByExample(IWeixinExample example);
 
