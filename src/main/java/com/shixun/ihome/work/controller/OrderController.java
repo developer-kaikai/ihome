@@ -80,9 +80,9 @@ public class OrderController {
     @ApiOperation(value = "订单评价")
     @RequestMapping(value = "/addEvaluate", method = RequestMethod.POST)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "quality_valuation", value = "服务质量(1-5星)", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "attitude_valuation", value = "服务态度（1-5星）", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "id", value = "订单id", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "quality_valuation", value = "服务质量(1-5星)", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "attitude_valuation", value = "服务态度（1-5星）", dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "describe", value = "备注", dataType = "String", paramType = "query")
     })
     public Boolean addEvaluate(int id, int quality_valuation, int attitude_valuation, String describe) {
@@ -107,9 +107,8 @@ public class OrderController {
 
     @ApiOperation(value = "安排钟点工")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "staffIds[]", value = "员工id序列", required = true, dataType = "List<Integer>", paramType = "query"),
-            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "Integer", paramType = "query")
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "int", paramType = "query")
     })
     @PostMapping(value = "plantHourworkStaff")
     public ResultBase plantHourworkStaff(@RequestParam(name = "staffIds[]") List<Integer> staffIds, int orderId, int timer) {
@@ -183,12 +182,11 @@ public class OrderController {
 
     @ApiOperation(value = "其他服务的员工安排")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "staffIds[]", value = "员工id序列", required = true, dataType = "List<Integer>", paramType = "query"),
-            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "Integer", paramType = "query")
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "int", paramType = "query")
     })
     @PostMapping(value = "/plantOtherStaffs")
-    public ResultBase plantOtherStaffs(int orderId, @RequestParam(name = "staffIds[]") List<Integer> staffIds, int timer) {
+    public ResultBase plantOtherStaffs(int orderId, @RequestParam(name = "staffIds") List<Integer> staffIds, int timer) {
         //为订单分配员工
         //获取订单
         IOrder order = orderService.getOrder(orderId);

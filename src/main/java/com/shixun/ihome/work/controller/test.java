@@ -23,7 +23,6 @@ public class test {
             @ApiImplicitParam(name="password", required = true, dataType = "String")
     })
     @PostMapping("test1")
-    @ResponseBody
     public ResultBase TestMethod(@RequestParam(name = "id") String id, @RequestParam(name="password") String password){
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("id", id);
@@ -31,7 +30,13 @@ public class test {
         return new ResultBase(200, data);
     }
 
-    public ResultBase test2(@RequestParam(name = "ids[]") List<Integer> ids, int timer, int id){
+    @ApiOperation("测试2")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="id", value = "id", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name="timer", value = "timer", required = true, paramType = "query", dataType = "int")
+    })
+    @PostMapping("test2")
+    public ResultBase test2(@RequestParam(name = "ids") List<Integer> ids, int timer, int id){
         Map<String, Object> map = new HashMap<String,Object>();
         map.put("ids", ids);
         map.put("timer", timer);

@@ -2,7 +2,6 @@ package com.shixun.ihome.work.controller;
 
 
 import com.shixun.ihome.json.ResultBase;
-import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.StaffService;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -30,11 +30,14 @@ public class StaffController {
     @ApiImplicitParam(name="iStaff", required = true, dataType = "IStaff" )
     @ResponseBody
     @PostMapping("addStaff")
-    public Object addStaff(@RequestBody IStaff iStaff){
-        if(staffService.addStaffRecord(iStaff, "乔哥233")){
-            return "添加成功";
-        }
-        return "添加失败";
+    public ResultBase  addStaff(@RequestBody IStaff iStaff, HttpSession session){
+        //获取session中的工号
+        String who = (String) session.getAttribute("id");
+        IStaff iStaff1 =  staffService.addStaffRecord(iStaff, who);
+        int staffId = iStaff1.getId();
+
+
+        return new ResultBase(400, "添加员工失败");
     }
 
     @ApiOperation(value = "获取所有员工")

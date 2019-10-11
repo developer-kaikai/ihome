@@ -67,8 +67,11 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public boolean addStaffRecord(IStaff record, String byWho) {
-        return staffMapper.insert(record) > 0;
+    public IStaff addStaffRecord(IStaff record, String byWho) {
+        if (staffMapper.insert(record) > 0 ){
+            return record;
+        }
+        return null;
     }
 
     @Override

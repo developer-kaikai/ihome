@@ -26,6 +26,8 @@ public class qiaoTests {
     private OrderService orderService;
     @Autowired
     private TimeService timeService;
+    @Autowired
+    private StaffService staffService;
 
     @Test
     public void test1(){
@@ -35,6 +37,22 @@ public class qiaoTests {
         IOrder order = orderService.getOrder(4);
         orderTimer.setOrder( order);
         orderTimer.setDays(1);
+    }
 
+    @Test
+    public void test2() {
+        IStaff iStaff  = new IStaff();
+        iStaff.setStatus(0);
+        iStaff.setSex(0);
+        iStaff.setName("你老爸");
+        iStaff.setWechatId(1);
+        iStaff.setQualification("asdasdasd");
+        iStaff.setDetailtypeId(3);
+        iStaff.setPhone("asdasdasdads");
+        iStaff.setIdCard("asdadsad");
+        iStaff.setHealth("asdasdasd");
+        IStaff staff = staffService.addStaffRecord(iStaff, "qiaoge");
+        System.out.println(iStaff);
+        System.out.println(staff);
     }
 }

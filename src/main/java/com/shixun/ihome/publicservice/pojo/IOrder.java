@@ -1,11 +1,13 @@
 package com.shixun.ihome.publicservice.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@ApiModel(value = "")
 public class IOrder implements Serializable {
     private Integer id;
 
