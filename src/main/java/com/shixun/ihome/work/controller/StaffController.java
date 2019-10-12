@@ -10,16 +10,17 @@ import com.shixun.ihome.work.service.StaffService;
 import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-@Controller
+@RestController
 @Api(description = "员工模块")
 @RequestMapping("json/staff")
 public class StaffController {
@@ -31,7 +32,6 @@ public class StaffController {
 
     @ApiOperation(value = "添加员工")
     @ApiImplicitParam(name="iStaff", required = true, dataType = "IStaff" )
-    @ResponseBody
     @PostMapping("addStaff")
     @Transactional
     public ResultBase  addStaff(@RequestBody IStaff iStaff){
@@ -45,7 +45,6 @@ public class StaffController {
     }
 
     @ApiOperation(value = "获取所有员工")
-    @ResponseBody
     @GetMapping("getAllStaffs")
     public ResultBase getAllStaffs(){
         List<IStaff> iStaffList = staffService.selectStaffs(null);
@@ -55,13 +54,21 @@ public class StaffController {
         return resultBase;
     }
 
-    public ResultBase getFreeHourworkStaffs(){
-
-        return new ResultBase(400, "获取失败");
+    @ApiOperation("获取空闲的钟点工")
+    @GetMapping("getFreeHourworkStaffs")
+    @ApiImplicitParam(name="tiemr", value = "时间表", paramType = "query", dataType = "int", required = true)
+    public ResultBase getFreeHourworkStaffs(int timer){
+        Map<String,Object> map = new HashMap<String,Object> ();
+        map.put("tiemr", timer);
+        map.put("status", 0);
+        List<IStaff> staffs = staffService.selectHourworkStaffsByStatus(map);
+        if (staffs.isEmpty()){
+            return new ResultBase(400,"没有获取空闲的钟点工");
+        }
+        return new ResultBase(200, staffs);
     }
 
     @ApiOperation(value="获取空闲长期工")
-    @ResponseBody
     @GetMapping("getFreeLongStaffs")
     public ResultBase getFreeLongStaffs(){
         List<IStaff> iStaffs = staffService.selectStaffByServiceTypeAndStatus(4, 0);
@@ -72,7 +79,6 @@ public class StaffController {
     }
 
     @ApiOperation(value="获取钟点工")
-    @ResponseBody
 
     @PostMapping("getHourwordStaffs")
     public ResultBase getHourwordStaffs(
@@ -98,7 +104,6 @@ public class StaffController {
 
     @ApiOperation(value = "修改员工")
     @ApiImplicitParam(name="iStaff", required = true, dataType ="IStaff")
-    @ResponseBody
     @PostMapping("updateStaff")
     @Transactional
     public Object updateStaff(@RequestBody IStaff iStaff) {
@@ -116,7 +121,6 @@ public class StaffController {
 
     @ApiOperation(value = "删除员工")
     @ApiImplicitParam(name="id", required = true, dataType ="Integer")
-    @ResponseBody
     @GetMapping("deleteStaff")
     @Transactional
     public ResultBase deleteStaff(int id) {
