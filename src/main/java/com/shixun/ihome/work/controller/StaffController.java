@@ -1,6 +1,8 @@
 package com.shixun.ihome.work.controller;
 
 
+import com.shixun.ihome.config.ApiJsonObject;
+import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.util.Qutil;
@@ -72,9 +74,17 @@ public class StaffController {
     @ApiOperation(value="获取钟点工")
     @ResponseBody
 
-    @ApiImplicitParam(name = "params" , paramType = "body", value = "参数为空就是搜索全部\ntimer:14个01组成的字符串，代表7天上下午的工作状态1代表工作\nstatus:员工状态(0:休闲中、1：休假中、2：工作中、3：无效)\nsex：性别（0：男人、1：女人）\nname：姓名\nphone:手机号\nidCard:手机号")
     @PostMapping("getHourwordStaffs")
-    public ResultBase getHourwordStaffs(@RequestBody Map<String, Object> params){
+    public ResultBase getHourwordStaffs(
+            @ApiJsonObject(name = "params", value = {
+                    @ApiJsonProperty(key = "timer", example = "0000000000000", description = "时间表"),
+                    @ApiJsonProperty(key = "status", example = "0", description = "员工状态"),
+                    @ApiJsonProperty(key = "sex", example = "0", description = "性别"),
+                    @ApiJsonProperty(key = "name", example = "name", description = "姓名"),
+                    @ApiJsonProperty(key = "phone", example = "131xxxx2365", description = "手机号"),
+                    @ApiJsonProperty(key = "idCard", example = "441283597898225987", description = "身份证"),
+            })
+            @RequestBody Map<String, Object> params){
         if(params.get("timer") != null){
             String stimer = (String)params.get("timer");
             params.put("timer", Qutil.string2timer(stimer));
