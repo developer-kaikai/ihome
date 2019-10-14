@@ -1,5 +1,6 @@
 package com.shixun.ihome.longtermwork.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.longtermwork.service.LongTermService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
@@ -183,10 +184,14 @@ public class LongTermController {
         String code=getcode.getString("code");
         JSONObject userInfo=getcode.getJSONObject("userInfo");
         int id=userInfo.getInteger("id");
-        String name=userInfo.getString("name");
+        JSONArray name=userInfo.getJSONArray("name");
+        List<Integer> list1=(List)name;
         System.out.println(code);
         System.out.println(userInfo);
         System.out.println(id);
+        for (Integer id1:list1) {
+            System.out.println(id1);
+        }
         System.out.println(name);
 
     }
