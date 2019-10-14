@@ -19,6 +19,8 @@ public interface OrderService {
 
     /*用户下单*/
     boolean addOrderRecord(IOrder order, String bywho);
+
+    boolean updateOrderState(int orderId, int state);
     /*取消订单*/
     boolean cancelOrder(int id);
     /*维修详情*/

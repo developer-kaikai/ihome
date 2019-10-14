@@ -177,4 +177,12 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderMapper.listByCondition(order);
     }
+
+    @Override
+    public boolean updateOrderState(int orderId, int state) {
+        IOrder order = new IOrder();
+        order.setId(orderId);
+        order.setState(state);
+        return false;
+    }
 }

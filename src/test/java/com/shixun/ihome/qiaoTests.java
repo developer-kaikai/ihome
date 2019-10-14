@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,12 +32,21 @@ public class qiaoTests {
 
     @Test
     public void test1(){
-        //'4', '1', '1', '1', '2019-10-09 09:43:58', '1', '2019-10-09 09:43:58', '2019-10-09 13:43:58', '0', '注释', '1', '04:00:00'
-        OrderTimer orderTimer = new OrderTimer();
+        int timer1 = 2;
+        int timer2 = 16;
+        System.out.println(consum(timer1, timer2));
+        timer2 = 32;
+        timer1 = 1;
+        System.out.println(consum(timer1, timer2));
+        timer2 = 16;
+        timer1 = 16;
+        System.out.println(consum(timer1, timer2));
+    }
 
-        IOrder order = orderService.getOrder(4);
-        orderTimer.setOrder( order);
-        orderTimer.setDays(1);
+
+    private String consum(int timer1, int timer2){
+        int t = timer2 - timer1 + timer2;
+        return Integer.toBinaryString(t);
     }
 
 }

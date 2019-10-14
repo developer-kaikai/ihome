@@ -6,7 +6,7 @@ public class ITimer {
 
     private Integer id;
 
-    private Integer timer;
+    private Long timer;
 
     private Date updateTime;
 
@@ -41,11 +41,11 @@ public class ITimer {
                 '}';
     }
 
-    public Integer getTimer() {
+    public Long getTimer() {
         return timer;
     }
 
-    public void setTimer(Integer timer) {
+    public void setTimer(Long timer) {
         this.timer = timer;
     }
 

@@ -10,6 +10,11 @@ import java.util.Map;
 
 @Repository
 public interface ITimerMapper {
+
+    long MAXTIMER = 4398046511103l;
+
+    int DAY = 63;
+
     int countByExample(ITimerExample example);
 
     int deleteByExample(ITimerExample example);
@@ -39,7 +44,7 @@ public interface ITimerMapper {
      * @param timer 时间表
      * @return  空闲员工列表
      */
-    List<ITimer> selectFreeStaff(int timer);
+    List<ITimer> selectFreeStaff(long timer);
 
     /**
      * 更新员工的时间表

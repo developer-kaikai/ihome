@@ -56,10 +56,10 @@ public class StaffController {
 
     @ApiOperation("获取空闲的钟点工")
     @GetMapping("getFreeHourworkStaffs")
-    @ApiImplicitParam(name="tiemr", value = "时间表", paramType = "query", dataType = "int", required = true)
-    public ResultBase getFreeHourworkStaffs(int timer){
+    @ApiImplicitParam(name="timer", value = "时间表", paramType = "query", dataType = "Integer", required = true)
+    public ResultBase getFreeHourworkStaffs(Integer timer){
         Map<String,Object> map = new HashMap<String,Object> ();
-        map.put("tiemr", timer);
+        map.put("timer", timer);
         map.put("status", 0);
         List<IStaff> staffs = staffService.selectHourworkStaffsByStatus(map);
         if (staffs.isEmpty()){
@@ -91,10 +91,6 @@ public class StaffController {
                     @ApiJsonProperty(key = "idCard", example = "441283597898225987", description = "身份证"),
             })
             @RequestBody Map<String, Object> params){
-        if(params.get("timer") != null){
-            String stimer = (String)params.get("timer");
-            params.put("timer", Qutil.string2timer(stimer));
-        }
         List<IStaff> iStaffs = staffService.selectHourworkStaffsByStatus(params);
         if (iStaffs != null){
             return new ResultBase(200, iStaffs);
@@ -123,7 +119,7 @@ public class StaffController {
     @ApiImplicitParam(name="id", required = true, dataType ="Integer")
     @GetMapping("deleteStaff")
     @Transactional
-    public ResultBase deleteStaff(int id) {
+    public ResultBase deleteStaff(Integer id) {
         IStaff record = staffService.getOne(id);
         if(staffService.deleteStaffRecord(record, "乔哥").equals("员工删除成功")){
             return new ResultBase(200, "删除员工成功");

@@ -9,11 +9,11 @@ public interface TimeService {
 
     boolean addTimer(int staffId);
 
-    List<ITimer> selectFreeStaff(int timer);
+    List<ITimer> selectFreeStaff(long timer);
 
     //更新员工时间
-    boolean updateTimer(int id, int timer);
+    boolean updateTimer(int id, long timer);
 
     //移除员工更新时间
-    boolean updateTimerRemove(int id, int timer);
+    boolean updateTimerRemove(int id, long timer);
 }

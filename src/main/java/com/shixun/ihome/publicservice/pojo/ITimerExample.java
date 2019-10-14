@@ -202,52 +202,52 @@ public class ITimerExample {
             return (Criteria) this;
         }
 
-        public Criteria andTimerEqualTo(Boolean value) {
+        public Criteria andTimerEqualTo(Long value) {
             addCriterion("timer =", value, "timer");
             return (Criteria) this;
         }
 
-        public Criteria andTimerNotEqualTo(Boolean value) {
+        public Criteria andTimerNotEqualTo(Long value) {
             addCriterion("timer <>", value, "timer");
             return (Criteria) this;
         }
 
-        public Criteria andTimerGreaterThan(Boolean value) {
+        public Criteria andTimerGreaterThan(Long value) {
             addCriterion("timer >", value, "timer");
             return (Criteria) this;
         }
 
-        public Criteria andTimerGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andTimerGreaterThanOrEqualTo(Long value) {
             addCriterion("timer >=", value, "timer");
             return (Criteria) this;
         }
 
-        public Criteria andTimerLessThan(Boolean value) {
+        public Criteria andTimerLessThan(Long value) {
             addCriterion("timer <", value, "timer");
             return (Criteria) this;
         }
 
-        public Criteria andTimerLessThanOrEqualTo(Boolean value) {
+        public Criteria andTimerLessThanOrEqualTo(Long value) {
             addCriterion("timer <=", value, "timer");
             return (Criteria) this;
         }
 
-        public Criteria andTimerIn(List<Boolean> values) {
+        public Criteria andTimerIn(List<Long > values) {
             addCriterion("timer in", values, "timer");
             return (Criteria) this;
         }
 
-        public Criteria andTimerNotIn(List<Boolean> values) {
+        public Criteria andTimerNotIn(List<Long > values) {
             addCriterion("timer not in", values, "timer");
             return (Criteria) this;
         }
 
-        public Criteria andTimerBetween(Boolean value1, Boolean value2) {
+        public Criteria andTimerBetween(Long value1, Long value2) {
             addCriterion("timer between", value1, value2, "timer");
             return (Criteria) this;
         }
 
-        public Criteria andTimerNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andTimerNotBetween(Long value1, Long value2) {
             addCriterion("timer not between", value1, value2, "timer");
             return (Criteria) this;
         }

@@ -3,7 +3,7 @@
 <mapper namespace="com.shixun.ihome.publicservice.mapper.ITimerMapper" >
   <resultMap id="BaseResultMap" type="com.shixun.ihome.publicservice.pojo.ITimer" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="timer" property="timer" jdbcType="BIT" />
+    <result column="timer" property="timer" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="DATE" />
     <result column="staff_id" property="staffId" jdbcType="INTEGER" />
   </resultMap>
@@ -104,7 +104,7 @@
     </selectKey>
     insert into i_timer (timer, update_time, staff_id
       )
-    values (#{timer,jdbcType=BIT}, #{updateTime,jdbcType=DATE}, #{staffId,jdbcType=INTEGER}
+    values (#{timer,jdbcType=BIGINT}, #{updateTime,jdbcType=DATE}, #{staffId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.ITimer" >
@@ -125,7 +125,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="timer != null" >
-        #{timer,jdbcType=BIT},
+        #{timer,jdbcType=BIGINT},
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=DATE},
@@ -148,7 +148,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.timer != null" >
-        timer = #{record.timer,jdbcType=BIT},
+        timer = #{record.timer,jdbcType=BIGINT},
       </if>
       <if test="record.updateTime != null" >
         update_time = #{record.updateTime,jdbcType=DATE},
@@ -164,7 +164,7 @@
   <update id="updateByExample" parameterType="map"  flushCache="true">
     update i_timer
     set id = #{record.id,jdbcType=INTEGER},
-      timer = #{record.timer,jdbcType=BIT},
+      timer = #{record.timer,jdbcType=BIGINT},
       update_time = #{record.updateTime,jdbcType=DATE},
       staff_id = #{record.staffId,jdbcType=INTEGER}
     <if test="_parameter != null" >
@@ -175,7 +175,7 @@
     update i_timer
     <set >
       <if test="timer != null" >
-        timer = #{timer,jdbcType=BIT},
+        timer = #{timer,jdbcType=BIGINT},
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=DATE},
@@ -188,7 +188,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shixun.ihome.publicservice.pojo.ITimer" flushCache="true">
     update i_timer
-    set timer = #{timer,jdbcType=BIT},
+    set timer = #{timer,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=DATE},
       staff_id = #{staffId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
@@ -207,7 +207,7 @@
     SELECT t.id, t.timer, t.update_time, t.staff_id, s.id as sid, s.name, s.sex
     , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
       FROM i_timer t left join i_staff s on s.id = t.staff_id
-      where ( timer &lt;&lt; (datediff(now(), update_time) * 2) &amp; 16383) &amp; #{timer} = 0
+      where ( timer &lt;&lt; (datediff(now(), update_time) * 6) &amp; 4398046511103) &amp; #{timer} = 0
 
   </select>
   <!--通过时间表搜索空闲员工的员工id-->

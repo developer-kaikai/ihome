@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -57,9 +58,9 @@ public class OrderController {
     }
 
     @ApiOperation(value = "取消维修订单")
-    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "int")
+    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "Integer")
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public Boolean cancelOrder(int id) {
+    public Boolean cancelOrder(Integer id) {
         boolean success = orderService.cancelOrder(id);
         return success;
     }
@@ -67,12 +68,12 @@ public class OrderController {
     @ApiOperation(value = "填写维修详情")
     @RequestMapping(value = "/addDetail", method = RequestMethod.POST)
     @ApiImplicitParams({
-            @ApiImplicitParam(name="id", value = "维修情况订单id", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name="id", value = "维修情况订单id", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name="describe", value = "维修的情况解释", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name="solve", value = "作出的维修情报解决方案", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name="price", value = "价格", required = true, dataType = "Double", paramType = "query")
+            @ApiImplicitParam(name="price", value = "价格", required = true, dataType = "Double", paramType = "query", example = "0.0")
     })
-    public Boolean addOrderNew(int id, String describe, String solve, Double price) {
+    public Boolean addOrderNew(Integer id, String describe, String solve, Double price) {
         boolean success = orderService.addDetail(id, describe, solve, price);
         return true;
     }
@@ -81,12 +82,12 @@ public class OrderController {
     @ApiOperation(value = "订单评价")
     @RequestMapping(value = "/addEvaluate", method = RequestMethod.POST)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "quality_valuation", value = "服务质量(1-5星)", dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "attitude_valuation", value = "服务态度（1-5星）", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "id", value = "订单id", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "quality_valuation", value = "服务质量(1-5星)", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "attitude_valuation", value = "服务态度（1-5星）", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "describe", value = "备注", dataType = "String", paramType = "query")
     })
-    public Boolean addEvaluate(int id, int quality_valuation, int attitude_valuation, String describe) {
+    public Boolean addEvaluate(Integer id, Integer quality_valuation, Integer attitude_valuation, String describe) {
         boolean success = orderService.addEvaluate(id, quality_valuation, attitude_valuation, describe);
         return true;
     }
@@ -120,17 +121,17 @@ public class OrderController {
     @ApiOperation(value = "安排钟点工")
     @Transactional
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "int", paramType = "query")
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "Integer", paramType = "query")
     })
     @PostMapping(value = "plantHourworkStaff")
-    public ResultBase plantHourworkStaff(@RequestParam(name = "staffIds[]") List<Integer> staffIds, int orderId, int timer) {
+    public ResultBase plantHourworkStaff(@RequestParam(name = "staffIds[]") List<Integer> staffIds, Integer orderId, Integer timer) {
         //为订单分配员工
         //获取订单
         IOrder order = orderService.getOrder(orderId);
         //循环员工id
         if (!staffIds.isEmpty()){
-            for(int id: staffIds){
+            for(Integer id: staffIds){
                 //插入到订单员工表之中
                 orderService.addStaffForOrder(orderId, id);
                 //更新员工的时间表
@@ -151,7 +152,7 @@ public class OrderController {
             @ApiImplicitParam(name = "timer", value = "时间表值（不要管，在查询时，会给予，发回来就好）", required = true, dataType = "Integer", paramType = "query")
     })
     @PostMapping("removeHourwordStaff")
-    public ResultBase removeHourwordStaff(int orderId, int staffId, int timer) {
+    public ResultBase removeHourwordStaff(Integer orderId, Integer staffId, Integer timer) {
         if (orderService.removeStaffForOrder(orderId, staffId)) {
             timeService.updateTimerRemove(staffId, timer);
             return new ResultBase(200, "员工移除成功");
@@ -168,7 +169,7 @@ public class OrderController {
             @ApiImplicitParam(name = "timer", value = "时间表值（不要管，在查询时，会给予，发回来就好）", required = true, dataType = "Integer", paramType = "query")
     })
     @PostMapping("removeStaffFromOrder")
-    public ResultBase removeStaffFromOrder (int orderId, int staffId, int timer) {
+    public ResultBase removeStaffFromOrder (Integer orderId, Integer staffId, Integer timer) {
         if (orderService.removeStaffForOrder(orderId, staffId)) {
             timeService.updateTimerRemove(staffId, timer);
             staffService.updateStaffStatus(staffId, 0);
@@ -180,7 +181,7 @@ public class OrderController {
 
     @ApiOperation(value = "删除订单")
     @RequestMapping(value = "/deleteOrder", method = RequestMethod.GET)
-    public void deleteorder(int id) {
+    public void deleteorder(Integer id) {
         boolean success = orderService.deleteOrder(id);
     }
 
@@ -199,17 +200,17 @@ public class OrderController {
     @ApiOperation(value = "其他服务的员工安排")
     @Transactional
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "int", paramType = "query")
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "Integer", paramType = "query")
     })
     @PostMapping(value = "/plantOtherStaffs")
-    public ResultBase plantOtherStaffs(int orderId, @RequestParam(name = "staffIds") List<Integer> staffIds, int timer) {
+    public ResultBase plantOtherStaffs(Integer orderId, @RequestParam(name = "staffIds") List<Integer> staffIds, Integer timer) {
         //为订单分配员工
         //获取订单
         IOrder order = orderService.getOrder(orderId);
         //循环员工id
         if (!staffIds.isEmpty()){
-            for(int id: staffIds){
+            for(Integer id: staffIds){
                 //插入到订单员工表之中
                 orderService.addStaffForOrder(orderId, id);
                 //更新员工的时间表
@@ -222,6 +223,34 @@ public class OrderController {
         }else{
             return new ResultBase(400, "员工id序列不能为空");
         }
+    }
+
+
+    @ApiOperation("订单完成")
+    @ApiImplicitParam(name="orderId", value = "订单编号", dataType = "Integer", paramType = "query", required = true)
+    @GetMapping(value = "finshOrder")
+    public ResultBase finshOrder(Integer orderId){
+        //检测时间，订单是否是在服务时间结束后完成
+        IOrder order = orderService.getOrder(orderId);
+        //检测是否存在订单
+        if (order == null){
+            return new ResultBase(400, "该订单不存在");
+        }
+        Date date = new Date();
+        Date finshDate = order.getFinalyTime();
+        Boolean finish = (date.getTime() - finshDate.getTime()) > 0;
+        //如果确定是在服务结束后点击订单完成的
+        if (finish){
+            //修改订单的状态为完成 4
+            if(orderService.updateOrderState(orderId, 4)){
+                return new ResultBase(200, "订单完成");
+            }
+
+
+        }else {
+            return new ResultBase(400, "请不要在服务时间尚未结束时点击订单完成");
+        }
+        return new ResultBase(400, "出现未知问题");
     }
 
 
