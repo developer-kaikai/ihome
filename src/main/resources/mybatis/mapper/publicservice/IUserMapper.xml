@@ -193,4 +193,32 @@
       name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap id="userDetailsResultMap" type="com.shixun.ihome.publicservice.pojo.IUserDetail" >
+    <id column="detailsId" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+    <result column="orderPhone" property="phone" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="listUsers" type="com.shixun.ihome.publicservice.pojo.IUser" extends="BaseResultMap">
+    <collection property="userDetail" ofType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="userDetailsResultMap">
+    </collection>
+  </resultMap>
+  <sql id="iUserDetail" >
+    b.id as detailsId, b.user_id, b.province, b.city, b.detail, b.phone as orderPhone, b.status
+  </sql>
+  <select id="selectUsers" resultMap="listUsers">
+    SELECT a.*,<include refid="iUserDetail"/>
+    FROM i_user a,i_user_detail b
+    where b.user_id=a.id
+      <if test="name!=null">
+        and a.name like "%"#{name}"%"
+      </if>
+      <if test="phone!=null">
+        and a.phone like "%"#{phone}"%"
+      </if>
+
+  </select>
 </mapper>

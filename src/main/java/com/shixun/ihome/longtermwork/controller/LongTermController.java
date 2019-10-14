@@ -175,14 +175,14 @@ public class LongTermController {
 //        //List<IStaff> iStaffList=longTermService.selectLongTermStaffs();
 //        return iStaffList;
 //    }
-    @ApiOperation(value = "查看空闲长期工")
+    @ApiOperation(value = "测试")
     @RequestMapping(value = "/test",method = RequestMethod.POST)
     @ResponseBody
     public void test(@RequestBody JSONObject getcode){
 
         String code=getcode.getString("code");
         JSONObject userInfo=getcode.getJSONObject("userInfo");
-        String id=userInfo.getString("id");
+        int id=userInfo.getInteger("id");
         String name=userInfo.getString("name");
         System.out.println(code);
         System.out.println(userInfo);

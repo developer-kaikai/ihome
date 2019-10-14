@@ -1,6 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class IUser implements Serializable {
     private Integer id;
@@ -10,6 +11,8 @@ public class IUser implements Serializable {
     private String phone;
 
     private String name;
+
+    private List<IUserDetail> userDetail;
 
     public Integer getId() {
         return id;
@@ -41,5 +44,13 @@ public class IUser implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public List<IUserDetail> getUserDetail() {
+        return userDetail;
+    }
+
+    public void setUserDetail(List<IUserDetail> userDetail) {
+        this.userDetail = userDetail;
     }
 }

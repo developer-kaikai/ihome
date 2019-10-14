@@ -2,6 +2,7 @@ package com.shixun.ihome.publicservice.mapper;
 
 import com.shixun.ihome.publicservice.pojo.IUser;
 import com.shixun.ihome.publicservice.pojo.IUserExample;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -30,4 +31,6 @@ public interface IUserMapper {
     int updateByPrimaryKeySelective(IUser record);
 
     int updateByPrimaryKey(IUser record);
+
+    List<IUser> selectUsers(IUser iUser);
 }
