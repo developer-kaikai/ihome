@@ -1,5 +1,8 @@
 package com.shixun.ihome.work.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
@@ -252,6 +255,33 @@ public class OrderController {
         }
         return new ResultBase(400, "出现未知问题");
     }
+    @ApiOperation("分配长期工")
+    @ResponseBody
+    @PostMapping("/longTermStaffs")
+    public ResultBase longTermStaffs(@RequestBody JSONObject order) {
+        //为订单分配员工,从前端获取一个json对象
+        /*
+        * 参考参数
+        * {"orderId":1,"staffIds":[]}
+        * */
+        //循环员工id
+        int orderId=order.getInteger("orderId");
+        JSONArray staffIds=order.getJSONArray("staffIds");
+        List<Integer> listStaffIds=(List)staffIds;
 
+        if (!staffIds.isEmpty()){
+            for(Integer id: listStaffIds){
+                //插入到订单员工表之中
+                orderService.addStaffForOrder(orderId, id);
+
+                //更新员工的状态(为服务中2)
+                staffService.updateStaffStatus(id, 2);
+            }
+
+            return new ResultBase(200, "员工安排成功");
+        }else{
+            return new ResultBase(400, "员工id序列不能为空");
+        }
+    }
 
 }
