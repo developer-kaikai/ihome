@@ -1,6 +1,7 @@
 package com.shixun.ihome.work.service.serviceImpl;
 
 import com.shixun.ihome.publicservice.mapper.ITimerMapper;
+import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.ITimer;
 import com.shixun.ihome.publicservice.pojo.ITimerExample;
 import com.shixun.ihome.publicservice.util.Qutil;
@@ -8,6 +9,7 @@ import com.shixun.ihome.work.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -19,49 +21,71 @@ public class TimeServiceImpl implements TimeService {
     public List<ITimer> selectFreeStaff(Date startTimer, Date endTimer) {
         //计算日期获得timer
         long timer = consumTimer(startTimer, endTimer);
-        timer = timerLeft(startTimer,timer);
+        timer = timer << (timerLeft(startTimer) * 6);
         return iTimerMapper.selectFreeStaff(timer);
     }
 
+    @Override
+    public boolean updateTimerByOrder(int id, IOrder order) {
+        //获取时间表
+        ITimer timer1= getITimeByStaffId(id);
+        long timer = timer1.getTimer();
+        //计算订单的时间表
+        long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
+        System.out.println(timer2);
+        //处理
+        timer2 = worktimer(timer2);
+        System.out.println(timer2);
+        timer2 = timer2 << ((timerLeft(order.getStartTime()) + 1 ) * 6);
+        System.out.println(timer2);
+        //开始运算
+        if ((timer & timer2) == 0){
+            timer = (timer ^ timer2) & ITimerMapper.MAXTIMER;
+        } else {
+            throw new RuntimeException("这个错误你知道的");
+        }
+        System.out.println(Long.toBinaryString(timer1.getTimer()));
+        System.out.println(Long.toBinaryString(timer));
+        timer1.setTimer(timer);
+        if (iTimerMapper.updateByPrimaryKeySelective(timer1) == 0){
+            throw new RuntimeException("时间表更新出错");
+        }
+        System.out.println(timer1);
+        return true;
+    }
 
     @Override
-    public boolean updateTimer(int id, long timer) {
-        ITimer iTimer = getITimeByStaffId(id);
-        if (iTimer == null){
-            throw new RuntimeException("时间表存在空值");
-        }
-        Date date = new Date();
-        long newtimer = timerLeft(iTimer.getUpdateTime(), iTimer.getTimer());
+    public boolean removeTimerByOrder(int id, IOrder order) {
+        //获取时间表
+        ITimer timer = getITimeByStaffId(id);
+        long timer1 = timer.getTimer();
+        //根据订单获得时间表
+        long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
+        timer2 = worktimer(timer2);
+        timer2 = timer2 << ((timerLeft(order.getStartTime()) + 1 ) * 6);
         //开始运算
-        if( (newtimer & timer) == 0) {
-            newtimer = (newtimer | timer ) & ITimerMapper.MAXTIMER;
-        }else{
-            throw new RuntimeException("员工在该时间段已被占用");
+        if ((timer2 & timer1) != 0){
+            timer1 = (timer1 ^ timer2) & ITimerMapper.MAXTIMER;
+        }else {
+            throw new RuntimeException("检测是否存在问题");
         }
-        //更新时间表
-        return updateTime(date,newtimer, id);
+        System.out.println(timer1);
+        //更新数据
+        timer.setTimer(timer1);
+        if (iTimerMapper.updateByPrimaryKeySelective(timer) == 0){
+            throw new RuntimeException("时间表更新出错");
+        }
+
+        return true;
     }
+
 
     @Override
     public String test(Date date1, Date date2) {
-        int result = consumTimer(date1,date2);
-        return Integer.toBinaryString(result);
+        int i = Qutil.consumDays(date1, date2);
+        return  Integer.toString(i);
     }
 
-    @Override
-    public boolean updateTimerRemove(int id, long timer ) {
-        //根据StaffId查询时间表
-        ITimer iTimer = getITimeByStaffId(id);
-        Date date = new Date();
-        long newtimer = timerLeft(iTimer.getUpdateTime(),iTimer.getTimer());
-        if ((newtimer & timer) != 0){
-            newtimer = (newtimer ^ timer) & ITimerMapper.MAXTIMER;
-        }else{
-            throw new RuntimeException("该员工所在的时间端是空闲的，请检测数据是否错误");
-        }
-        //更新时间表
-        return updateTime(date,newtimer, id);
-    }
 
     //更新时间表
     private boolean updateTime(Date date, long itimer, int id){
@@ -84,17 +108,33 @@ public class TimeServiceImpl implements TimeService {
         return iTimer;
     }
 
+    //安排工作时，下一格也默认标识为工作
+    private long worktimer(long timer){
+        timer = (((timer << 1 )| timer) & ITimerMapper.DAY);
+        return timer;
+    }
+
     //更新时间安排表
-    private long timerLeft(Date order, long timer){
+    private int timerLeft(Date order){
         //获取当前时间
-        Date now = new Date();
+        order = removeTime(order);
+        Date now = removeTime(new Date());
         //获取两天相隔的天数
         int days = Qutil.consumDays(order, now);
         //获取时间表的时间安排
-        long itimer = timer ;
-        //左移天数
-        itimer = itimer << (days * 6);
-        return itimer;
+        return days;
+    }
+
+    //削去时间部分
+    private Date removeTime(Date d){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date nd = null;
+        try {
+            nd = sdf.parse(sdf.format(d));
+        }catch (Exception e){
+            throw new RuntimeException("取出日期失败");
+        }
+        return nd;
     }
 
     //计算日期 测试完成
@@ -152,9 +192,13 @@ public class TimeServiceImpl implements TimeService {
         int endTimer = consumDate(endTime);
 
         int timer = consumTwoTimer(startTimer,endTimer);
-        //结果前后加1
-        timer = ((timer >> 1) | (timer << 1)) & ITimerMapper.DAY;
 
+        return timer;
+    }
+
+    //时间前后加一
+    private long addTailAndHeadOne(long timer){
+        timer = ((timer >> 1) | (timer << 1)) & ITimerMapper.DAY;
         return timer;
     }
 

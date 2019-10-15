@@ -207,7 +207,7 @@
     SELECT t.id, t.timer, t.update_time, t.staff_id, s.id as sid, s.name, s.sex
     , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
       FROM i_timer t left join i_staff s on s.id = t.staff_id
-      where ( timer &lt;&lt; (datediff(now(), update_time) * 6) &amp; 4398046511103) &amp; #{timer} = 0
+      where ( timer &gt;&gt; (datediff(now(), update_time) * 6) &amp; 4398046511103) &amp; #{timer} = 0
 
   </select>
   <!--通过时间表搜索空闲员工的员工id-->

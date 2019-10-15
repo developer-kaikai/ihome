@@ -41,7 +41,29 @@ public class qiaoTests {
 
     @Test
     public void test2() {
+        System.out.println("----------" + Integer.class.getName());
+    }
 
+
+    @Test
+    public void test3() throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date now = sdf.parse(sdf.format(new Date()));
+        Date order = sdf.parse("2019-10-20");
+        String s = timeService.test(order, now);
+        System.out.println(s);
+    }
+
+    @Test
+    public void test4() {
+        IOrder order = orderService.getOrder(3);
+        timeService.updateTimerByOrder(2,order);
+    }
+
+    @Test
+    public void test5(){
+        IOrder order = orderService.getOrder(3);
+        timeService.RemoveTimerByOrder(1, order);
     }
 
 

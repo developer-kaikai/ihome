@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 public interface ITimerMapper {
 
-    long MAXTIMER = 4398046511103l;
+    long MAXTIMER = 281474976710655l;
 
     int DAY = 63;
 

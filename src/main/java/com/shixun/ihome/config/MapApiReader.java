@@ -2,10 +2,12 @@ package com.shixun.ihome.config;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.base.Optional;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.ibatis.javassist.*;
 import org.apache.ibatis.javassist.bytecode.AnnotationsAttribute;
 import org.apache.ibatis.javassist.bytecode.ConstPool;
 import org.apache.ibatis.javassist.bytecode.annotation.Annotation;
+import org.apache.ibatis.javassist.bytecode.annotation.DoubleMemberValue;
 import org.apache.ibatis.javassist.bytecode.annotation.IntegerMemberValue;
 import org.apache.ibatis.javassist.bytecode.annotation.StringMemberValue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class MapApiReader implements ParameterBuilderPlugin {
         if (methodParameter.getParameterType().canCreateSubtype(Map.class) || methodParameter.getParameterType().canCreateSubtype(String.class)) {
             Optional<ApiJsonObject> optional = methodParameter.findAnnotation(ApiJsonObject.class);
             if (optional.isPresent()) {
-                String name = optional.get().name(); //model名称
+                String name = optional.get().name();
                 ApiJsonProperty[] properties = optional.get().value();
 
                 parameterContext.getDocumentationContext().getAdditionalModels().add(typeResolver.resolve(createRefModel(properties, name)));
@@ -68,7 +70,7 @@ public class MapApiReader implements ParameterBuilderPlugin {
         if (ctField.getType().subclassOf(ClassPool.getDefault().get(String.class.getName())))
             ann.addMemberValue("example", new StringMemberValue(property.example(), constPool));
         if (ctField.getType().subclassOf(ClassPool.getDefault().get(Integer.class.getName())))
-            ann.addMemberValue("example", new IntegerMemberValue(Integer.parseInt(property.example()), constPool));
+            ann.addMemberValue("example", new IntegerMemberValue(constPool, Integer.parseInt(property.example())));
         attr.addAnnotation(ann);
         ctField.getFieldInfo().addAttribute(attr);
         return ctField;
