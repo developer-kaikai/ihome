@@ -105,9 +105,9 @@ public class ServicetypeController {
 
     @ApiOperation(value = "根据服务大类分类测试")
     @ResponseBody
-    @RequestMapping(value = "/selectByserviceid",method = RequestMethod.POST)
+    @RequestMapping(value = "/selectByserviceidTest",method = RequestMethod.POST)
     public ResultBase selectServiceidTest(@ApiJsonObject(name = "params", value = {
-            @ApiJsonProperty(key = "serviceid", type = "string", example = "1", description = "服务id")
+            @ApiJsonProperty(key = "serviceid", type = "Integer", example = "1", description = "服务id")
     }) @RequestBody Map<String, Object> params){
         int id = (Integer) params.get("serviceid");
         System.out.println(id);
