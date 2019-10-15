@@ -70,7 +70,7 @@ public class ServicetypeController {
 //        return jsonStr;
     }
 
-    @ApiOperation(value="查找服务详细类别")
+    @ApiOperation(value="查找服务详细类别测试")
     @ResponseBody
     @RequestMapping(value = "/selectBytypenameTest", method = RequestMethod.POST)
     public ResultBase selectTypenameTest(@ApiJsonObject (name = "params", value={
@@ -100,5 +100,16 @@ public class ServicetypeController {
 
     }
 
+    @ApiOperation(value = "根据服务大类分类测试")
+    @ResponseBody
+    @RequestMapping(value = "/selectByserviceid",method = RequestMethod.POST)
+    public ResultBase selectServiceidTest(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "serviceid", type = "string", example = "1", description = "服务id")
+    }) @RequestBody Map<String, Object> params){
+        int id = (Integer) params.get("serviceid");
+        System.out.println(id);
+        List<IDetailtype> listss = servicetypeService.selectByServicetypeid(id);
+        return new ResultBase(200, listss);
+    }
 
 }
