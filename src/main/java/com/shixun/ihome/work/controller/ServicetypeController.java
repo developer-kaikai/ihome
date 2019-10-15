@@ -73,10 +73,10 @@ public class ServicetypeController {
     @ApiOperation(value="查找服务详细类别测试")
     @ResponseBody
     @RequestMapping(value = "/selectBytypenameTest", method = RequestMethod.POST)
-    public ResultBase selectTypenameTest(@ApiJsonObject (name = "params", value={
-            @ApiJsonProperty(key = "typename", example = "清洁工", type = "string", description = "服务类型名称")
-    })@RequestBody  Map<String, Object> params) {
-        String typename = (String)params.get("typename");
+    public ResultBase selectTypenameTest(@ApiJsonObject (name = "params2", value={
+            @ApiJsonProperty(key = "typename", example = "清洁工", description = "服务类型名称"),
+    })@RequestBody  Map<String, Object> params2) {
+        String typename = (String)params2.get("typename");
         System.out.println(typename);
         List<IDetailtype> listd = servicetypeService.selectByname(typename);
         return new ResultBase(200, listd);
@@ -103,10 +103,10 @@ public class ServicetypeController {
     @ApiOperation(value = "根据服务大类分类测试")
     @ResponseBody
     @RequestMapping(value = "/selectByserviceidTest",method = RequestMethod.POST)
-    public ResultBase selectServiceidTest(@ApiJsonObject(name = "params", value = {
-            @ApiJsonProperty(key = "serviceid", type = "Integer", example = "1", description = "服务id")
-    }) @RequestBody Map<String, Object> params){
-        int id = (Integer) params.get("serviceid");
+    public ResultBase selectServiceidTest(@ApiJsonObject(name = "params1", value = {
+            @ApiJsonProperty(key = "serviceid", example = "1", description = "服务id"),
+    }) @RequestBody Map<String, Object> params1){
+        int id = Integer.parseInt((String) params1.get("serviceid"));
         System.out.println(id);
         List<IDetailtype> listss = servicetypeService.selectByServicetypeid(id);
         return new ResultBase(200, listss);
