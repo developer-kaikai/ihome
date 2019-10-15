@@ -32,8 +32,9 @@ public class ServicetypeController {
     @ApiOperation(value = "服务类型页面数据")
     @ResponseBody
     @RequestMapping(value = "/servicelist",method = RequestMethod.POST)
-    public void service(@RequestParam int serviceid, HttpServletResponse response)throws IOException {
-        IServicetype servicetype=servicetypeService.selectByid(serviceid);
+    public void service(@RequestBody JSONObject name, HttpServletResponse response)throws IOException {
+        int typeid=name.getInteger("typeid");
+        IServicetype servicetype=servicetypeService.selectByid(typeid);
         response.setContentType("application/json;charset=utf-8");
         String json ;
         json = Result.build(ResultType.Success).appendData("servicetype", servicetype).convertIntoJSON();
@@ -43,8 +44,9 @@ public class ServicetypeController {
     @ApiOperation(value = "详细类型页面数据")
     @ResponseBody
     @RequestMapping(value = "/typelist",method = RequestMethod.POST)
-    public void servicetype(@RequestParam int typeid, HttpServletResponse response)throws IOException {
-        IDetailtype detailtype =servicetypeService.selectBytypeid(typeid);
+    public void servicetype(@RequestBody JSONObject name, HttpServletResponse response)throws IOException {
+        int id=name.getInteger("id");
+        IDetailtype detailtype =servicetypeService.selectBytypeid(id);
         response.setContentType("application/json;charset=utf-8");
         String json ;
         json = Result.build(ResultType.Success).appendData("detailtype", detailtype).convertIntoJSON();
@@ -87,10 +89,11 @@ public class ServicetypeController {
     @RequestMapping(value = "/selectByserviceid",method = RequestMethod.POST)
     public void selectServiceid(@RequestBody JSONObject name, HttpServletResponse response)throws IOException{
        // String serviceid=name.getString("serviceid");
-        int id=name.getInteger("serviceid");
+        int typeid=name.getInteger("typeId");
+        System.out.println(typeid);
         //int id=Integer.parseInt(serviceid);
-        System.out.println(id);
-        List<IDetailtype> listss=servicetypeService.selectByServicetypeid(id);
+
+        List<IDetailtype> listss=servicetypeService.selectByServicetypeid(typeid);
         response.setContentType("application/json;charset=utf-8");
 
         String json ;
