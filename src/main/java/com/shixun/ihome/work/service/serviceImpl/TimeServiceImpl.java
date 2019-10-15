@@ -16,7 +16,10 @@ public class TimeServiceImpl implements TimeService {
     @Autowired
     private ITimerMapper iTimerMapper;
     @Override
-    public List<ITimer> selectFreeStaff(long timer) {
+    public List<ITimer> selectFreeStaff(Date startTimer, Date endTimer) {
+        //计算日期获得timer
+        long timer = consumTimer(startTimer, endTimer);
+        timer = timerLeft(startTimer,timer);
         return iTimerMapper.selectFreeStaff(timer);
     }
 
@@ -28,7 +31,7 @@ public class TimeServiceImpl implements TimeService {
             throw new RuntimeException("时间表存在空值");
         }
         Date date = new Date();
-        long newtimer = timerLeft(iTimer, date);
+        long newtimer = timerLeft(iTimer.getUpdateTime(), iTimer.getTimer());
         //开始运算
         if( (newtimer & timer) == 0) {
             newtimer = (newtimer | timer ) & ITimerMapper.MAXTIMER;
@@ -39,13 +42,18 @@ public class TimeServiceImpl implements TimeService {
         return updateTime(date,newtimer, id);
     }
 
+    @Override
+    public String test(Date date1, Date date2) {
+        int result = consumTimer(date1,date2);
+        return Integer.toBinaryString(result);
+    }
 
     @Override
     public boolean updateTimerRemove(int id, long timer ) {
         //根据StaffId查询时间表
         ITimer iTimer = getITimeByStaffId(id);
         Date date = new Date();
-        long newtimer = timerLeft(iTimer,date);
+        long newtimer = timerLeft(iTimer.getUpdateTime(),iTimer.getTimer());
         if ((newtimer & timer) != 0){
             newtimer = (newtimer ^ timer) & ITimerMapper.MAXTIMER;
         }else{
@@ -77,19 +85,19 @@ public class TimeServiceImpl implements TimeService {
     }
 
     //更新时间安排表
-    private long timerLeft(ITimer iTimer, Date date){
-        //获取员工时间表更新的最后时间
-        Date oldDate = iTimer.getUpdateTime();
+    private long timerLeft(Date order, long timer){
+        //获取当前时间
+        Date now = new Date();
         //获取两天相隔的天数
-        int days = Qutil.consumDays(date, oldDate);
+        int days = Qutil.consumDays(order, now);
         //获取时间表的时间安排
-        long itimer = iTimer.getTimer();
+        long itimer = timer ;
         //左移天数
         itimer = itimer << (days * 6);
         return itimer;
     }
 
-    //计算日期
+    //计算日期 测试完成
     private int consumDate(Date d){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(d);
@@ -101,6 +109,7 @@ public class TimeServiceImpl implements TimeService {
         }
         int timer = 0;
         switch (hour) {
+            case -1:
             case 0:
             case 1:
                 timer = 1;
@@ -138,11 +147,11 @@ public class TimeServiceImpl implements TimeService {
         return endTimer - startTimer + endTimer;
     }
 
-    private int consumTimer(Date startTime, Date EndTimer){
-        Calendar.getInstance();
+    private int consumTimer(Date startTime, Date endTime){
+        int startTimer = consumDate(startTime);
+        int endTimer = consumDate(endTime);
 
-
-        int timer = 0;//当作时结果
+        int timer = consumTwoTimer(startTimer,endTimer);
         //结果前后加1
         timer = ((timer >> 1) | (timer << 1)) & ITimerMapper.DAY;
 

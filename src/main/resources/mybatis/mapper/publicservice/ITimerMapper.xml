@@ -203,7 +203,7 @@
     </association>
   </resultMap>
   <!--通过时间表timer搜索空闲员工-->
-  <select id="selectFreeStaff"  parameterType="int" resultMap="staffAndTimer">
+  <select id="selectFreeStaff"  parameterType="long" resultMap="staffAndTimer">
     SELECT t.id, t.timer, t.update_time, t.staff_id, s.id as sid, s.name, s.sex
     , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
       FROM i_timer t left join i_staff s on s.id = t.staff_id

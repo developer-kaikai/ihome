@@ -3,7 +3,10 @@ package com.shixun.ihome.work.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.shixun.ihome.config.ApiJsonObject;
+import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
+import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.IDetailtype;
 import com.shixun.ihome.publicservice.pojo.IServicetype;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Api(description = "服务模块")
@@ -64,6 +68,18 @@ public class ServicetypeController {
 //        String jsonStr = JSON.toJSONString(listd);
 //        System.out.println(jsonStr);
 //        return jsonStr;
+    }
+
+    @ApiOperation(value="查找服务详细类别")
+    @ResponseBody
+    @RequestMapping(value = "/selectBytypenameTest", method = RequestMethod.POST)
+    public ResultBase selectTypenameTest(@ApiJsonObject (name = "params", value={
+            @ApiJsonProperty(key = "typename", example = "清洁工", type = "string", description = "服务类型名称")
+    })@RequestBody  Map<String, Object> params) {
+        String typename = (String)params.get("typename");
+        System.out.println(typename);
+        List<IDetailtype> listd = servicetypeService.selectByname(typename);
+        return new ResultBase(200, listd);
     }
 
     @ApiOperation(value = "根据服务大类分类")
