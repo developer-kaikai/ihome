@@ -1,8 +1,6 @@
 package com.shixun.ihome.publicservice.pojo;
 
-import java.io.Serializable;
-
-public class IDetailtype implements Serializable {
+public class IDetailtype {
     private Integer id;
 
     private String typename;
@@ -17,15 +15,9 @@ public class IDetailtype implements Serializable {
 
     private String explains;
 
-    private IServiceItem iServiceItem;
+    private String picturepath1;
 
-    public IServiceItem getiServiceItem() {
-        return iServiceItem;
-    }
-
-    public void setiServiceItem(IServiceItem iServiceItem) {
-        this.iServiceItem = iServiceItem;
-    }
+    private String picturepath2;
 
     public Integer getId() {
         return id;
@@ -81,5 +73,21 @@ public class IDetailtype implements Serializable {
 
     public void setExplains(String explains) {
         this.explains = explains == null ? null : explains.trim();
+    }
+
+    public String getPicturepath1() {
+        return picturepath1;
+    }
+
+    public void setPicturepath1(String picturepath1) {
+        this.picturepath1 = picturepath1 == null ? null : picturepath1.trim();
+    }
+
+    public String getPicturepath2() {
+        return picturepath2;
+    }
+
+    public void setPicturepath2(String picturepath2) {
+        this.picturepath2 = picturepath2 == null ? null : picturepath2.trim();
     }
 }

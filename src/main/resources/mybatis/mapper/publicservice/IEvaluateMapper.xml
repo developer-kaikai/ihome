@@ -7,6 +7,7 @@
     <result column="quality_valuation" property="qualityValuation" jdbcType="INTEGER" />
     <result column="attitude_valuation" property="attitudeValuation" jdbcType="INTEGER" />
     <result column="e_describe" property="eDescribe" jdbcType="VARCHAR" />
+    <result column="finallytime" property="finallytime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, order_id, quality_valuation, attitude_valuation, e_describe
+    id, order_id, quality_valuation, attitude_valuation, e_describe, finallytime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shixun.ihome.publicservice.pojo.IEvaluateExample" >
     select
@@ -104,9 +105,9 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into i_evaluate (order_id, quality_valuation, attitude_valuation, 
-      e_describe)
+      e_describe, finallytime)
     values (#{orderId,jdbcType=INTEGER}, #{qualityValuation,jdbcType=INTEGER}, #{attitudeValuation,jdbcType=INTEGER}, 
-      #{eDescribe,jdbcType=VARCHAR})
+      #{eDescribe,jdbcType=VARCHAR}, #{finallytime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.IEvaluate" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -126,6 +127,9 @@
       <if test="eDescribe != null" >
         e_describe,
       </if>
+      <if test="finallytime != null" >
+        finallytime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orderId != null" >
@@ -139,6 +143,9 @@
       </if>
       <if test="eDescribe != null" >
         #{eDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="finallytime != null" >
+        #{finallytime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -166,6 +173,9 @@
       <if test="record.eDescribe != null" >
         e_describe = #{record.eDescribe,jdbcType=VARCHAR},
       </if>
+      <if test="record.finallytime != null" >
+        finallytime = #{record.finallytime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +187,8 @@
       order_id = #{record.orderId,jdbcType=INTEGER},
       quality_valuation = #{record.qualityValuation,jdbcType=INTEGER},
       attitude_valuation = #{record.attitudeValuation,jdbcType=INTEGER},
-      e_describe = #{record.eDescribe,jdbcType=VARCHAR}
+      e_describe = #{record.eDescribe,jdbcType=VARCHAR},
+      finallytime = #{record.finallytime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +208,9 @@
       <if test="eDescribe != null" >
         e_describe = #{eDescribe,jdbcType=VARCHAR},
       </if>
+      <if test="finallytime != null" >
+        finallytime = #{finallytime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +219,8 @@
     set order_id = #{orderId,jdbcType=INTEGER},
       quality_valuation = #{qualityValuation,jdbcType=INTEGER},
       attitude_valuation = #{attitudeValuation,jdbcType=INTEGER},
-      e_describe = #{eDescribe,jdbcType=VARCHAR}
+      e_describe = #{eDescribe,jdbcType=VARCHAR},
+      finallytime = #{finallytime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

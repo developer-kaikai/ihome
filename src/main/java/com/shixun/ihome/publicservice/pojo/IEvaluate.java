@@ -1,5 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import java.util.Date;
+
 public class IEvaluate {
     private Integer id;
 
@@ -10,6 +12,8 @@ public class IEvaluate {
     private Integer attitudeValuation;
 
     private String eDescribe;
+
+    private Date finallytime;
 
     public Integer getId() {
         return id;
@@ -49,5 +53,13 @@ public class IEvaluate {
 
     public void seteDescribe(String eDescribe) {
         this.eDescribe = eDescribe == null ? null : eDescribe.trim();
+    }
+
+    public Date getFinallytime() {
+        return finallytime;
+    }
+
+    public void setFinallytime(Date finallytime) {
+        this.finallytime = finallytime;
     }
 }

@@ -1,6 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class IEvaluateExample {
@@ -411,6 +412,66 @@ public class IEvaluateExample {
 
         public Criteria andEDescribeNotBetween(String value1, String value2) {
             addCriterion("e_describe not between", value1, value2, "eDescribe");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeIsNull() {
+            addCriterion("finallytime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeIsNotNull() {
+            addCriterion("finallytime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeEqualTo(Date value) {
+            addCriterion("finallytime =", value, "finallytime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeNotEqualTo(Date value) {
+            addCriterion("finallytime <>", value, "finallytime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeGreaterThan(Date value) {
+            addCriterion("finallytime >", value, "finallytime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("finallytime >=", value, "finallytime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeLessThan(Date value) {
+            addCriterion("finallytime <", value, "finallytime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeLessThanOrEqualTo(Date value) {
+            addCriterion("finallytime <=", value, "finallytime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeIn(List<Date> values) {
+            addCriterion("finallytime in", values, "finallytime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeNotIn(List<Date> values) {
+            addCriterion("finallytime not in", values, "finallytime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeBetween(Date value1, Date value2) {
+            addCriterion("finallytime between", value1, value2, "finallytime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinallytimeNotBetween(Date value1, Date value2) {
+            addCriterion("finallytime not between", value1, value2, "finallytime");
             return (Criteria) this;
         }
     }
