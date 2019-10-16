@@ -125,10 +125,9 @@ public class OrderController {
     @Transactional
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "Integer", paramType = "query")
     })
     @PostMapping(value = "plantHourworkStaff")
-    public ResultBase plantHourworkStaff(@RequestParam(name = "staffIds[]") List<Integer> staffIds, Integer orderId, Integer timer) {
+    public ResultBase plantHourworkStaff(@RequestParam(name = "staffIds[]") List<Integer> staffIds, Integer orderId) {
         //为订单分配员工
         //获取订单
         IOrder order = orderService.getOrder(orderId);
@@ -138,7 +137,7 @@ public class OrderController {
                 //插入到订单员工表之中
                 orderService.addStaffForOrder(orderId, id);
                 //更新员工的时间表
-                timeService.updateTimer(id, timer);
+                timeService.updateTimerByOrder(id, order);
             }
 
             return new ResultBase(200, "员工安排成功");
@@ -152,12 +151,12 @@ public class OrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "timer", value = "时间表值（不要管，在查询时，会给予，发回来就好）", required = true, dataType = "Integer", paramType = "query")
     })
     @PostMapping("removeHourwordStaff")
-    public ResultBase removeHourwordStaff(Integer orderId, Integer staffId, Integer timer) {
+    public ResultBase removeHourwordStaff(Integer orderId, Integer staffId) {
+        IOrder order = orderService.getOrder(orderId);
         if (orderService.removeStaffForOrder(orderId, staffId)) {
-            timeService.updateTimerRemove(staffId, timer);
+            timeService.removeTimerByOrder(staffId, order);
             return new ResultBase(200, "员工移除成功");
         }
 
@@ -169,12 +168,12 @@ public class OrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "timer", value = "时间表值（不要管，在查询时，会给予，发回来就好）", required = true, dataType = "Integer", paramType = "query")
     })
     @PostMapping("removeStaffFromOrder")
-    public ResultBase removeStaffFromOrder (Integer orderId, Integer staffId, Integer timer) {
+    public ResultBase removeStaffFromOrder (Integer orderId, Integer staffId) {
+        IOrder order = orderService.getOrder(orderId);
         if (orderService.removeStaffForOrder(orderId, staffId)) {
-            timeService.updateTimerRemove(staffId, timer);
+            timeService.removeTimerByOrder(staffId, order);
             staffService.updateStaffStatus(staffId, 0);
             return new ResultBase(200, "员工移除成功");
         }
@@ -217,7 +216,7 @@ public class OrderController {
                 //插入到订单员工表之中
                 orderService.addStaffForOrder(orderId, id);
                 //更新员工的时间表
-                timeService.updateTimer(id, timer);
+                timeService.updateTimerByOrder(id, order);
                 //更新员工的状态(为服务中2)
                 staffService.updateStaffStatus(id, 2);
             }

@@ -62,8 +62,6 @@ public class qiaoTests {
 
     @Test
     public void test5(){
-        IOrder order = orderService.getOrder(3);
-        timeService.RemoveTimerByOrder(1, order);
     }
 
 
