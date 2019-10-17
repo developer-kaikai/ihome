@@ -1,6 +1,8 @@
 package com.shixun.ihome.work.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.config.ApiJsonObject;
 import com.shixun.ihome.config.ApiJsonProperty;
@@ -41,12 +43,13 @@ public class StaffController {
     }
 
     @ApiOperation(value = "获取所有员工")
-    @GetMapping("getAllStaffs")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageSize", value = "页", paramType = "query", dataType = "int", required = true),
-            @ApiImplicitParam(name = "pageNum", value = "页数", paramType = "query", dataType = "int", required = true)
-    })
-    public ResultBase getAllStaffs(Integer pageNum, Integer pageSize){
+    @PostMapping("getAllStaffs")
+    public ResultBase getAllStaffs(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "pageNum", example = "0", description = "页码"),
+            @ApiJsonProperty(key = "pageSize", example = "10", description = "一页显示数量")
+    })@RequestBody JSONObject params){
+        int pageNum = params.getInteger("pageNum");
+        int pageSize = params.getInteger("pageSize");
         PageInfo<IStaff> pageInfo = staffService.selectStaffs(null, pageNum, pageSize);
         if(pageInfo.getSize() == 0){
             return ResultBase.fail("没有获取到员工数据");
@@ -54,16 +57,16 @@ public class StaffController {
         return getPageData(pageInfo);
     }
 
+
     @ApiOperation("获取空闲的钟点工")
-    @GetMapping("getFreeHourworkStaffs")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name="timer", value = "时间表", paramType = "query", dataType = "int", required = true),
-            @ApiImplicitParam(name = "pageSize", value = "页", paramType = "query", dataType = "int", required = true),
-            @ApiImplicitParam(name = "pageNum", value = "页数", paramType = "query", dataType = "int", required = true)
-    })
-    public ResultBase getFreeHourworkStaffs(Integer timer, Integer pageNum, Integer pageSize){
+    @PostMapping("getFreeHourworkStaffs")
+    public ResultBase getFreeHourworkStaffs(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "pageNum", example = "0", description = "页码"),
+            @ApiJsonProperty(key = "pageSize", example = "10", description = "一页显示数量")
+    }) @RequestBody JSONObject params){
         Map<String,Object> map = new HashMap<> ();
-        map.put("timer", timer);
+        map.put("pageNum", params.getIntValue("pageNum"));
+        map.put("pageSize", params.getIntValue("pageSize"));
         map.put("status", 0);
         PageInfo<IStaff> pageInfo = staffService.selectHourworkStaffsByStatus(map);
         if (pageInfo.getSize() == 0){
@@ -72,13 +75,15 @@ public class StaffController {
         return getPageData(pageInfo);
     }
 
+
     @ApiOperation(value="获取空闲长期工")
-    @GetMapping("getFreeLongStaffs")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageSize", value = "页", paramType = "query", dataType = "int", required = true),
-            @ApiImplicitParam(name = "pageNum", value = "页数", paramType = "query", dataType = "int", required = true)
-    })
-    public ResultBase getFreeLongStaffs(Integer pageNum, Integer pageSize){
+    @PostMapping("getFreeLongStaffs")
+    public ResultBase getFreeLongStaffs(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "pageSize", example= "页"),
+            @ApiJsonProperty(key = "pageNum", example= "页数")
+    })@RequestBody JSONObject params){
+        Integer pageNum = params.getInteger("pageNum");
+        Integer pageSize = params.getInteger("pageSize");
         PageInfo<IStaff> pageInfo = staffService.selectStaffByServiceTypeAndStatus(4, 0, pageNum, pageSize);
         if (pageInfo.getSize()!= 0) {
             return ResultBase.fail("获取长期工数据失败");
@@ -126,11 +131,12 @@ public class StaffController {
     }
 
     @ApiOperation(value = "删除员工")
-    @ApiImplicitParam(name="id", required = true, dataType ="int")
-    @GetMapping("deleteStaff")
+    @PostMapping("deleteStaff")
     @Transactional
-    public ResultBase deleteStaff(Integer id) {
-        IStaff record = staffService.getOne(id);
+    public ResultBase deleteStaff(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "id", example = "1", description = "员工id")
+    })@RequestBody JSONObject params) {
+        IStaff record = staffService.getOne(params.getInteger("id"));
         if(staffService.deleteStaffRecord(record, "乔哥").equals("员工删除成功")){
             return new ResultBase(200, "删除员工成功");
         }

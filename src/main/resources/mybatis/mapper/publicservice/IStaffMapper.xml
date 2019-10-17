@@ -389,4 +389,11 @@ where st.id = #{type} and status = #{status}
 
     </where>
   </select>
+
+  <select id="selectStaffForOrder" parameterType="Integer"  resultType="com.shixun.ihome.publicservice.pojo.IStaff">
+    select s.id , s.name, s.sex
+    , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status,s.basesalary
+    from i_order_staff os left join i_staff s on s.id = os.order_id
+    where os.order_id = {orderId} and s.status = 2
+  </select>
 </mapper>

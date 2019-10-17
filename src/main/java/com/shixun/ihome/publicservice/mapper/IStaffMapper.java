@@ -69,4 +69,6 @@ public interface IStaffMapper {
      * @return 钟点工List
      */
     List<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map);
+
+    List<IStaff> selectStaffForOrder(Integer orderID);
 }

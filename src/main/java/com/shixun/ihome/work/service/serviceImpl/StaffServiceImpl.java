@@ -101,4 +101,10 @@ public class StaffServiceImpl implements StaffService {
 
         return true;
     }
+
+
+    @Override
+    public List<IStaff> selectStaffForOrder(Integer orderId) {
+        return staffMapper.selectStaffForOrder(orderId);
+    }
 }

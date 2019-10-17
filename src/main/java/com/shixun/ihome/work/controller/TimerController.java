@@ -28,12 +28,13 @@ public class TimerController {
     }
 
     @ApiOperation(value = "设置时间表")
-    @ApiImplicitParams({
-            @ApiImplicitParam( name = "timer", value = "6个零一（从右到左）", required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam( name = "index", value = "0-7  意思是0今天 1明天 以此类推", required = true, paramType = "query", dataType = "int"),
-    })
     @PostMapping("setTimer")
-    public ResultBase setTimer(@RequestParam String timer, @RequestParam  Integer index){
+    public ResultBase setTimer(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "timer", example = "000000", description = "时间表"),
+            @ApiJsonProperty(key = "index", example = "0-7", description = "代表今天：0， 明天：1 以此类推")
+    } )@RequestBody JSONObject params){
+        Integer index = params.getInteger("index");
+        String timer = params.getString("timer");
         redisTimerService.setTime(index, Integer.parseUnsignedInt(timer, 2));
         return ResultBase.success();
     }
@@ -42,7 +43,7 @@ public class TimerController {
     @ApiOperation(value="动态生成可选日期和时间")
     @PostMapping("/getMessage")
     public ResultBase getMessage(@ApiJsonObject ( name = "name",value = {
-            @ApiJsonProperty(key="hours", example = "2", type = "string", description = "时间")
+            @ApiJsonProperty(key="hours", example = "2", description = "时间")
     })@RequestBody JSONObject name){
         int hours=name.getInteger("hours");
         if (hours > 8 || hours <= 0){

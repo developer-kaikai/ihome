@@ -3,10 +3,13 @@ package com.shixun.ihome.work.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.shixun.ihome.config.ApiJsonObject;
+import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
+import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.work.service.OrderService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.work.service.StaffService;
@@ -39,9 +42,9 @@ public class OrderController {
     @PostMapping("addIOrder")
     public ResultBase addorder(@RequestBody IOrder order) {
         if (orderService.addOrderRecord(order, "乔哥")){
-            return new ResultBase(200, "维修单添加添加成功");
+            return ResultBase.success();
         }
-        return new ResultBase(400, "维修单添加失败");
+        return ResultBase.fail("添加订单失败");
     }
 
 
@@ -63,7 +66,9 @@ public class OrderController {
     @ApiOperation(value = "取消维修订单")
     @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "int")
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public Boolean cancelOrder(@RequestBody JSONObject name) {
+    public Boolean cancelOrder(@ApiJsonObject(name = "name", value = {
+            @ApiJsonProperty(key = "id", example = "1", description = "订单id")
+    })@RequestBody JSONObject name) {
         int id=name.getInteger("id");
         boolean success = orderService.cancelOrder(id);
         return success;
@@ -71,13 +76,12 @@ public class OrderController {
 
     @ApiOperation(value = "填写维修详情")
     @RequestMapping(value = "/addDetail", method = RequestMethod.POST)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name="id", value = "维修情况订单id", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name="describe", value = "维修的情况解释", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name="solve", value = "作出的维修情报解决方案", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name="price", value = "价格", required = true, dataType = "Double", paramType = "query", example = "0.0")
-    })
-    public Boolean addOrderNew(@RequestBody JSONObject name) {
+    public Boolean addOrderNew(@ApiJsonObject(name = "name", value = {
+            @ApiJsonProperty(key="id", example= "维修情况订单id"),
+            @ApiJsonProperty(key="describe", example= "维修的情况解释"),
+            @ApiJsonProperty(key="solve", example= "作出的维修情报解决方案"),
+            @ApiJsonProperty(key="price", example= "价格")
+    })@RequestBody JSONObject name) {
         int id=name.getInteger("id");
         String describe=name.getString("describe");
         String solve=name.getString("solve");
@@ -89,13 +93,12 @@ public class OrderController {
 
     @ApiOperation(value = "订单评价")
     @RequestMapping(value = "/addEvaluate", method = RequestMethod.POST)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "quality_valuation", value = "服务质量(1-5星)", dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "attitude_valuation", value = "服务态度（1-5星）", dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "describe", value = "备注", dataType = "String", paramType = "query")
-    })
-    public Boolean addEvaluate(@RequestBody JSONObject name) {
+    public Boolean addEvaluate(@ApiJsonObject(name = "name", value = {
+            @ApiJsonProperty(key = "id", example = "1", description = "订单id"),
+            @ApiJsonProperty(key = "quality_valuation", example = "服务质量（1-5星）", description = "服务质量"),
+            @ApiJsonProperty(key = "attitude_valuation", example = "服务态度（1-5星）", description = "服务态度"),
+            @ApiJsonProperty(key = "describe", example = "备注", description = "备注")
+    })@RequestBody JSONObject name) {
         int id=name.getInteger("id");
         int quality_valuation=name.getInteger("quality_valuation");
         int attitude_valuation=name.getInteger("attitude_valuation");
@@ -215,12 +218,21 @@ public class OrderController {
             @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "int", paramType = "query")
     })
     @PostMapping(value = "/plantOtherStaffs")
-    public ResultBase plantOtherStaffs(Integer orderId, @RequestParam(name = "staffIds") List<Integer> staffIds, Integer timer) {
+    public ResultBase plantOtherStaffs(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "orderId", example = "1", description = "订单"),
+            @ApiJsonProperty(key = "staffIds", example = "[1,2,3,4,5]", description = "员工Id"),
+            @ApiJsonProperty(key = "timer", example = "48个01", description = "时间表你懂的")
+    })@RequestBody JSONObject params ) {
+//        Integer orderId, @RequestParam(name = "staffIds") List<Integer> staffIds, Integer timer
         //为订单分配员工
         //获取订单
+        Integer orderId = params.getInteger("orderId");
+        Integer timer = params.getInteger("timer");
+        JSONArray jsonArray = params.getJSONArray("staffIds");
         IOrder order = orderService.getOrder(orderId);
         //循环员工id
-        if (!staffIds.isEmpty()){
+        if (!jsonArray.isEmpty()){
+            List<Integer> staffIds = jsonArray.toJavaList(Integer.class);
             for(Integer id: staffIds){
                 //插入到订单员工表之中
                 orderService.addStaffForOrder(orderId, id);
@@ -230,22 +242,25 @@ public class OrderController {
                 staffService.updateStaffStatus(id, 2);
             }
 
-            return new ResultBase(200, "员工安排成功");
+            return ResultBase.success();
         }else{
-            return new ResultBase(400, "员工id序列不能为空");
+            return ResultBase.fail("员工序列id不能为空");
         }
     }
 
 
     @ApiOperation("订单完成")
     @ApiImplicitParam(name="orderId", value = "订单编号", dataType = "int", paramType = "query", required = true)
-    @GetMapping(value = "finshOrder")
-    public ResultBase finshOrder(Integer orderId){
+    @PostMapping(value = "finshOrder")
+    public ResultBase finshOrder(@ApiJsonObject (name = "params", value = {
+            @ApiJsonProperty(key = "orderId", example = "1", description = "订单Id")
+    })@RequestBody JSONObject params){
         //检测时间，订单是否是在服务时间结束后完成
+        Integer orderId = params.getInteger( "orderId");
         IOrder order = orderService.getOrder(orderId);
         //检测是否存在订单
         if (order == null){
-            return new ResultBase(400, "该订单不存在");
+            return ResultBase.fail("订单不存在");
         }
         Date date = new Date();
         Date finshDate = order.getFinalyTime();
@@ -253,20 +268,28 @@ public class OrderController {
         //如果确定是在服务结束后点击订单完成的
         if (finish){
             //修改订单的状态为完成 4
+            List<IStaff> staffs = staffService.selectStaffForOrder(orderId);
+            for (IStaff staff :
+                    staffs) {
+                staffService.updateStaffStatus(staff.getId(), 0);
+            }
             if(orderService.updateOrderState(orderId, 4)){
-                return new ResultBase(200, "订单完成");
+                return ResultBase.success();
             }
 
 
         }else {
-            return new ResultBase(400, "请不要在服务时间尚未结束时点击订单完成");
+            return ResultBase.fail("请不要在订单还没完成前，点击完成");
         }
-        return new ResultBase(400, "出现未知问题");
+        return ResultBase.fail("出现未知问题");
     }
     @ApiOperation("分配长期工")
     @ResponseBody
     @PostMapping("/longTermStaffs")
-    public ResultBase longTermStaffs(@RequestBody JSONObject order) {
+    public ResultBase longTermStaffs(@ApiJsonObject(name = "order", value = {
+            @ApiJsonProperty(key = "orderId", example = "1", description = "订单id"),
+            @ApiJsonProperty(key = "staffIds", example = "[1,2,3,4,5]", description = "员工id序列")
+    })@RequestBody JSONObject order) {
         //为订单分配员工,从前端获取一个json对象
         /*
         * 参考参数
@@ -286,9 +309,9 @@ public class OrderController {
                 staffService.updateStaffStatus(id, 2);
             }
 
-            return new ResultBase(200, "员工安排成功");
+            return ResultBase.success();
         }else{
-            return new ResultBase(400, "员工id序列不能为空");
+            return ResultBase.fail("员工序列不能为空");
         }
     }
 
