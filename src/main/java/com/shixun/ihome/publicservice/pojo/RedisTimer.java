@@ -1,15 +1,15 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.shixun.ihome.publicservice.util.Qutil;
 
 import java.io.Serializable;
-import java.time.Year;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class RedisTimer implements Serializable {
+
     Date lastUpdateDate;
     List<Integer> timers;
 

@@ -1,5 +1,6 @@
 package com.shixun.ihome.config;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.base.Optional;
 import org.apache.commons.lang.RandomStringUtils;
@@ -30,7 +31,7 @@ public class MapApiReader implements ParameterBuilderPlugin {
     @Override
     public void apply(ParameterContext parameterContext) {
         ResolvedMethodParameter methodParameter = parameterContext.resolvedMethodParameter();
-        if (methodParameter.getParameterType().canCreateSubtype(Map.class) || methodParameter.getParameterType().canCreateSubtype(String.class)) {
+        if (methodParameter.getParameterType().canCreateSubtype(JSONObject.class) ||methodParameter.getParameterType().canCreateSubtype(Map.class)|| methodParameter.getParameterType().canCreateSubtype(String.class)) {
             Optional<ApiJsonObject> optional = methodParameter.findAnnotation(ApiJsonObject.class);
             if (optional.isPresent()) {
                 String name = optional.get().name();

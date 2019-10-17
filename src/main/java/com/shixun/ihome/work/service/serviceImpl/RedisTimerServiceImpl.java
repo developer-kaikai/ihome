@@ -1,5 +1,6 @@
 package com.shixun.ihome.work.service.serviceImpl;
 
+import com.shixun.ihome.publicservice.pojo.LabelValue;
 import com.shixun.ihome.publicservice.pojo.RedisTimer;
 import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
 import com.shixun.ihome.work.service.RedisTimerService;
@@ -55,8 +56,12 @@ public class RedisTimerServiceImpl implements RedisTimerService {
             //判读时间表是否为满 63:二进制111111
             if (t != 63){
                 RedisTimerInfo redisTimerInfo = new RedisTimerInfo();
-                redisTimerInfo.setDate(toWeekDay(calendar));
-                List<String> time = toTimers(t, hours);
+                String weekDay = toWeekDay(calendar);
+                int pos = weekDay.indexOf('(');
+                String value = weekDay.substring(0, pos);
+                redisTimerInfo.setDate(weekDay);
+                redisTimerInfo.setValue(value);
+                List<LabelValue> time = toTimers(t, hours, value);
                 redisTimerInfo.setTimer(time);
                 timerInfos.add(redisTimerInfo);
             }
@@ -66,8 +71,8 @@ public class RedisTimerServiceImpl implements RedisTimerService {
     }
 
 
-    private List<String> toTimers(int timer, int hours){
-        List<String> timers = new ArrayList<String>();
+    private List<LabelValue> toTimers(int timer, int hours, String date){
+        List<LabelValue> timers = new ArrayList<>();
         int hour = 8;
         int maxhour = 20;
         for (int i =0; i <= 5;i++){
@@ -75,19 +80,22 @@ public class RedisTimerServiceImpl implements RedisTimerService {
             //根据0或1生成时间表
             if (hour + hours >= maxhour){
                 String s = String.format("%d:00 - %d:00", hour, hour + hours);
-                timers.add(s);
+                LabelValue labelValue = new LabelValue( s, String.format("%s %d:00:00",date, hour)+ "|" + String.format("%s %d:00:00",date, hour + hours));
+                timers.add(labelValue);
                 break;
             }
             if (t == 0){
                 //代表是这个时间端还可以被选择
                 for (int j = 0; j < 2; j++){
                     String s = String.format("%d:00 - %d:00", hour , hour + hours );
-                    timers.add(s);
+                    LabelValue labelValue1 = new LabelValue( s, String.format("%s %d:00:00",date, hour) + "|" + String.format("%s %d:00:00",date, hour + hours));
+                    timers.add(labelValue1);
                     if(hour + hours == maxhour){
                         break;
                     }
                     String s1 = String.format("%d:30 - %d:30", hour , hour+ hours );
-                    timers.add(s1);
+                    LabelValue labelValue2 = new LabelValue( s1,String.format("%s %d:30:00",date, hour) + "|" + String.format("%s %d:30:00",date, hour + hours));
+                    timers.add(labelValue2);
                     hour += 1;
                 }
             }else{
@@ -100,6 +108,7 @@ public class RedisTimerServiceImpl implements RedisTimerService {
 
 
     private String toWeekDay(Calendar calendar){
+        int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         String s = null;
@@ -112,6 +121,6 @@ public class RedisTimerServiceImpl implements RedisTimerService {
             case 5: s = "周六";break;
             case 6: s = "周日";break;
         }
-        return String.format("%d月%d日(%s)", month, day, s);
+        return String.format("%d年%d月%d日(%s)", year, month, day, s);
     }
 }

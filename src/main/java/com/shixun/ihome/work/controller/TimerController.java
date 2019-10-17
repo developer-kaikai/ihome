@@ -1,6 +1,8 @@
 package com.shixun.ihome.work.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.shixun.ihome.config.ApiJsonObject;
+import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.publicservice.pojo.RedisTimer;
 import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
@@ -38,9 +40,10 @@ public class TimerController {
 
 
     @ApiOperation(value="动态生成可选日期和时间")
-    @ApiImplicitParam( name = "hours", value = "2", required = true, paramType = "query", dataType= "int")
     @PostMapping("/getMessage")
-    public ResultBase getMessage(@RequestBody JSONObject name){
+    public ResultBase getMessage(@ApiJsonObject ( name = "name",value = {
+            @ApiJsonProperty(key="hours", example = "2", type = "string", description = "时间")
+    })@RequestBody JSONObject name){
         int hours=name.getInteger("hours");
         if (hours > 8 || hours <= 0){
             return ResultBase.fail("时间超出可以选择的范围");
