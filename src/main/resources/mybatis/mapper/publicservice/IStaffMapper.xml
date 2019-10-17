@@ -13,6 +13,7 @@
     <result column="id_card" property="idCard" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="basesalary" property="basesalary" jdbcType="DOUBLE" />
+    <result column="typename" property="typename"  jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,6 +72,9 @@
         </if>
       </foreach>
     </where>
+  </sql>
+  <sql id="Alias_Column_List">
+     s.id, s.name, s.sex, s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
   </sql>
   <sql id="Base_Column_List" >
     id, name, sex, phone, detailtype_id, wechat_id, qualification, health, id_card, status, 
@@ -347,17 +351,20 @@
       <if test="_parameter.containsKey('status')">
         and   s.status = #{status}
       </if>
+      <if test="_parameter.containsKey('basesalary')">
+        and   s.basesalary = #{basesalary}
+      </if>
     </where>
   </select>
   <select id="selectStaffByServiceTypeAndStatus" parameterType="map"  resultType="com.shixun.ihome.publicservice.pojo.IStaff">
-    SELECT s.id, s.name, s.sex, s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
+    SELECT s.id, s.name, s.sex, s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status,s.basesalary
 FROM ihome.i_staff s left join i_detailtype d on s.detailtype_id = d.id left join i_servicetype st on st.id = d.servicetpye_id
 where st.id = #{type} and status = #{status}
   </select>
 
   <select id="selectHourworkStaffsByStatus" parameterType="map" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
     SELECT s.id , s.name, s.sex
-    , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
+    , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status,s.basesalary
     FROM i_timer t left join i_staff s on s.id = t.staff_id
     <where>
       <if test="_parameter.containsKey('timer')">

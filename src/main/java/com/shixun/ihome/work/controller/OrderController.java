@@ -63,7 +63,8 @@ public class OrderController {
     @ApiOperation(value = "取消维修订单")
     @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "int")
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public Boolean cancelOrder(Integer id) {
+    public Boolean cancelOrder(@RequestBody JSONObject name) {
+        int id=name.getInteger("id");
         boolean success = orderService.cancelOrder(id);
         return success;
     }
@@ -76,7 +77,11 @@ public class OrderController {
             @ApiImplicitParam(name="solve", value = "作出的维修情报解决方案", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name="price", value = "价格", required = true, dataType = "Double", paramType = "query", example = "0.0")
     })
-    public Boolean addOrderNew(Integer id, String describe, String solve, Double price) {
+    public Boolean addOrderNew(@RequestBody JSONObject name) {
+        int id=name.getInteger("id");
+        String describe=name.getString("describe");
+        String solve=name.getString("solve");
+        Double price=name.getDouble("price");
         boolean success = orderService.addDetail(id, describe, solve, price);
         return true;
     }
@@ -90,7 +95,11 @@ public class OrderController {
             @ApiImplicitParam(name = "attitude_valuation", value = "服务态度（1-5星）", dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "describe", value = "备注", dataType = "String", paramType = "query")
     })
-    public Boolean addEvaluate(Integer id, Integer quality_valuation, Integer attitude_valuation, String describe) {
+    public Boolean addEvaluate(@RequestBody JSONObject name) {
+        int id=name.getInteger("id");
+        int quality_valuation=name.getInteger("quality_valuation");
+        int attitude_valuation=name.getInteger("attitude_valuation");
+        String describe=name.getString("describe");
         boolean success = orderService.addEvaluate(id, quality_valuation, attitude_valuation, describe);
         return true;
     }

@@ -10,6 +10,7 @@ public class IStaff {
     private String phone;
 
     private Integer detailtypeId;
+    private String typename;
 
     private Integer wechatId;
 
@@ -22,6 +23,14 @@ public class IStaff {
     private Integer status;
 
     private Double basesalary;
+
+    public String getTypename() {
+        return typename;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
 
     public Integer getId() {
         return id;
