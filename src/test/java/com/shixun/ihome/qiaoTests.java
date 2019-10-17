@@ -4,7 +4,9 @@ package com.shixun.ihome;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.ITimer;
+import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
 import com.shixun.ihome.work.service.OrderService;
+import com.shixun.ihome.work.service.RedisTimerService;
 import com.shixun.ihome.work.service.StaffService;
 import com.shixun.ihome.work.service.TimeService;
 import org.junit.Test;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +31,8 @@ public class qiaoTests {
     private TimeService timeService;
     @Autowired
     private StaffService staffService;
+    @Autowired
+    private RedisTimerService redisTimerService;
 
     @Test
     public void test1() throws ParseException {
@@ -62,6 +67,24 @@ public class qiaoTests {
 
     @Test
     public void test5(){
+        int timer = 51;
+        for (int i =0; i <= 5;i++){
+            int t = (timer >> i )& 1;
+            System.out.println(t);
+        }
+    }
+
+    @Test
+    public void test6(){
+        System.out.println(redisTimerService.getTimer());
+
+        redisTimerService.setTime(3, Integer.parseUnsignedInt("000110", 2));
+        System.out.println(redisTimerService.getTimer());
+            List<RedisTimerInfo> list = redisTimerService.getMessage(1);
+            for (RedisTimerInfo timerInfo :
+                    list) {
+                System.out.println(timerInfo);
+            }
     }
 
 

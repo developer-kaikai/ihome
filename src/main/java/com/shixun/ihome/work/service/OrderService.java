@@ -39,8 +39,8 @@ public interface OrderService {
     boolean addOrderLong(IOrderLong orderLong);
     /**
      *  为订单分配员工
-     * @param order     订单
-     * @param staffs    员工
+     * @param orderId     订单
+     * @param staffId    员工
      * @return  是否全部添加成功
      */
     boolean addStaffForOrder(int orderId, int staffId);

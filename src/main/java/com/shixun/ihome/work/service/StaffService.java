@@ -1,5 +1,6 @@
 package com.shixun.ihome.work.service;
 
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 
@@ -13,10 +14,10 @@ public interface StaffService {
      * @param status  0：空闲中，1：休假中，2：服务中，3：无效
      * @return 搜索的员工列表
      */
-    List<IStaff> selectStaffByServiceTypeAndStatus(int type, int status);
+    PageInfo<IStaff> selectStaffByServiceTypeAndStatus(int type, int status, int pageNum, int pageSize);
 
     //根据条件搜索员工
-    List<IStaff> selectStaffs(IStaff istaff);
+    PageInfo<IStaff> selectStaffs(IStaff istaff, int pageNum, int pageSize);
 
     //删除员工（更新员工状态）
     String deleteStaffRecord(IStaff record, String byWho);
@@ -30,7 +31,7 @@ public interface StaffService {
     IStaff getOne(int id);
 
     //获取钟点工
-    List<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map);
+    PageInfo<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map);
 
     //员工服务状态修改（不记录）
     boolean updateStaffStatus(int staffId , int staffStatus);

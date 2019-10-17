@@ -68,6 +68,23 @@ public class Qutil {
     }
 
     /**
+     * 判断日期是否时同一天
+     * @param date1 日期一
+     * @param date2 日期二
+     * @return 如果是同一天就是true否则false
+     */
+    public static boolean assertDate(Date date1, Date date2){
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(date1);
+        c2.setTime(date2);
+        if (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 获取表的名称
      * @param s  sianature
      * @param status    0：插入，1：更新，2：删除

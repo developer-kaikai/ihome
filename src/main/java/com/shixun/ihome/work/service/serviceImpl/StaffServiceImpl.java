@@ -1,5 +1,7 @@
 package com.shixun.ihome.work.service.serviceImpl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.mapper.IStaffMapper;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
 import com.shixun.ihome.publicservice.pojo.IStaff;
@@ -17,18 +19,19 @@ public class StaffServiceImpl implements StaffService {
     @Autowired
     private IStaffMapper staffMapper;
 
+
     @Override
-    public List<IStaff> selectStaffByServiceTypeAndStatus(int type, int status) {
+    public PageInfo<IStaff> selectStaffByServiceTypeAndStatus(int type, int status, int pageNum, int pageSize) {
         Map<String, Object> map  = new HashMap<String, Object>();
         map.put("type", type);
         map.put("status", status);
-        return staffMapper.selectStaffByServiceTypeAndStatus(map);
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<IStaff> staffs = new PageInfo<IStaff>(staffMapper.selectStaffByServiceTypeAndStatus(map));
+        return staffs;
     }
 
-
-
     @Override
-    public List<IStaff> selectStaffs(IStaff istaff) {
+    public PageInfo<IStaff> selectStaffs(IStaff istaff, int pageNum, int pageSize) {
         IStaffExample iStaffExample = new IStaffExample();
         IStaffExample.Criteria criteria = iStaffExample.createCriteria();
         if(istaff != null){
@@ -41,12 +44,14 @@ public class StaffServiceImpl implements StaffService {
             if(istaff.getDetailtypeId() != null){
                 criteria.andDetailtypeIdEqualTo(istaff.getDetailtypeId());
             }
-
-
+            if (istaff.getName() != null){
+                criteria.andNameLike(istaff.getName());
+            }
         }
-
-        return staffMapper.selectByExample(iStaffExample);
+        PageInfo<IStaff> staffs = new PageInfo<IStaff>(staffMapper.selectByExample(iStaffExample));
+        return staffs;
     }
+
 
     @Override
     public String deleteStaffRecord(IStaff record, String byWho) {
@@ -77,8 +82,12 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map) {
-        return staffMapper.selectHourworkStaffsByStatus(map);
+    public PageInfo<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map) {
+        int pageNum = (Integer)(map.get("pageNum"));
+        int pageSize = (Integer)(map.get("pageSize"));
+        PageHelper.startPage(pageNum,pageSize);
+        PageInfo<IStaff> staffs = new PageInfo<IStaff>(staffMapper.selectHourworkStaffsByStatus(map));
+        return staffs;
     }
 
     @Override

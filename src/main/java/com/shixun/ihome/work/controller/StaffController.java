@@ -1,23 +1,19 @@
 package com.shixun.ihome.work.controller;
 
 
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.config.ApiJsonObject;
 import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.publicservice.pojo.IStaff;
-import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.StaffService;
 import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -46,36 +42,48 @@ public class StaffController {
 
     @ApiOperation(value = "获取所有员工")
     @GetMapping("getAllStaffs")
-    public ResultBase getAllStaffs(){
-        List<IStaff> iStaffList = staffService.selectStaffs(null);
-        ResultBase resultBase = new ResultBase();
-        resultBase.setCode(200);
-        resultBase.setData(iStaffList);
-        return resultBase;
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageSize", value = "页", paramType = "query", dataType = "int", required = true),
+            @ApiImplicitParam(name = "pageNum", value = "页数", paramType = "query", dataType = "int", required = true)
+    })
+    public ResultBase getAllStaffs(Integer pageNum, Integer pageSize){
+        PageInfo<IStaff> pageInfo = staffService.selectStaffs(null, pageNum, pageSize);
+        if(pageInfo.getSize() == 0){
+            return ResultBase.fail("没有获取到员工数据");
+        }
+        return getPageData(pageInfo);
     }
 
     @ApiOperation("获取空闲的钟点工")
     @GetMapping("getFreeHourworkStaffs")
-    @ApiImplicitParam(name="timer", value = "时间表", paramType = "query", dataType = "Integer", required = true)
-    public ResultBase getFreeHourworkStaffs(Integer timer){
-        Map<String,Object> map = new HashMap<String,Object> ();
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="timer", value = "时间表", paramType = "query", dataType = "int", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "页", paramType = "query", dataType = "int", required = true),
+            @ApiImplicitParam(name = "pageNum", value = "页数", paramType = "query", dataType = "int", required = true)
+    })
+    public ResultBase getFreeHourworkStaffs(Integer timer, Integer pageNum, Integer pageSize){
+        Map<String,Object> map = new HashMap<> ();
         map.put("timer", timer);
         map.put("status", 0);
-        List<IStaff> staffs = staffService.selectHourworkStaffsByStatus(map);
-        if (staffs.isEmpty()){
-            return new ResultBase(400,"没有获取空闲的钟点工");
+        PageInfo<IStaff> pageInfo = staffService.selectHourworkStaffsByStatus(map);
+        if (pageInfo.getSize() == 0){
+            return ResultBase.fail("没有获取到空闲的钟点工");
         }
-        return new ResultBase(200, staffs);
+        return getPageData(pageInfo);
     }
 
     @ApiOperation(value="获取空闲长期工")
     @GetMapping("getFreeLongStaffs")
-    public ResultBase getFreeLongStaffs(){
-        List<IStaff> iStaffs = staffService.selectStaffByServiceTypeAndStatus(4, 0);
-        if (iStaffs != null) {
-            return new ResultBase(200, iStaffs);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageSize", value = "页", paramType = "query", dataType = "int", required = true),
+            @ApiImplicitParam(name = "pageNum", value = "页数", paramType = "query", dataType = "int", required = true)
+    })
+    public ResultBase getFreeLongStaffs(Integer pageNum, Integer pageSize){
+        PageInfo<IStaff> pageInfo = staffService.selectStaffByServiceTypeAndStatus(4, 0, pageNum, pageSize);
+        if (pageInfo.getSize()!= 0) {
+            return ResultBase.fail("获取长期工数据失败");
         }
-        return new ResultBase(400, "数据存在错误");
+        return getPageData(pageInfo);
     }
 
     @ApiOperation(value="获取钟点工")
@@ -89,13 +97,15 @@ public class StaffController {
                     @ApiJsonProperty(key = "name", example = "name", description = "姓名"),
                     @ApiJsonProperty(key = "phone", example = "131xxxx2365", description = "手机号"),
                     @ApiJsonProperty(key = "idCard", example = "441283597898225987", description = "身份证"),
+                    @ApiJsonProperty(key = "pageNum", example = "0", description = "页"),
+                    @ApiJsonProperty(key = "pageSize", example = "10", description = "页数")
             })
             @RequestBody Map<String, Object> params){
-        List<IStaff> iStaffs = staffService.selectHourworkStaffsByStatus(params);
-        if (iStaffs != null){
-            return new ResultBase(200, iStaffs);
+        PageInfo<IStaff> pageInfo = staffService.selectHourworkStaffsByStatus(params);
+        if (pageInfo.getSize()!= 0){
+            return ResultBase.fail("获取钟点工失败");
         }
-        return new ResultBase(400, "获取数据失败");
+        return getPageData(pageInfo);
     }
 
     @ApiOperation(value = "修改员工")
@@ -116,7 +126,7 @@ public class StaffController {
     }
 
     @ApiOperation(value = "删除员工")
-    @ApiImplicitParam(name="id", required = true, dataType ="Integer")
+    @ApiImplicitParam(name="id", required = true, dataType ="int")
     @GetMapping("deleteStaff")
     @Transactional
     public ResultBase deleteStaff(Integer id) {
@@ -127,5 +137,13 @@ public class StaffController {
         return new ResultBase(400, "删除员工失败");
     }
 
+    private ResultBase getPageData(PageInfo<IStaff> pageInfo){
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("pageNum", pageInfo.getPageNum());
+        data.put("pageSize", pageInfo.getPageSize());
+        data.put("total", pageInfo.getTotal());
+        data.put("staffs", pageInfo.getList());
+        return ResultBase.success(data);
+    }
 
 }

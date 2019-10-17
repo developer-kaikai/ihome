@@ -81,7 +81,7 @@ public class ServicetypeController {
         String typename = (String)params2.get("typename");
         System.out.println(typename);
         List<IDetailtype> listd = servicetypeService.selectByname(typename);
-        return new ResultBase(200, listd);
+        return ResultBase.success(listd);
     }
 
     @ApiOperation(value = "根据服务大类分类")
@@ -112,7 +112,7 @@ public class ServicetypeController {
         int id = Integer.parseInt(params1.get("serviceid"));
         System.out.println(id);
         List<IDetailtype> listss = servicetypeService.selectByServicetypeid(id);
-        return new ResultBase(200, listss);
+        return ResultBase.success(listss);
     }
 
 }

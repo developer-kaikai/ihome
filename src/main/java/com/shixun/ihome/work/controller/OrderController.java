@@ -61,7 +61,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "取消维修订单")
-    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "int")
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
     public Boolean cancelOrder(Integer id) {
         boolean success = orderService.cancelOrder(id);
@@ -71,7 +71,7 @@ public class OrderController {
     @ApiOperation(value = "填写维修详情")
     @RequestMapping(value = "/addDetail", method = RequestMethod.POST)
     @ApiImplicitParams({
-            @ApiImplicitParam(name="id", value = "维修情况订单id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name="id", value = "维修情况订单id", required = true, dataType = "int", paramType = "query"),
             @ApiImplicitParam(name="describe", value = "维修的情况解释", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name="solve", value = "作出的维修情报解决方案", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name="price", value = "价格", required = true, dataType = "Double", paramType = "query", example = "0.0")
@@ -85,9 +85,9 @@ public class OrderController {
     @ApiOperation(value = "订单评价")
     @RequestMapping(value = "/addEvaluate", method = RequestMethod.POST)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "quality_valuation", value = "服务质量(1-5星)", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "attitude_valuation", value = "服务态度（1-5星）", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "id", value = "订单id", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "quality_valuation", value = "服务质量(1-5星)", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "attitude_valuation", value = "服务态度（1-5星）", dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "describe", value = "备注", dataType = "String", paramType = "query")
     })
     public Boolean addEvaluate(Integer id, Integer quality_valuation, Integer attitude_valuation, String describe) {
@@ -116,7 +116,7 @@ public class OrderController {
     public ResultBase orderAllTest() {
 
         List<IOrder> orderList = orderService.listAll();
-        return new ResultBase(200, orderList);
+        return ResultBase.success(orderList);
 
 
     }
@@ -124,7 +124,7 @@ public class OrderController {
     @ApiOperation(value = "安排钟点工")
     @Transactional
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
     })
     @PostMapping(value = "plantHourworkStaff")
     public ResultBase plantHourworkStaff(@RequestParam(name = "staffIds[]") List<Integer> staffIds, Integer orderId) {
@@ -149,8 +149,8 @@ public class OrderController {
     @ApiOperation(value = "移除订单中的某个员工（钟点工）")
     @Transactional
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "int", paramType = "query"),
     })
     @PostMapping("removeHourwordStaff")
     public ResultBase removeHourwordStaff(Integer orderId, Integer staffId) {
@@ -166,8 +166,8 @@ public class OrderController {
     @ApiOperation(value = "移除订单中的某个员工（其他服务）")
     @Transactional
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "int", paramType = "query"),
     })
     @PostMapping("removeStaffFromOrder")
     public ResultBase removeStaffFromOrder (Integer orderId, Integer staffId) {
@@ -202,8 +202,8 @@ public class OrderController {
     @ApiOperation(value = "其他服务的员工安排")
     @Transactional
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "Integer", paramType = "query")
+            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "int", paramType = "query")
     })
     @PostMapping(value = "/plantOtherStaffs")
     public ResultBase plantOtherStaffs(Integer orderId, @RequestParam(name = "staffIds") List<Integer> staffIds, Integer timer) {
@@ -229,7 +229,7 @@ public class OrderController {
 
 
     @ApiOperation("订单完成")
-    @ApiImplicitParam(name="orderId", value = "订单编号", dataType = "Integer", paramType = "query", required = true)
+    @ApiImplicitParam(name="orderId", value = "订单编号", dataType = "int", paramType = "query", required = true)
     @GetMapping(value = "finshOrder")
     public ResultBase finshOrder(Integer orderId){
         //检测时间，订单是否是在服务时间结束后完成
