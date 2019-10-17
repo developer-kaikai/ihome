@@ -37,9 +37,9 @@ public class TimerController {
 
 
     @ApiOperation(value="动态生成可选日期和时间")
-    @ApiImplicitParam( name = "hours", value = "2", required = true, paramType = "path", dataType= "int")
-    @PostMapping("/getMessage/{hours}")
-    public ResultBase getMessage(@PathVariable  Integer hours){
+    @ApiImplicitParam( name = "hours", value = "2", required = true, paramType = "query", dataType= "int")
+    @PostMapping("/getMessage")
+    public ResultBase getMessage(Integer hours){
         if (hours > 8 || hours <= 0){
             return ResultBase.fail("时间超出可以选择的范围");
         }
