@@ -107,8 +107,8 @@ public class ServicetypeController {
     @RequestMapping(value = "/selectByserviceidTest",method = RequestMethod.POST)
     public ResultBase selectServiceidTest(@ApiJsonObject(name = "params1", value = {
             @ApiJsonProperty(key = "serviceid", example = "1", description = "服务id"),
-    }) @RequestBody Map<String, Object> params1){
-        int id = Integer.parseInt((String) params1.get("serviceid"));
+    }) @RequestBody Map<String, String> params1){
+        int id = Integer.parseInt(params1.get("serviceid"));
         System.out.println(id);
         List<IDetailtype> listss = servicetypeService.selectByServicetypeid(id);
         return new ResultBase(200, listss);

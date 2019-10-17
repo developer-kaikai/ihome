@@ -1,5 +1,6 @@
 package com.shixun.ihome.work.service;
 
+import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.ITimer;
 
 import java.util.Date;
@@ -12,11 +13,17 @@ public interface TimeService {
     //根据订单的开始日期和结束日期获取空闲员工
     List<ITimer> selectFreeStaff(Date startTimer, Date endTimer);
 
-    //更新员工时间
-    boolean updateTimer(int id, long timer);
 
-    //移除员工更新时间
-    boolean updateTimerRemove(int id, long timer);
 
     String test(Date date1, Date date2);
+
+    /**
+     * 根据订单更新时间表
+     * @param id
+     * @param order
+     * @return
+     */
+    boolean updateTimerByOrder(int id,  IOrder order);
+
+    boolean removeTimerByOrder(int id, IOrder order);
 }
