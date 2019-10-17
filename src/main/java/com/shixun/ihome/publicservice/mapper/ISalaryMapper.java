@@ -5,7 +5,6 @@ import com.shixun.ihome.publicservice.pojo.ISalaryExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,11 +32,15 @@ public interface ISalaryMapper {
     int updateByPrimaryKey(ISalary record);
 
 
-
     List<Map<String,Object>> addsalary();
     /*批量更新工资*/
-    int salarynow(List<Map<String,Object>> map);
+    int salarynow(List<Map<String, Object>> map);
 
     List<ISalary> listall();
+
+    List<ISalary> existMonth(Date date3);
+
+    /*批量插入*/
+    int insertSalaryMonth(List<Map<String, Object>> map);
 
 }

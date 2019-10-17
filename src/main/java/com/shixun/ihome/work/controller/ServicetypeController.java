@@ -14,11 +14,13 @@ import com.shixun.ihome.work.service.ServicetypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,10 +68,6 @@ public class ServicetypeController {
         json = Result.build(ResultType.Success).appendData("listd", listd).convertIntoJSON();
         response.getWriter().write(json);
         System.out.println(json);
-
-//        String jsonStr = JSON.toJSONString(listd);
-//        System.out.println(jsonStr);
-//        return jsonStr;
     }
 
     @ApiOperation(value="查找服务详细类别测试")
@@ -90,17 +88,18 @@ public class ServicetypeController {
     public void selectServiceid(@RequestBody JSONObject name, HttpServletResponse response)throws IOException{
        // String serviceid=name.getString("serviceid");
         int typeid=name.getInteger("typeId");
-        System.out.println(typeid);
-        //int id=Integer.parseInt(serviceid);
+        List<IDetailtype> listss=new ArrayList<>();
+        if(typeid!=0) {
 
-        List<IDetailtype> listss=servicetypeService.selectByServicetypeid(typeid);
+            listss = servicetypeService.selectByServicetypeid(typeid);
+        }else {
+            listss = servicetypeService.selectAll();
+        }
         response.setContentType("application/json;charset=utf-8");
-
         String json ;
         json = Result.build(ResultType.Success).appendData("listss", listss).convertIntoJSON();
         response.getWriter().write(json);
         System.out.println(json);
-
     }
 
     @ApiOperation(value = "根据服务大类分类测试")

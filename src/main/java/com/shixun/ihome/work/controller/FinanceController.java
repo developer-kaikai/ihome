@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +64,22 @@ public class FinanceController {
         Boolean success=financeService.modifySalary(id,bonusrate,rolatyrate);
 
     }
+
+
+    @ApiOperation(value = "test1")
+    @ResponseBody
+    @RequestMapping(value = "/salarylistBymonth",method = RequestMethod.POST)
+    public void mouth(@RequestBody JSONObject name,HttpServletResponse response)throws IOException {
+        Date date=name.getDate("date");
+        System.out.println(date);
+        List<Map<String,Object>> map1=financeService.addsalary();
+        List<ISalary> list=financeService.selectSalaryBymonth(date,map1);
+        response.setContentType("application/json;charset=utf-8");
+        String json ;
+        json = Result.build(ResultType.Success).appendData("list", list).convertIntoJSON();
+        response.getWriter().write(json);
+    }
+
 
 
 }

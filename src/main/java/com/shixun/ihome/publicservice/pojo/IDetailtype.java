@@ -1,5 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import java.util.List;
+
 public class IDetailtype {
     private Integer id;
 
@@ -18,6 +20,16 @@ public class IDetailtype {
     private String picturepath1;
 
     private String picturepath2;
+
+    private List<IServiceItem> iServiceItemList;
+
+    public List<IServiceItem> getiServiceItemList() {
+        return iServiceItemList;
+    }
+
+    public void setiServiceItemList(List<IServiceItem> iServiceItemList) {
+        this.iServiceItemList = iServiceItemList;
+    }
 
     public Integer getId() {
         return id;
