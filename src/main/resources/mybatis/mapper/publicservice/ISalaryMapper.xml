@@ -242,7 +242,7 @@
   </update>
 
   <select id="addsalary" resultType="map">
-  select s.id,s.name,(avg(e.attitude_valuation)+avg(e.quality_valuation))*(r.bonusrate)/2 as bonus,sum(o.price)*(r.rolaty) as rolaty,now() as updatetime
+  select s.id,s.name,s.basesalary,(avg(e.attitude_valuation)+avg(e.quality_valuation))*(r.bonusrate)/2 as bonus,sum(o.price)*(r.rolaty) as rolaty,now() as updatetime
 from i_salary_rate r,i_order o,i_order_staff os,i_staff s,i_evaluate e
 where s.id=os.staff_id
 and os.order_id=e.order_id
@@ -256,9 +256,9 @@ GROUP BY s.name
   <insert id="insertSalaryMonth" parameterType="java.util.List">
     <foreach collection="list" item="bean" index="index" open="" close="" separator=";">
       insert into i_salary (bonus, royalty,
-       staff_id, updatetime
+       staff_id, updatetime, basesalary
       )
-      select #{bean.bonus},#{bean.rolaty},#{bean.id},#{bean.updatetime}
+      select #{bean.bonus},#{bean.rolaty},#{bean.id},#{bean.updatetime},#{bean.basesalary}
       where NOT EXISTS
       (select * from i_salary where year(updatetime)=year(#{bean.updatetime})
       and month(updatetime)=month(#{bean.updatetime})
@@ -281,7 +281,7 @@ GROUP BY s.name
 
   <update id="salarynow" parameterType="java.util.List">
     <foreach collection="list" item="bean" index="index" open="" close="" separator=";">
-      update i_salary set updatetime=#{bean.updatetime},ssum=i_salary.basesalary+#{bean.bonus}+#{bean.rolaty},bonus=#{bean.bonus},royalty=#{bean.rolaty}
+      update i_salary set updatetime=#{bean.updatetime},ssum=#{bean.basesalary}+#{bean.bonus}+#{bean.rolaty},bonus=#{bean.bonus},royalty=#{bean.rolaty},basesalary=#{bean.basesalary}
       where staff_id=#{bean.id}
       and year(updatetime)=year(#{bean.updatetime})
       and month(updatetime)=month(#{bean.updatetime})
@@ -294,7 +294,7 @@ GROUP BY s.name
   </resultMap>
 
   <select id="listall" resultMap="listsalary">
-      select * from i_salary sa,i_staff st where sa.staff_id=st.id
+      select sa.*,st.*,d.typename as typename from i_salary sa,i_staff st,i_detailtype d where sa.staff_id=st.id and st.detailtype_id=d.id
   </select>
 
 

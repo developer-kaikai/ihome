@@ -78,6 +78,7 @@ public class OrderServiceImpl implements OrderService {
         evaluate.setQualityValuation(quality_valuation);
         evaluate.setAttitudeValuation(attitude_valuation);
         evaluate.seteDescribe(describe);
+        evaluate.setFinallytime(new Date());
         evaluateMapper.insert(evaluate);
 
         return true;
