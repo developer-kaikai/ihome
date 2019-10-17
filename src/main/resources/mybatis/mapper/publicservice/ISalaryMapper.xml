@@ -8,6 +8,7 @@
     <result column="royalty" property="royalty" jdbcType="DOUBLE" />
     <result column="ssum" property="ssum" jdbcType="DOUBLE" />
     <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, basesalary, bonus, royalty, ssum, staff_id
+    id, basesalary, bonus, royalty, ssum, staff_id, updatetime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shixun.ihome.publicservice.pojo.ISalaryExample" >
     select
@@ -105,9 +106,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into i_salary (basesalary, bonus, royalty, 
-      ssum, staff_id)
+      ssum, staff_id, updatetime
+      )
     values (#{basesalary,jdbcType=DOUBLE}, #{bonus,jdbcType=DOUBLE}, #{royalty,jdbcType=DOUBLE}, 
-      #{ssum,jdbcType=DOUBLE}, #{staffId,jdbcType=INTEGER})
+      #{ssum,jdbcType=DOUBLE}, #{staffId,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.ISalary" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -130,6 +133,9 @@
       <if test="staffId != null" >
         staff_id,
       </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="basesalary != null" >
@@ -146,6 +152,9 @@
       </if>
       <if test="staffId != null" >
         #{staffId,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -176,6 +185,9 @@
       <if test="record.staffId != null" >
         staff_id = #{record.staffId,jdbcType=INTEGER},
       </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -188,7 +200,8 @@
       bonus = #{record.bonus,jdbcType=DOUBLE},
       royalty = #{record.royalty,jdbcType=DOUBLE},
       ssum = #{record.ssum,jdbcType=DOUBLE},
-      staff_id = #{record.staffId,jdbcType=INTEGER}
+      staff_id = #{record.staffId,jdbcType=INTEGER},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,6 +224,9 @@
       <if test="staffId != null" >
         staff_id = #{staffId,jdbcType=INTEGER},
       </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -220,14 +236,13 @@
       bonus = #{bonus,jdbcType=DOUBLE},
       royalty = #{royalty,jdbcType=DOUBLE},
       ssum = #{ssum,jdbcType=DOUBLE},
-      staff_id = #{staffId,jdbcType=INTEGER}
+      staff_id = #{staffId,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
-
   <select id="addsalary" resultType="map">
-  select s.id,s.name,(avg(e.attitude_valuation)+avg(e.quality_valuation))*(r.bonusrate)/2 as bonus,sum(o.price)*(r.rolaty) as rolaty
+  select s.id,s.name,(avg(e.attitude_valuation)+avg(e.quality_valuation))*(r.bonusrate)/2 as bonus,sum(o.price)*(r.rolaty) as rolaty,now() as updatetime
 from i_salary_rate r,i_order o,i_order_staff os,i_staff s,i_evaluate e
 where s.id=os.staff_id
 and os.order_id=e.order_id
@@ -236,17 +251,46 @@ and s.detailtype_id=r.detailtype_id
 GROUP BY s.name
   </select>
 
+
+
+  <insert id="insertSalaryMonth" parameterType="java.util.List">
+    <foreach collection="list" item="bean" index="index" open="" close="" separator=";">
+      insert into i_salary (bonus, royalty,
+       staff_id, updatetime
+      )
+      select #{bean.bonus},#{bean.rolaty},#{bean.id},#{bean.updatetime}
+      where NOT EXISTS
+      (select * from i_salary where year(updatetime)=year(#{bean.updatetime})
+      and month(updatetime)=month(#{bean.updatetime})
+      and staff_id=#{bean.id})
+
+    </foreach>
+  </insert>
+
+  <!--<insert id="addonesalary" parameterType="java.util.List">-->
+    <!--<foreach collection="list" item="bean" index="index" open="" close="" separator=";">-->
+      <!--insert into i_salary (bonus, royalty,-->
+      <!--staff_id, updatetime-->
+      <!--)-->
+      <!--values (#{bean.bonus,jdbcType=DOUBLE}, #{bean.rolaty,jdbcType=DOUBLE},-->
+      <!--#{bean.id,jdbcType=INTEGER}, #{bean.updatetime,jdbcType=TIMESTAMP}-->
+      <!--) where NOT EXISTS (select * from i_salary where year(updatetime)=year(#{bean.updatetime})-->
+      <!--and month(updatetime)=month(#{bean.updatetime}) and staff_id=#{bean.id})-->
+    <!--</foreach>-->
+  <!--</insert>-->
+
   <update id="salarynow" parameterType="java.util.List">
-<foreach collection="list" item="bean" index="index" open="" close="" separator=";">
- update i_salary set ssum=i_salary.basesalary+#{bean.bonus}+#{bean.rolaty},bonus=#{bean.bonus},royalty=#{bean.rolaty}
- where
- staff_id=#{bean.id}
-</foreach>
+    <foreach collection="list" item="bean" index="index" open="" close="" separator=";">
+      update i_salary set updatetime=#{bean.updatetime},ssum=i_salary.basesalary+#{bean.bonus}+#{bean.rolaty},bonus=#{bean.bonus},royalty=#{bean.rolaty}
+      where staff_id=#{bean.id}
+      and year(updatetime)=year(#{bean.updatetime})
+      and month(updatetime)=month(#{bean.updatetime})
+    </foreach>
   </update>
 
   <resultMap id="listsalary" type="com.shixun.ihome.publicservice.pojo.ISalary" extends="BaseResultMap">
     <association property="iStaff" javaType="com.shixun.ihome.publicservice.pojo.IStaff" resultMap="com.shixun.ihome.publicservice.mapper.IStaffMapper.BaseResultMap">
-  </association>
+    </association>
   </resultMap>
 
   <select id="listall" resultMap="listsalary">
@@ -254,4 +298,9 @@ GROUP BY s.name
   </select>
 
 
+  <select id="existMonth" resultMap="listsalary" parameterType="Date">
+      select * from i_salary sa,i_staff st where year(sa.updatetime)=year(#{date3})
+and month(sa.updatetime)=month(#{date3})
+and sa.staff_id=st.id
+  </select>
 </mapper>

@@ -273,14 +273,14 @@
   </update>
   <resultMap id="detailMap" type="com.shixun.ihome.publicservice.pojo.IDetailtype" extends="BaseResultMap">
     <id column="id" property="id"/>
-    <association property="iServiceItem" javaType="com.shixun.ihome.publicservice.pojo.IServiceItem">
+    <collection property="iServiceItemList" ofType="com.shixun.ihome.publicservice.pojo.IServiceItem">
       <id column="sid" property="id" jdbcType="INTEGER" />
       <result column="detailtype_id" property="detailtypeId" jdbcType="INTEGER" />
       <result column="content" property="content" jdbcType="VARCHAR" />
       <result column="standard" property="standard" jdbcType="VARCHAR" />
       <result column="scomm" property="comm" jdbcType="VARCHAR" />
 
-    </association>
+    </collection>
   </resultMap>
 
   <select id="selectByid" parameterType="int" resultMap="detailMap">
@@ -289,6 +289,10 @@
 
   <select id="selectByname" parameterType="String" resultMap="BaseResultMap">
       select * from i_detailtype where typename like "%"#{typename}"%"
+  </select>
+
+  <select id="selectByServicetypeid" parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.IDetailtype">
+   select * from i_detailtype where i_detailtype.servicetpye_id=#{serviceid}
   </select>
 
 </mapper>

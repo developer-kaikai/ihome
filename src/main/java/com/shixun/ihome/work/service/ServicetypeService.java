@@ -18,6 +18,8 @@ public interface ServicetypeService {
     /*按服务大类分类*/
     List<IDetailtype> selectByServicetypeid(int serviceid);
 
+    List<IDetailtype> selectAll();
+
 
 
 }

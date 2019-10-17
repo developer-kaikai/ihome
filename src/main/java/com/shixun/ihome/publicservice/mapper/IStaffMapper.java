@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-
 @Repository
 public interface IStaffMapper {
+
     //休闲的
     int FREE = 0;
     //假期中
@@ -18,8 +18,6 @@ public interface IStaffMapper {
     int WORKING = 2;
     //无效的
     int IVALID = 3;
-
-
     int countByExample(IStaffExample example);
 
     int deleteByExample(IStaffExample example);
@@ -41,7 +39,6 @@ public interface IStaffMapper {
     int updateByPrimaryKeySelective(IStaff record);
 
     int updateByPrimaryKey(IStaff record);
-
     /**
      * 根据服务类型搜索员工
      * @param servicetype_id 服务类型id

@@ -1,9 +1,6 @@
 package com.shixun.ihome.publicservice.pojo;
 
-import java.io.Serializable;
-
-public class IStaff implements Serializable {
-
+public class IStaff {
     private Integer id;
 
     private String name;
@@ -23,6 +20,8 @@ public class IStaff implements Serializable {
     private String idCard;
 
     private Integer status;
+
+    private Double basesalary;
 
     public Integer getId() {
         return id;
@@ -104,19 +103,11 @@ public class IStaff implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "IStaff{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", sex=" + sex +
-                ", phone='" + phone + '\'' +
-                ", detailtypeId=" + detailtypeId +
-                ", wechatId=" + wechatId +
-                ", qualification='" + qualification + '\'' +
-                ", health='" + health + '\'' +
-                ", idCard='" + idCard + '\'' +
-                ", status=" + status +
-                '}';
+    public Double getBasesalary() {
+        return basesalary;
+    }
+
+    public void setBasesalary(Double basesalary) {
+        this.basesalary = basesalary;
     }
 }

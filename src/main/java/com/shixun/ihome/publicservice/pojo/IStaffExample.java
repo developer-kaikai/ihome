@@ -753,6 +753,66 @@ public class IStaffExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andBasesalaryIsNull() {
+            addCriterion("basesalary is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryIsNotNull() {
+            addCriterion("basesalary is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryEqualTo(Double value) {
+            addCriterion("basesalary =", value, "basesalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryNotEqualTo(Double value) {
+            addCriterion("basesalary <>", value, "basesalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryGreaterThan(Double value) {
+            addCriterion("basesalary >", value, "basesalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryGreaterThanOrEqualTo(Double value) {
+            addCriterion("basesalary >=", value, "basesalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryLessThan(Double value) {
+            addCriterion("basesalary <", value, "basesalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryLessThanOrEqualTo(Double value) {
+            addCriterion("basesalary <=", value, "basesalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryIn(List<Double> values) {
+            addCriterion("basesalary in", values, "basesalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryNotIn(List<Double> values) {
+            addCriterion("basesalary not in", values, "basesalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryBetween(Double value1, Double value2) {
+            addCriterion("basesalary between", value1, value2, "basesalary");
+            return (Criteria) this;
+        }
+
+        public Criteria andBasesalaryNotBetween(Double value1, Double value2) {
+            addCriterion("basesalary not between", value1, value2, "basesalary");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

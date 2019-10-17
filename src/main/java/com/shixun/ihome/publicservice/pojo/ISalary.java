@@ -1,5 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import java.util.Date;
+
 public class ISalary {
     private Integer id;
 
@@ -13,6 +15,7 @@ public class ISalary {
 
     private Integer staffId;
 
+    private Date updatetime;
     private IStaff iStaff;
 
     public IStaff getiStaff() {
@@ -22,6 +25,7 @@ public class ISalary {
     public void setiStaff(IStaff iStaff) {
         this.iStaff = iStaff;
     }
+
 
     public Integer getId() {
         return id;
@@ -69,5 +73,13 @@ public class ISalary {
 
     public void setStaffId(Integer staffId) {
         this.staffId = staffId;
+    }
+
+    public Date getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 }

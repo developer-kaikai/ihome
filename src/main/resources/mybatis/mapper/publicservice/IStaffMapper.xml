@@ -12,6 +12,7 @@
     <result column="health" property="health" jdbcType="VARCHAR" />
     <result column="id_card" property="idCard" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="basesalary" property="basesalary" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,10 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, sex, phone, detailtype_id, wechat_id, qualification, health, id_card, status
-  </sql>
-  <sql id="Alias_Column_List">
-     s.id, s.name, s.sex, s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
+    id, name, sex, phone, detailtype_id, wechat_id, qualification, health, id_card, status, 
+    basesalary
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shixun.ihome.publicservice.pojo.IStaffExample" >
     select
@@ -113,12 +112,12 @@
     </selectKey>
     insert into i_staff (name, sex, phone, 
       detailtype_id, wechat_id, qualification, 
-      health, id_card, status
-      )
+      health, id_card, status, 
+      basesalary)
     values (#{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
       #{detailtypeId,jdbcType=INTEGER}, #{wechatId,jdbcType=INTEGER}, #{qualification,jdbcType=VARCHAR}, 
-      #{health,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
-      )
+      #{health,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{basesalary,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.IStaff" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -153,6 +152,9 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="basesalary != null" >
+        basesalary,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="name != null" >
@@ -181,6 +183,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="basesalary != null" >
+        #{basesalary,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -223,6 +228,9 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=INTEGER},
       </if>
+      <if test="record.basesalary != null" >
+        basesalary = #{record.basesalary,jdbcType=DOUBLE},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -239,7 +247,8 @@
       qualification = #{record.qualification,jdbcType=VARCHAR},
       health = #{record.health,jdbcType=VARCHAR},
       id_card = #{record.idCard,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=INTEGER}
+      status = #{record.status,jdbcType=INTEGER},
+      basesalary = #{record.basesalary,jdbcType=DOUBLE}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -274,6 +283,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="basesalary != null" >
+        basesalary = #{basesalary,jdbcType=DOUBLE},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -287,11 +299,10 @@
       qualification = #{qualification,jdbcType=VARCHAR},
       health = #{health,jdbcType=VARCHAR},
       id_card = #{idCard,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      basesalary = #{basesalary,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
   <select id="selectStaffByServicetypeId" parameterType="java.lang.Integer" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
     select
     <include refid="Alias_Column_List"></include>
@@ -307,7 +318,7 @@
     from i_staff s
     <where>
       <if test="_parameter.containsKey('id')">
-          and s.id = #{id}
+        and s.id = #{id}
       </if>
       <if test="_parameter.containsKey('name')">
         and s.name= #{name}
@@ -371,5 +382,4 @@ where st.id = #{type} and status = #{status}
 
     </where>
   </select>
-
 </mapper>
