@@ -12,5 +12,5 @@ public interface RedisTimerService {
     //为某天设置时间表
     void setTime(int index, int timer);
     //动态生成前端需要的时间表
-    List<RedisTimerInfo> getMessage(int hours);
+    List<RedisTimerInfo> getMessage(int hours, int type);
 }

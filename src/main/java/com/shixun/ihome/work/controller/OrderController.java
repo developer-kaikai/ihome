@@ -18,9 +18,12 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -48,8 +51,77 @@ public class OrderController {
     }
 
     @ApiOperation(value = "添加订单")
-    public ResultBase addOrder(@RequestBody JSONObject params){
-        return null;
+    @PostMapping("addOrder")
+    @Transactional
+    public ResultBase addOrder(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "detailTypeId", example = "1", description = "详细服务类型id"),
+            @ApiJsonProperty(key = "userAddressId", example = "1", description = "用户地址id"),
+            @ApiJsonProperty(key = "price", example = "0.0", description = "价格"),
+            @ApiJsonProperty(key = "comm", example = "注释", description = "注释"),
+            @ApiJsonProperty(key = "date", example = "2019年10月12日 8:00|2019年10月12日 10:00")
+    })@RequestBody JSONObject params,@ApiIgnore HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null){
+            return ResultBase.fail("在添加订单前请登录");
+        }
+        Integer detailTypeId = params.getInteger("detailTypeId");
+        if (detailTypeId == null){
+            return ResultBase.fail("订单缺少详细服务类型");
+        }
+        //获取其用户地址id
+        Integer addressId = params.getInteger("userAddressId");
+        if (addressId == null){
+            return ResultBase.fail("订单缺少用户地址");
+        }
+        //获取订单价格
+        Double price = params.getDouble("price");
+        if (price == null){
+            return ResultBase.fail("订单缺少价格");
+        }
+        //获取订单的注释
+        String comm = params.getString("comm");
+        if (comm == null){
+            return ResultBase.fail("订单缺少注释");
+        }
+        //获取开始和结束时间
+        String date = params.getString("date");
+        if (date == null){
+            return ResultBase.fail("订单缺少日期");
+        }
+        IOrder order = new IOrder();
+        order.setState(0);
+        order.setUserId(userId);
+        order.setUseraddressId(detailTypeId);
+        order.setUseraddressId(addressId);
+        order.setPrice(price);
+        order.setComm(comm);
+        //处理订单的日期和时间 开始时间|结束时间
+        String [] s = date.split("|");
+        if (s.length >= 2){
+            return ResultBase.fail("请检测时间的格式是否正确");
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 hh:mm");
+        try {
+            Date startTimer = sdf.parse(s[0]);
+            order.setStartTime(startTimer);
+            if (s[1] != null){
+                Date endTimer = sdf.parse(s[1]);
+                order.setFinalyTime(endTimer);
+            }
+        }catch (Exception e){
+            return ResultBase.fail("日期格式存在问题");
+        }
+        order.setOrderTime(new Date());
+
+        //获取工号
+
+        //
+        //
+        //
+        if (orderService.addOrderRecord(order, "乔哥")){
+            return ResultBase.success();
+        }
+        return ResultBase.fail("添加订单失败");
     }
 
 

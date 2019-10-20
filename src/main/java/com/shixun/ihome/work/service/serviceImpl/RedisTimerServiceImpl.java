@@ -43,7 +43,7 @@ public class RedisTimerServiceImpl implements RedisTimerService {
     }
 
     @Override
-    public List<RedisTimerInfo> getMessage(int hours) {
+    public List<RedisTimerInfo> getMessage(int hours, int type) {
         //获取时间表
         RedisTimer redisTimer = getTimer();
         List<Integer> timers = redisTimer.getTimers();
@@ -61,13 +61,50 @@ public class RedisTimerServiceImpl implements RedisTimerService {
                 String value = weekDay.substring(0, pos);
                 redisTimerInfo.setDate(weekDay);
                 redisTimerInfo.setValue(value);
-                List<LabelValue> time = toTimers(t, hours, value);
+                List<LabelValue> time = null;
+                if (type == 0){
+                    time = toTimers(t, hours, value);
+                }else {
+                    time = toTimers2(t, hours, value);
+                }
                 redisTimerInfo.setTimer(time);
                 timerInfos.add(redisTimerInfo);
             }
             calendar.add(Calendar.DAY_OF_MONTH  ,1);
         }
         return timerInfos;
+    }
+
+    private List<LabelValue> toTimers2(int timer, int hours, String date){
+        List<LabelValue> timers = new ArrayList<>();
+        int hour = 8;
+        int maxhour = 20;
+        for (int i = 0; i < 5; i++){
+            int t = (timer >> i) & 1;
+            if (hour + hours >= maxhour){
+                String s = String.format("%d:00", hour);
+                LabelValue labelValue = new LabelValue( s, String.format("%s %d:00",date, hour));
+                timers.add(labelValue);
+                break;
+            }
+            if (t == 0){
+                for(int j = 0; j < 2; j++){
+                    String s = String.format("%d:00", hour);
+                    LabelValue labelValue1 = new LabelValue(s, String.format("%s %d:00",date, hour));
+                    timers.add(labelValue1);
+                    if(hour + hours == maxhour){
+                        break;
+                    }
+                    String s1 = String.format("%d:30", hour );
+                    LabelValue labelValue2 = new LabelValue( s1,String.format("%s %d:30:00",date, hour));
+                    timers.add(labelValue2);
+                    hour += 1;
+                }
+            }else {
+                hours += 2;
+            }
+        }
+        return timers;
     }
 
 
@@ -80,7 +117,7 @@ public class RedisTimerServiceImpl implements RedisTimerService {
             //根据0或1生成时间表
             if (hour + hours >= maxhour){
                 String s = String.format("%d:00 - %d:00", hour, hour + hours);
-                LabelValue labelValue = new LabelValue( s, String.format("%s %d:00:00",date, hour)+ "|" + String.format("%s %d:00:00",date, hour + hours));
+                LabelValue labelValue = new LabelValue( s, String.format("%s %d:00",date, hour)+ "|" + String.format("%s %d:00",date, hour + hours));
                 timers.add(labelValue);
                 break;
             }
@@ -88,7 +125,7 @@ public class RedisTimerServiceImpl implements RedisTimerService {
                 //代表是这个时间端还可以被选择
                 for (int j = 0; j < 2; j++){
                     String s = String.format("%d:00 - %d:00", hour , hour + hours );
-                    LabelValue labelValue1 = new LabelValue( s, String.format("%s %d:00:00",date, hour) + "|" + String.format("%s %d:00:00",date, hour + hours));
+                    LabelValue labelValue1 = new LabelValue( s, String.format("%s %d:00",date, hour) + "|" + String.format("%s %d:00",date, hour + hours));
                     timers.add(labelValue1);
                     if(hour + hours == maxhour){
                         break;

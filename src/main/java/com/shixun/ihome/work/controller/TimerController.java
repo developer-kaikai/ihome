@@ -66,13 +66,16 @@ public class TimerController {
     @ApiOperation(value="动态生成可选日期和时间")
     @PostMapping("/getMessage")
     public ResultBase getMessage(@ApiJsonObject ( name = "name",value = {
-            @ApiJsonProperty(key="hours", example = "2", description = "时间")
+            @ApiJsonProperty(key="hours", example = "2", description = "时间"),
+            @ApiJsonProperty(key = "type", example = "0", description = "默认未0如果未1就返回只有上面时间")
     })@RequestBody JSONObject name){
         int hours=name.getInteger("hours");
         if (hours > 8 || hours <= 0){
             return ResultBase.fail("时间超出可以选择的范围");
         }
-        List<RedisTimerInfo> timerInfo = redisTimerService.getMessage(hours);
+        //获取类型
+        Integer type = name.getInteger("type");
+        List<RedisTimerInfo> timerInfo = redisTimerService.getMessage(hours,type);
         return ResultBase.success(timerInfo);
     }
 
