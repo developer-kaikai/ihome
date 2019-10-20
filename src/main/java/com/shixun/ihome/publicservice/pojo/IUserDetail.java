@@ -1,11 +1,11 @@
 package com.shixun.ihome.publicservice.pojo;
-
 import java.io.Serializable;
-
-public class IUserDetail implements Serializable {
+public class IUserDetail implements Serializable{
     private Integer id;
 
     private Integer userId;
+
+    private String username;
 
     private String province;
 
@@ -31,6 +31,14 @@ public class IUserDetail implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
     }
 
     public String getProvince() {

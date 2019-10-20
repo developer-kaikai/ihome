@@ -1,8 +1,6 @@
 package com.shixun.ihome.publicservice.pojo;
-
 import java.io.Serializable;
 import java.util.List;
-
 public class IDetailtype implements Serializable {
     private Integer id;
 
@@ -21,6 +19,10 @@ public class IDetailtype implements Serializable {
     private String picturepath1;
 
     private String picturepath2;
+
+    private Double price;
+
+    private Integer typeId;
 
     private List<IServiceItem> iServiceItemList;
 
@@ -102,5 +104,21 @@ public class IDetailtype implements Serializable {
 
     public void setPicturepath2(String picturepath2) {
         this.picturepath2 = picturepath2 == null ? null : picturepath2.trim();
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 }
