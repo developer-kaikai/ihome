@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.shixun.ihome.publicservice.pojo.IUserDetail" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="detail" property="detail" jdbcType="VARCHAR" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, province, city, detail, phone, status
+    id, user_id, username, province, city, detail, phone, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shixun.ihome.publicservice.pojo.IUserDetailExample" >
     select
@@ -105,12 +106,12 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into i_user_detail (user_id, province, city, 
-      detail, phone, status
-      )
-    values (#{userId,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{detail,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
-      )
+    insert into i_user_detail (user_id, username, province, 
+      city, detail, phone, 
+      status)
+    values (#{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.IUserDetail" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -120,6 +121,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="username != null" >
+        username,
       </if>
       <if test="province != null" >
         province,
@@ -140,6 +144,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="province != null" >
         #{province,jdbcType=VARCHAR},
@@ -173,6 +180,9 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
       <if test="record.province != null" >
         province = #{record.province,jdbcType=VARCHAR},
       </if>
@@ -197,6 +207,7 @@
     update i_user_detail
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
       province = #{record.province,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
       detail = #{record.detail,jdbcType=VARCHAR},
@@ -211,6 +222,9 @@
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
       </if>
       <if test="province != null" >
         province = #{province,jdbcType=VARCHAR},
@@ -233,6 +247,7 @@
   <update id="updateByPrimaryKey" parameterType="com.shixun.ihome.publicservice.pojo.IUserDetail" >
     update i_user_detail
     set user_id = #{userId,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=VARCHAR},
