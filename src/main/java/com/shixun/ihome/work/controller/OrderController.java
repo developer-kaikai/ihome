@@ -7,6 +7,7 @@ import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
+import com.shixun.ihome.publicservice.pojo.IUserDetail;
 import com.shixun.ihome.work.service.OrderService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.work.service.StaffService;
@@ -31,6 +32,19 @@ public class OrderController {
     private TimeService timeService;
     @Autowired
     private StaffService staffService;
+
+    @ApiOperation(value="新增地址")
+    @ResponseBody
+    @RequestMapping(value = "/adduserAddress",method = RequestMethod.POST)
+    public void selectTypename(@RequestBody JSONObject name, HttpServletResponse response)throws IOException{
+        String a=JSON.toJSONString("name");
+        IUserDetail iUserDetail=JSON.parseObject("name",IUserDetail.class);
+//        response.setContentType("application/json;charset=utf-8");
+//        String json ;
+//        json = Result.build(ResultType.Success).appendData("listd", listd).convertIntoJSON();
+//        response.getWriter().write(json);
+//        System.out.println(json);
+    }
 
 
     @ApiOperation(value = "增加维修订单")

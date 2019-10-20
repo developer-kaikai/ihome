@@ -31,5 +31,5 @@ public interface IWeixinMapper {
 
     int updateByPrimaryKey(IWeixin record);
 
-    IWeixin selectByopenid(String openid);
+    List<IWeixin> selectByopenid(String openid);
 }

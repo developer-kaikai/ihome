@@ -240,4 +240,10 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectUserAddress" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from i_user_detail
+    where user_id = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

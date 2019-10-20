@@ -30,4 +30,6 @@ public interface IUserDetailMapper {
     int updateByPrimaryKeySelective(IUserDetail record);
 
     int updateByPrimaryKey(IUserDetail record);
+
+    List<IUserDetail> selectUserAddress(Integer id);
 }

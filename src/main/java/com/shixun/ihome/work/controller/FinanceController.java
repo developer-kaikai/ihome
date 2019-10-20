@@ -70,7 +70,7 @@ public class FinanceController {
     @ResponseBody
     @RequestMapping(value = "/salarylistBymonth",method = RequestMethod.POST)
     public void mouth(@RequestBody JSONObject name,HttpServletResponse response)throws IOException {
-        Date date=name.getDate("date");
+        Date date=name.getDate("date1");
         System.out.println(date);
         List<Map<String,Object>> map1=financeService.addsalary();
         List<ISalary> list=financeService.selectSalaryBymonth(date,map1);

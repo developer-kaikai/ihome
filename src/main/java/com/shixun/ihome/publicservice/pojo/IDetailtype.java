@@ -21,7 +21,17 @@ public class IDetailtype {
 
     private String picturepath2;
 
+    private Double price;
+
     private List<IServiceItem> iServiceItemList;
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
     public List<IServiceItem> getiServiceItemList() {
         return iServiceItemList;

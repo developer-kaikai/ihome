@@ -1,6 +1,7 @@
 package com.shixun.ihome.test.controller;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
@@ -10,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.shixun.ihome.json.Result;
+import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.test.service.WechatService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,15 +27,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
-@Controller
+import javax.servlet.http.HttpServletResponse;
 
+@Controller
+@RequestMapping("json")
 public class WechatController {
     @Autowired
     private WechatService wechatService;
 
     @ResponseBody
     @RequestMapping("getCode")
-    public int getOpenid(@RequestBody JSONObject getcode) {
+    public void getOpenid(@RequestBody JSONObject getcode, HttpServletResponse response)throws IOException {
 
         String code=getcode.getString("getcode");
         JSONObject userInfo=getcode.getJSONObject("userInfo");
@@ -65,10 +70,14 @@ public class WechatController {
         String sessionkey=(String) convertvalue.get("session_key");
 
         int existence=wechatService.wechatlogin(openid);
+        int userid=wechatService.userid(openid);
+        Map map=new HashMap();
+        map.put("userid",userid);
+        map.put("existence",existence);
 
-        return existence;
-
-
+        String json ;
+        json = Result.build(ResultType.Success).appendData("map", map).convertIntoJSON();
+        response.getWriter().write(json);
 
     }
 
