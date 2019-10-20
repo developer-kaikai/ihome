@@ -36,7 +36,7 @@ public class OrderController {
     private StaffService staffService;
 
 
-    @ApiOperation(value = "增加维修订单")
+    @ApiOperation(value = "增加订单")
     @Transactional
     @ApiImplicitParam(name = "order", value = "订单实体类", required = true, dataType = "IOrder")
     @PostMapping("addIOrder")
@@ -45,6 +45,11 @@ public class OrderController {
             return ResultBase.success();
         }
         return ResultBase.fail("添加订单失败");
+    }
+
+    @ApiOperation(value = "添加订单")
+    public ResultBase addOrder(@RequestBody JSONObject params){
+        return null;
     }
 
 
@@ -176,13 +181,11 @@ public class OrderController {
     public ResultBase plantOtherStaffs(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key = "orderId", example = "1", description = "订单"),
             @ApiJsonProperty(key = "staffIds", example = "[1,2,3,4,5]", description = "员工Id"),
-            @ApiJsonProperty(key = "timer", example = "48个01", description = "时间表你懂的")
     })@RequestBody JSONObject params ) {
 //        Integer orderId, @RequestParam(name = "staffIds") List<Integer> staffIds, Integer timer
         //为订单分配员工
         //获取订单
         Integer orderId = params.getInteger("orderId");
-        Integer timer = params.getInteger("timer");
         JSONArray jsonArray = params.getJSONArray("staffIds");
         IOrder order = orderService.getOrder(orderId);
         //循环员工id

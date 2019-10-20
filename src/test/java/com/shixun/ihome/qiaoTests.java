@@ -17,9 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -67,11 +65,12 @@ public class qiaoTests {
 
     @Test
     public void test5(){
-        int timer = 51;
-        for (int i =0; i <= 5;i++){
-            int t = (timer >> i )& 1;
-            System.out.println(t);
-        }
+        Map<String, Object> map = new  HashMap();
+        map.put("pageSize", 10);
+        map.put("pageNum", 1);
+        map.put("index", 1);
+        map.put("detailType", 2);
+        timeService.selectStaffByFree(map);
     }
 
     @Test

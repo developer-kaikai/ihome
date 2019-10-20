@@ -58,8 +58,8 @@ public class TimeServiceImpl implements TimeService {
 
     @Override
     public PageInfo selectStaffByFree(Map<String, Object> map) {
-        Integer pageNum = Integer.parseInt((String) map.get("pageNum"));
-        Integer pageSize = Integer.parseInt((String) map.get("pageSize"));
+        Integer pageNum = (Integer) map.get("pageNum");
+        Integer pageSize = (Integer) map.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
         PageInfo pageInfo = new PageInfo(iTimerMapper.selectStaffByFree(map));
         return pageInfo;

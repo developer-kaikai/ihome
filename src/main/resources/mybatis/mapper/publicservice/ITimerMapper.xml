@@ -219,9 +219,17 @@
   </update>
 
   <select id="selectStaffByFree" parameterType="map" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
-select s.*, (6 - length(replace((t.timer >> (datediff(now(), t.update_time)*6) >> {index} * 6)&amp; 63,'0',''))) as timer
+select s.*, (6 - length(replace((t.timer &gt;&gt; (datediff(now(), t.update_time)*6) &gt;&gt; #{index} * 6)&amp; 63,'0',''))) as timer
 from i_staff s left join i_timer t on t.staff_id = s.id
-where s.detailtype_id = {detailType} and s.status = {status}
+  <where>
+    <if test="_parameter.containsKey('detailType')">
+      s.detailtype_id = #{detailType}
+    </if>
+    <if test="_parameter.containsKey('status')">
+      and s.status = #{status}
+    </if>
+  </where>
+
 order by timer desc, s.id asc
   </select>
 

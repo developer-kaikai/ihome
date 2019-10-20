@@ -80,8 +80,8 @@ public class TimerController {
     @PostMapping("/getFreeStaffs")
     public ResultBase getFreeStaffs(@ApiJsonObject(name = "map", value = {
             @ApiJsonProperty(key = "index", example = "0-7"),
-            @ApiJsonProperty(key = "detailType", example = "详细服务类型id"),
-            @ApiJsonProperty(key = "status", example = "员工状态"),
+            @ApiJsonProperty(key = "detailType", example = "详细服务类型id(可有可无)"),
+            @ApiJsonProperty(key = "status", example = "员工状态(可有可无）"),
             @ApiJsonProperty(key = "pageSize", example = "10"),
             @ApiJsonProperty(key = "pageNum", example = "1")
     })@RequestBody Map<String, Object> map){
