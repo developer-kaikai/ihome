@@ -1,5 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class ITrain {
@@ -7,6 +9,7 @@ public class ITrain {
 
     private Integer staffId;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date startTime;
 
     private Integer duration;

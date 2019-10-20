@@ -133,49 +133,8 @@ public class OrderController {
 
     }
 
-    @ApiOperation(value = "安排钟点工")
-    @Transactional
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
-    })
-    @PostMapping(value = "plantHourworkStaff")
-    public ResultBase plantHourworkStaff(@RequestParam(name = "staffIds[]") List<Integer> staffIds, Integer orderId) {
-        //为订单分配员工
-        //获取订单
-        IOrder order = orderService.getOrder(orderId);
-        //循环员工id
-        if (!staffIds.isEmpty()){
-            for(Integer id: staffIds){
-                //插入到订单员工表之中
-                orderService.addStaffForOrder(orderId, id);
-                //更新员工的时间表
-                timeService.updateTimerByOrder(id, order);
-            }
 
-            return new ResultBase(200, "员工安排成功");
-        }else{
-            return new ResultBase(400, "员工id序列不能为空");
-        }
-    }
-
-    @ApiOperation(value = "移除订单中的某个员工（钟点工）")
-    @Transactional
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "int", paramType = "query"),
-    })
-    @PostMapping("removeHourwordStaff")
-    public ResultBase removeHourwordStaff(Integer orderId, Integer staffId) {
-        IOrder order = orderService.getOrder(orderId);
-        if (orderService.removeStaffForOrder(orderId, staffId)) {
-            timeService.removeTimerByOrder(staffId, order);
-            return new ResultBase(200, "员工移除成功");
-        }
-
-        return new ResultBase(400, "员工移除失败");
-    }
-
-    @ApiOperation(value = "移除订单中的某个员工（其他服务）")
+    @ApiOperation(value = "移除订单中的某个员工")
     @Transactional
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
@@ -211,12 +170,8 @@ public class OrderController {
     }
 
 
-    @ApiOperation(value = "其他服务的员工安排")
+    @ApiOperation(value = "员工安排")
     @Transactional
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "timer", value = "时间表属性（别管，传回来就好)", required = true, dataType = "int", paramType = "query")
-    })
     @PostMapping(value = "/plantOtherStaffs")
     public ResultBase plantOtherStaffs(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key = "orderId", example = "1", description = "订单"),
@@ -283,36 +238,4 @@ public class OrderController {
         }
         return ResultBase.fail("出现未知问题");
     }
-    @ApiOperation("分配长期工")
-    @ResponseBody
-    @PostMapping("/longTermStaffs")
-    public ResultBase longTermStaffs(@ApiJsonObject(name = "order", value = {
-            @ApiJsonProperty(key = "orderId", example = "1", description = "订单id"),
-            @ApiJsonProperty(key = "staffIds", example = "[1,2,3,4,5]", description = "员工id序列")
-    })@RequestBody JSONObject order) {
-        //为订单分配员工,从前端获取一个json对象
-        /*
-        * 参考参数
-        * {"orderId":1,"staffIds":[]}
-        * */
-        //循环员工id
-        int orderId=order.getInteger("orderId");
-        JSONArray staffIds=order.getJSONArray("staffIds");
-        List<Integer> listStaffIds=(List)staffIds;
-
-        if (!staffIds.isEmpty()){
-            for(Integer id: listStaffIds){
-                //插入到订单员工表之中
-                orderService.addStaffForOrder(orderId, id);
-
-                //更新员工的状态(为服务中2)
-                staffService.updateStaffStatus(id, 2);
-            }
-
-            return ResultBase.success();
-        }else{
-            return ResultBase.fail("员工序列不能为空");
-        }
-    }
-
 }

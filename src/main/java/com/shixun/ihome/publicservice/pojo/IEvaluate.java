@@ -1,5 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class IEvaluate {
@@ -13,6 +15,7 @@ public class IEvaluate {
 
     private String eDescribe;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date finallytime;
 
     public Integer getId() {

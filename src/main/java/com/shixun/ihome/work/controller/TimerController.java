@@ -1,17 +1,22 @@
 package com.shixun.ihome.work.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.config.ApiJsonObject;
 import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.ResultBase;
+import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.RedisTimer;
 import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
 import com.shixun.ihome.work.service.RedisTimerService;
+import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Api(value = "时间表模块",description = "时间表相关")
@@ -19,6 +24,8 @@ import java.util.List;
 public class TimerController {
     @Autowired
     private RedisTimerService redisTimerService;
+    @Autowired
+    private TimeService timeService;
 
     @ApiOperation(value="获取8天的时间表")
     @GetMapping("getTimers")
@@ -39,6 +46,22 @@ public class TimerController {
         return ResultBase.success();
     }
 
+    @ApiOperation(value = "设置所有时间表")
+    @PostMapping("setTimerAll")
+    public ResultBase setTimerAll(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "timers", example = "[0,0,0,0,0,0,0,0]", description = "8个int")
+    }) @RequestBody JSONObject params){
+        List<Integer> list = params.getJSONArray("timers").toJavaList(Integer.class);
+        if (list.size() != 8){
+            return ResultBase.fail("请检测数据是否正确");
+        }
+        for (int i = 0; i < 8; i++) {
+            int timer = list.get(i);
+            redisTimerService.setTime(i,timer );
+        }
+        return ResultBase.success();
+    }
+
 
     @ApiOperation(value="动态生成可选日期和时间")
     @PostMapping("/getMessage")
@@ -51,6 +74,24 @@ public class TimerController {
         }
         List<RedisTimerInfo> timerInfo = redisTimerService.getMessage(hours);
         return ResultBase.success(timerInfo);
+    }
+
+    @ApiOperation(value = "获取空闲员工")
+    @PostMapping("/getFreeStaffs")
+    public ResultBase getFreeStaffs(@ApiJsonObject(name = "map", value = {
+            @ApiJsonProperty(key = "index", example = "0-7"),
+            @ApiJsonProperty(key = "detailType", example = "详细服务类型id"),
+            @ApiJsonProperty(key = "status", example = "员工状态"),
+            @ApiJsonProperty(key = "pageSize", example = "10"),
+            @ApiJsonProperty(key = "pageNum", example = "1")
+    })@RequestBody Map<String, Object> map){
+        PageInfo <IStaff> pageInfo = timeService.selectStaffByFree(map);
+        Map<String, Object> data = new HashMap<>();
+        data.put("data", pageInfo.getList());
+        data.put("pageNum", pageInfo.getPageNum());
+        data.put("pageSize", pageInfo.getPageSize());
+
+        return ResultBase.success(data);
     }
 
 

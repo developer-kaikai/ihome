@@ -1,5 +1,6 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 
@@ -21,12 +22,15 @@ public class IOrder implements Serializable {
     private List<IStaff> staffs;
 
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date startTime;
 
     private Double price;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date orderTime;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date finalyTime;
 
     private Integer state;

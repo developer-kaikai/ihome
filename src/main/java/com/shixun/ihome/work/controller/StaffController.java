@@ -76,15 +76,17 @@ public class StaffController {
     }
 
 
-    @ApiOperation(value="获取空闲长期工")
-    @PostMapping("getFreeLongStaffs")
-    public ResultBase getFreeLongStaffs(@ApiJsonObject(name = "params", value = {
+    @ApiOperation(value="获取空闲员工除了钟点工")
+    @PostMapping("getFreeStaffs")
+    public ResultBase getFreeStaffs(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key = "pageSize", example= "页"),
-            @ApiJsonProperty(key = "pageNum", example= "页数")
+            @ApiJsonProperty(key = "pageNum", example= "页数"),
+            @ApiJsonProperty(key = "type", example = "1")
     })@RequestBody JSONObject params){
         Integer pageNum = params.getInteger("pageNum");
         Integer pageSize = params.getInteger("pageSize");
-        PageInfo<IStaff> pageInfo = staffService.selectStaffByServiceTypeAndStatus(4, 0, pageNum, pageSize);
+        Integer type = params.getInteger("type");
+        PageInfo<IStaff> pageInfo = staffService.selectStaffByServiceTypeAndStatus(type, 0, pageNum, pageSize);
         if (pageInfo.getSize()!= 0) {
             return ResultBase.fail("获取长期工数据失败");
         }

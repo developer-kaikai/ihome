@@ -1,5 +1,6 @@
 package com.shixun.ihome.publicservice.mapper;
 
+import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.ITimer;
 import com.shixun.ihome.publicservice.pojo.ITimerExample;
 import org.apache.ibatis.annotations.Param;
@@ -53,5 +54,11 @@ public interface ITimerMapper {
      */
     int updateStaffTime(Map<String, Object> params);
 
+    /**
+     * 搜索空闲员工
+     * @param map
+     * @return
+     */
+    List<IStaff > selectStaffByFree(Map<String, Object> map);
 
 }

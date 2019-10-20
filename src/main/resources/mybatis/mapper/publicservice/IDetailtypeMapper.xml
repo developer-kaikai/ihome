@@ -295,4 +295,5 @@
    select * from i_detailtype where i_detailtype.servicetpye_id=#{serviceid}
   </select>
 
+
 </mapper>
