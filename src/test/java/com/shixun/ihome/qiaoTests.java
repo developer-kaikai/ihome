@@ -75,15 +75,7 @@ public class qiaoTests {
 
     @Test
     public void test6(){
-        System.out.println(redisTimerService.getTimer());
 
-        redisTimerService.setTime(3, Integer.parseUnsignedInt("000110", 2));
-        System.out.println(redisTimerService.getTimer());
-            List<RedisTimerInfo> list = redisTimerService.getMessage(1);
-            for (RedisTimerInfo timerInfo :
-                    list) {
-                System.out.println(timerInfo);
-            }
     }
 
 
