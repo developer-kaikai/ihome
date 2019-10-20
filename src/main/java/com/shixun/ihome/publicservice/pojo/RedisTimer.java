@@ -1,6 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shixun.ihome.publicservice.util.Qutil;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public class RedisTimer implements Serializable {
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     Date lastUpdateDate;
     List<Integer> timers;
 

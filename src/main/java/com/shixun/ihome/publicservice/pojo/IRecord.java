@@ -1,5 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class IRecord {
@@ -7,6 +9,7 @@ public class IRecord {
 
     private String bywho;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date bytime;
 
     private String tableName;

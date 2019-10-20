@@ -22,11 +22,11 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public PageInfo<IStaff> selectStaffByServiceTypeAndStatus(int type, int status, int pageNum, int pageSize) {
-        Map<String, Object> map  = new HashMap<String, Object>();
+        Map<String, Object> map  = new HashMap<>();
         map.put("type", type);
         map.put("status", status);
         PageHelper.startPage(pageNum, pageSize);
-        PageInfo<IStaff> staffs = new PageInfo<IStaff>(staffMapper.selectStaffByServiceTypeAndStatus(map));
+        PageInfo<IStaff> staffs = new PageInfo<>(staffMapper.selectStaffByServiceTypeAndStatus(map));
         return staffs;
     }
 
@@ -100,5 +100,14 @@ public class StaffServiceImpl implements StaffService {
         }
 
         return true;
+    }
+
+
+
+
+
+    @Override
+    public List<IStaff> selectStaffForOrder(Integer orderId) {
+        return staffMapper.selectStaffForOrder(orderId);
     }
 }

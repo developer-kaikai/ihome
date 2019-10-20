@@ -10,7 +10,6 @@ public class IStaff {
     private String phone;
 
     private Integer detailtypeId;
-    private String typename;
 
     private Integer wechatId;
 
@@ -24,12 +23,16 @@ public class IStaff {
 
     private Double basesalary;
 
-    public String getTypename() {
-        return typename;
+    //特性字段用于判断空闲状态
+    private Integer timer;
+
+
+    public Integer getTimer() {
+        return timer;
     }
 
-    public void setTypename(String typename) {
-        this.typename = typename;
+    public void setTimer(Integer timer) {
+        this.timer = timer;
     }
 
     public Integer getId() {

@@ -34,7 +34,7 @@ public class MapApiReader implements ParameterBuilderPlugin {
         if (methodParameter.getParameterType().canCreateSubtype(JSONObject.class) ||methodParameter.getParameterType().canCreateSubtype(Map.class)|| methodParameter.getParameterType().canCreateSubtype(String.class)) {
             Optional<ApiJsonObject> optional = methodParameter.findAnnotation(ApiJsonObject.class);
             if (optional.isPresent()) {
-                String name = optional.get().name();
+                String name = optional.get().name() +"$"+RandomStringUtils.random(10, true, false);
                 ApiJsonProperty[] properties = optional.get().value();
 
                 parameterContext.getDocumentationContext().getAdditionalModels().add(typeResolver.resolve(createRefModel(properties, name)));

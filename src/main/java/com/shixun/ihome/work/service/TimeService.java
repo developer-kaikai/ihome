@@ -1,10 +1,12 @@
 package com.shixun.ihome.work.service;
 
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.ITimer;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface TimeService {
     //插入时间表
@@ -26,4 +28,11 @@ public interface TimeService {
     boolean updateTimerByOrder(int id,  IOrder order);
 
     boolean removeTimerByOrder(int id, IOrder order);
+
+    /**
+     * 获取空闲员工
+     * @param map index (今天到7天（0-7）） detailType 服务类型   status 状态
+     * @return 员工
+     */
+    PageInfo selectStaffByFree(Map<String, Object> map);
 }

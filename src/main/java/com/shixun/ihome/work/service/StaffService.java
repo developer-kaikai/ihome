@@ -36,4 +36,6 @@ public interface StaffService {
     //员工服务状态修改（不记录）
     boolean updateStaffStatus(int staffId , int staffStatus);
 
+    List<IStaff> selectStaffForOrder(Integer orderId);
+
 }

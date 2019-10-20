@@ -1,5 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class ITimer {
@@ -8,6 +10,8 @@ public class ITimer {
 
     private Long timer;
 
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private Integer staffId;
