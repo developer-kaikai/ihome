@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IDetailTimer;
 import com.shixun.ihome.publicservice.pojo.IDetailTimerExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IDetailTimerMapper {
     int countByExample(IDetailTimerExample example);
 

@@ -3,11 +3,13 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.ISalary;
 import com.shixun.ihome.publicservice.pojo.ISalaryExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public interface ISalaryMapper {
     int countByExample(ISalaryExample example);
 
