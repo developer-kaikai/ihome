@@ -45,4 +45,12 @@ public class SerivicetypeServiceImpl implements ServicetypeService {
     public List<IDetailtype> selectAll() {
         return iDetailtypeMapper.selectByExample(null);
     }
+
+
+    @Override
+    public Integer getServiceType(int detailTypeId) {
+        IDetailtype iDetailtype = iDetailtypeMapper.selectByid(detailTypeId);
+
+        return iDetailtype.getServicetpyeId();
+    }
 }

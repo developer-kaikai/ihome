@@ -55,10 +55,17 @@ public interface ITimerMapper {
     int updateStaffTime(Map<String, Object> params);
 
     /**
-     * 搜索空闲员工
+     * 搜索空闲员工(钟点工)
      * @param map
      * @return
      */
     List<IStaff > selectStaffByFree(Map<String, Object> map);
+
+    //获取空闲员工（其他）
+    List<IStaff> selectStaffByFreeOther(Map<String,Object> map);
+    //根据服务类型获取员工时间表(钟点工）
+    List<ITimer> selectStaffTimer(Integer detailType);
+    //根据服务类型获取员工时间表(其他员工）
+    List<ITimer> selectOtherStaffTimer(Integer detailType);
 
 }

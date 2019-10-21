@@ -75,7 +75,10 @@ public class qiaoTests {
 
     @Test
     public void test6(){
-
+        List<RedisTimerInfo> timers = redisTimerService.getMessage(2, 2);
+        for (RedisTimerInfo time :timers) {
+            System.out.println(time.getDate() + "  " + time.getTimer());
+        }
     }
 
 

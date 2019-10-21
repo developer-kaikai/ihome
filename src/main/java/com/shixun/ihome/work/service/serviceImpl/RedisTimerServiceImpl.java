@@ -1,9 +1,12 @@
 package com.shixun.ihome.work.service.serviceImpl;
 
+import com.shixun.ihome.publicservice.mapper.ITimerMapper;
+import com.shixun.ihome.publicservice.pojo.ITimer;
 import com.shixun.ihome.publicservice.pojo.LabelValue;
 import com.shixun.ihome.publicservice.pojo.RedisTimer;
 import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
 import com.shixun.ihome.work.service.RedisTimerService;
+import com.shixun.ihome.work.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -13,40 +16,19 @@ import java.util.*;
 @Service
 public class RedisTimerServiceImpl implements RedisTimerService {
     @Autowired
-    private RedisTemplate redisTemplate;
+    private ITimerMapper timerMapper;
+
     @Override
-    public RedisTimer getTimer() {
-        //获取存储在redis中的时间表
-        RedisTimer redisTimer = (RedisTimer)redisTemplate.opsForValue().get("timers");
-        //检测时间表是否为空，如果为空，就重新生成新的时间表
-        if (redisTimer == null){
-           redisTimer = new RedisTimer();
-           redisTemplate.opsForValue().set("timers", redisTimer);
-            System.out.println("这个数据表是空的");
-        }
-        //检测数据是否最新
-        if(redisTimer.update()){
-            System.out.println("测试 这个数据不是最新的所以更新");
-            redisTemplate.opsForValue().set("timers", redisTimer);
-        }
-        return redisTimer;
+    public List<RedisTimerInfo> getMessageOther(Integer detailTypeId) {
+        return null;
     }
 
     @Override
-    public void setTime(int index, int timer) {
-        System.out.println("索引:" + index + ", 时间表:" + timer);
-        RedisTimer redisTimer = getTimer();
-        List<Integer> timers =  redisTimer.getTimers();
-        timers.set(index, timer);
-        redisTimer.setTimers(timers);
-        redisTemplate.opsForValue().set("timers", redisTimer);
-    }
-
-    @Override
-    public List<RedisTimerInfo> getMessage(int hours, int type) {
+    public List<RedisTimerInfo> getMessage(Integer detailTypeId, Integer hours) {
         //获取时间表
-        RedisTimer redisTimer = getTimer();
-        List<Integer> timers = redisTimer.getTimers();
+        List<ITimer> times =  timerMapper.selectStaffTimer(detailTypeId);
+        List<Integer> timers = timeSpilt(timerSum(times, 0), 0);
+        System.out.println(timers);
         List<RedisTimerInfo> timerInfos = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -62,11 +44,7 @@ public class RedisTimerServiceImpl implements RedisTimerService {
                 redisTimerInfo.setDate(weekDay);
                 redisTimerInfo.setValue(value);
                 List<LabelValue> time = null;
-                if (type == 0){
-                    time = toTimers(t, hours, value);
-                }else {
-                    time = toTimers2(t, hours, value);
-                }
+                time = toTimers(t, hours, value);
                 redisTimerInfo.setTimer(time);
                 timerInfos.add(redisTimerInfo);
             }
@@ -78,31 +56,46 @@ public class RedisTimerServiceImpl implements RedisTimerService {
     private List<LabelValue> toTimers2(int timer, int hours, String date){
         List<LabelValue> timers = new ArrayList<>();
         int hour = 8;
-        int maxhour = 20;
-        for (int i = 0; i < 5; i++){
-            int t = (timer >> i) & 1;
-            if (hour + hours >= maxhour){
-                String s = String.format("%d:00", hour);
-                LabelValue labelValue = new LabelValue( s, String.format("%s %d:00",date, hour));
-                timers.add(labelValue);
-                break;
-            }
-            if (t == 0){
-                for(int j = 0; j < 2; j++){
-                    String s = String.format("%d:00", hour);
-                    LabelValue labelValue1 = new LabelValue(s, String.format("%s %d:00",date, hour));
-                    timers.add(labelValue1);
-                    if(hour + hours == maxhour){
-                        break;
-                    }
-                    String s1 = String.format("%d:30", hour );
-                    LabelValue labelValue2 = new LabelValue( s1,String.format("%s %d:30:00",date, hour));
-                    timers.add(labelValue2);
-                    hour += 1;
-                }
-            }else {
-                hours += 2;
-            }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        int maxhour = 18;
+        return timers;
+    }
+
+    //时间想与
+    private Long timerSum(List<ITimer> timers, Integer type){
+        //如果获取的type位0就是钟点工
+        Long timer = 0l;
+        if(type == 0){
+            timer = ITimerMapper.MAXTIMER;
+        }else{
+            timer = 255l;
+        }
+        if (timer == 0){
+            throw new RuntimeException("RedisTimerService 的 timerSum 存在参数问题");
+        }
+        //开始相与
+        for (ITimer timer1 : timers) {
+            timer = timer & timer1.getTimer();
+        }
+
+        return timer;
+    }
+    //将时间分割
+    private List<Integer> timeSpilt(Long timer, Integer type){
+        System.out.println(timer);
+        List<Integer> timers = new ArrayList<>();
+        int index = 1;
+        int pos = 1;
+        if (type == 0){
+            //钟点工
+            index = 6;
+            pos = 63;
+        }
+        for (int i = 1; i <= 8; i++){
+            System.out.println(Long.toBinaryString(timer));
+            timers.add( (int)(timer & pos) );//获取6位数字
+            timer = timer >>index;
         }
         return timers;
     }

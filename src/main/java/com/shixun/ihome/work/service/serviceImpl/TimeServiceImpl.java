@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.mapper.ITimerMapper;
 import com.shixun.ihome.publicservice.pojo.IOrder;
+import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.ITimer;
 import com.shixun.ihome.publicservice.pojo.ITimerExample;
 import com.shixun.ihome.publicservice.util.Qutil;
@@ -62,6 +63,15 @@ public class TimeServiceImpl implements TimeService {
         Integer pageSize = (Integer) map.get("pageSize");
         PageHelper.startPage(pageNum, pageSize);
         PageInfo pageInfo = new PageInfo(iTimerMapper.selectStaffByFree(map));
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo selectStaffByFreeForOther(Map<String, Object> map) {
+        Integer pageNum = (Integer) map.get("pageNum");
+        Integer pageSize = (Integer) map.get("pageSize");
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<IStaff> pageInfo = new PageInfo<>(iTimerMapper.selectStaffByFreeOther(map));
         return pageInfo;
     }
 

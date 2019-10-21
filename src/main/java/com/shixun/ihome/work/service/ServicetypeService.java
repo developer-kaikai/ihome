@@ -19,6 +19,8 @@ public interface ServicetypeService {
     List<IDetailtype> selectByServicetypeid(int serviceid);
 
     List<IDetailtype> selectAll();
+    //获取服务大类id
+    Integer getServiceType(int detailTypeId);
 
 
 

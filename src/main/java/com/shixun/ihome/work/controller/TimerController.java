@@ -9,6 +9,7 @@ import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.RedisTimer;
 import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
 import com.shixun.ihome.work.service.RedisTimerService;
+import com.shixun.ihome.work.service.ServicetypeService;
 import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,56 +27,30 @@ public class TimerController {
     private RedisTimerService redisTimerService;
     @Autowired
     private TimeService timeService;
+    @Autowired
+    private ServicetypeService servicetypeService;
 
-    @ApiOperation(value="获取8天的时间表")
-    @GetMapping("getTimers")
-    public ResultBase getTimers(){
-        RedisTimer redisTimer = redisTimerService.getTimer();
-        return ResultBase.success(redisTimer);
-    }
 
-    @ApiOperation(value = "设置时间表")
-    @PostMapping("setTimer")
-    public ResultBase setTimer(@ApiJsonObject(name = "params", value = {
-            @ApiJsonProperty(key = "timer", example = "000000", description = "时间表"),
-            @ApiJsonProperty(key = "index", example = "0-7", description = "代表今天：0， 明天：1 以此类推")
-    } )@RequestBody JSONObject params){
-        Integer index = params.getInteger("index");
-        String timer = params.getString("timer");
-        redisTimerService.setTime(index, Integer.parseUnsignedInt(timer, 2));
-        return ResultBase.success();
-    }
 
-    @ApiOperation(value = "设置所有时间表")
-    @PostMapping("setTimerAll")
-    public ResultBase setTimerAll(@ApiJsonObject(name = "params", value = {
-            @ApiJsonProperty(key = "timers", example = "[0,0,0,0,0,0,0,0]", description = "8个int")
-    }) @RequestBody JSONObject params){
-        List<Integer> list = params.getJSONArray("timers").toJavaList(Integer.class);
-        if (list.size() != 8){
-            return ResultBase.fail("请检测数据是否正确");
-        }
-        for (int i = 0; i < 8; i++) {
-            int timer = list.get(i);
-            redisTimerService.setTime(i,timer );
-        }
-        return ResultBase.success();
-    }
+
+
 
 
     @ApiOperation(value="动态生成可选日期和时间")
     @PostMapping("/getMessage")
     public ResultBase getMessage(@ApiJsonObject ( name = "name",value = {
             @ApiJsonProperty(key="hours", example = "2", description = "时间"),
+            @ApiJsonProperty(key = "detailType", example = "1"),
             @ApiJsonProperty(key = "type", example = "0", description = "默认未0如果未1就返回只有上面时间")
     })@RequestBody JSONObject name){
         int hours=name.getInteger("hours");
+        int detailType = name.getInteger("detailType");
         if (hours > 8 || hours <= 0){
             return ResultBase.fail("时间超出可以选择的范围");
         }
         //获取类型
         Integer type = name.getInteger("type");
-        List<RedisTimerInfo> timerInfo = redisTimerService.getMessage(hours,type);
+        List<RedisTimerInfo> timerInfo = redisTimerService.getMessage(detailType,hours);
         return ResultBase.success(timerInfo);
     }
 
@@ -88,7 +63,21 @@ public class TimerController {
             @ApiJsonProperty(key = "pageSize", example = "10"),
             @ApiJsonProperty(key = "pageNum", example = "1")
     })@RequestBody Map<String, Object> map){
-        PageInfo <IStaff> pageInfo = timeService.selectStaffByFree(map);
+        Integer detailType = (Integer) map.get("detailType");
+        PageInfo<IStaff> pageInfo = null;
+        if (detailType == null){
+            //详细服务id为空，默认不管服务类型全查
+            pageInfo = timeService.selectStaffByFree(map);
+        }else{
+            //获取服务大类id
+            Integer serviceId = servicetypeService.getServiceType(detailType);
+            if (serviceId != 1){
+                //如果存在服务大类id不为1就是不是钟点工，就搜索其他员工
+                pageInfo = timeService.selectStaffByFreeForOther(map);
+            }else{
+                pageInfo = timeService.selectStaffByFree(map);
+            }
+        }
         Map<String, Object> data = new HashMap<>();
         data.put("data", pageInfo.getList());
         data.put("pageNum", pageInfo.getPageNum());
@@ -96,6 +85,8 @@ public class TimerController {
 
         return ResultBase.success(data);
     }
+
+
 
 
 }
