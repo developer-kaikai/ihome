@@ -25,6 +25,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public IUserDetail selectUserDefaultAddress(int id) {
+        return null;
+    }
+
+    @Override
     public boolean addUserDetail(IUserDetail iUserDetail) {
         iUserDetailMapper.insert(iUserDetail);
         return true;

@@ -14,5 +14,7 @@ public interface UserService {
 
     List<IUserDetail> selectUserAddress(int id);
 
+    IUserDetail selectUserDefaultAddress(int id);
+
     boolean addUserDetail(IUserDetail iUserDetail);
 }

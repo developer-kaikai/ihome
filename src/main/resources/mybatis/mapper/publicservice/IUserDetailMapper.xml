@@ -244,6 +244,12 @@
     select
     <include refid="Base_Column_List" />
     from i_user_detail
-    where user_id = #{id,jdbcType=INTEGER}
+    where user_id = #{id,jdbcType=INTEGER}  and status &lt;&gt; 1
+  </select>
+  <select id="selectUserDefaultAddress" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from i_user_detail
+    where user_id = #{id,jdbcType=INTEGER}  and status = 2
   </select>
 </mapper>
