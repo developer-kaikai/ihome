@@ -25,6 +25,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean addUserDetail(IUserDetail iUserDetail) {
+        iUserDetailMapper.insert(iUserDetail);
+        return true;
+    }
+
+    @Override
     public List<IUserDetail> selectUserAddress(int id) {
         List<IUserDetail> addressList=iUserDetailMapper.selectUserAddress(id);
         return addressList;

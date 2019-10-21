@@ -13,4 +13,6 @@ public interface UserService {
     List<IUser> selectUsers(IUser iUser);
 
     List<IUserDetail> selectUserAddress(int id);
+
+    boolean addUserDetail(IUserDetail iUserDetail);
 }
