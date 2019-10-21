@@ -17,4 +17,6 @@ public interface UserService {
     IUserDetail selectUserDefaultAddress(int id);
 
     boolean addUserDetail(IUserDetail iUserDetail);
+
+    boolean updateUserDetail(IUserDetail iUserDetail);
 }

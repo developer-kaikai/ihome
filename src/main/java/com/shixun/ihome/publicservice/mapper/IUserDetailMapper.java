@@ -32,4 +32,6 @@ public interface IUserDetailMapper {
     int updateByPrimaryKey(IUserDetail record);
 
     List<IUserDetail> selectUserAddress(Integer id);
+
+    IUserDetail selectUserDefaultAddress(Integer id);
 }
