@@ -3,6 +3,7 @@ package com.shixun.ihome.publicservice.util;
 
 import com.shixun.ihome.publicservice.pojo.IRecord;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -82,6 +83,21 @@ public class Qutil {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 移除日期的时间部分
+     * @param date
+     * @return
+     */
+    public static Date removeTimer(Date date){
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            date = sdf.parse(sdf.format(date));
+        }catch (Exception e){
+            throw new RuntimeException("时间转换出错");
+        }
+        return date;
     }
 
     /**

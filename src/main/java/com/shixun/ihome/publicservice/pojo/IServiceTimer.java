@@ -13,9 +13,9 @@ public class IServiceTimer {
 
     private Date updatetimer;
 
-    private String index;
+    private Double index;
 
-    private String num;
+    private Integer num;
 
     public Integer getId() {
         return id;
@@ -57,19 +57,19 @@ public class IServiceTimer {
         this.updatetimer = updatetimer;
     }
 
-    public String getIndex() {
+    public Double getIndex() {
         return index;
     }
 
-    public void setIndex(String index) {
-        this.index = index == null ? null : index.trim();
+    public void setIndex(Double index) {
+        this.index = index;
     }
 
-    public String getNum() {
+    public Integer getNum() {
         return num;
     }
 
-    public void setNum(String num) {
-        this.num = num == null ? null : num.trim();
+    public void setNum(Integer num) {
+        this.num = num;
     }
 }
