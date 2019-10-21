@@ -25,6 +25,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public IUserDetail selectUserDefaultAddress(int id) {
+        IUserDetail iUserDetail=iUserDetailMapper.selectUserDefaultAddress(id);
+        return iUserDetail;
+    }
+
+    @Override
     public boolean addUserDetail(IUserDetail iUserDetail) {
         iUserDetailMapper.insert(iUserDetail);
         return true;
@@ -34,5 +40,11 @@ public class UserServiceImpl implements UserService {
     public List<IUserDetail> selectUserAddress(int id) {
         List<IUserDetail> addressList=iUserDetailMapper.selectUserAddress(id);
         return addressList;
+    }
+
+    @Override
+    public boolean updateUserDetail(IUserDetail iUserDetail) {
+        iUserDetailMapper.updateByPrimaryKeySelective(iUserDetail);
+        return true;
     }
 }
