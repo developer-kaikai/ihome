@@ -61,7 +61,7 @@ public class FinanceServiceImpl implements FinanceService {
                 System.out.println("查询的是本个月数据，数据库中有，已更新。。。。");
                 iSalaryMapper.insertSalaryMonth(map);
                 int i=iSalaryMapper.salarynow(map);
-                return iSalaryMapper.listall();
+                return iSalaryMapper.existMonth(date);
             }
 
         }else {
