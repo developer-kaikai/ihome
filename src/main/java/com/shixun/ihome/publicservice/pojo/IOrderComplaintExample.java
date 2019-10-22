@@ -363,6 +363,66 @@ public class IOrderComplaintExample {
             addCriterion("solve not between", value1, value2, "solve");
             return (Criteria) this;
         }
+
+        public Criteria andCstatusIsNull() {
+            addCriterion("cstatus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusIsNotNull() {
+            addCriterion("cstatus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusEqualTo(Integer value) {
+            addCriterion("cstatus =", value, "cstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusNotEqualTo(Integer value) {
+            addCriterion("cstatus <>", value, "cstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusGreaterThan(Integer value) {
+            addCriterion("cstatus >", value, "cstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cstatus >=", value, "cstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusLessThan(Integer value) {
+            addCriterion("cstatus <", value, "cstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusLessThanOrEqualTo(Integer value) {
+            addCriterion("cstatus <=", value, "cstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusIn(List<Integer> values) {
+            addCriterion("cstatus in", values, "cstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusNotIn(List<Integer> values) {
+            addCriterion("cstatus not in", values, "cstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusBetween(Integer value1, Integer value2) {
+            addCriterion("cstatus between", value1, value2, "cstatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCstatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("cstatus not between", value1, value2, "cstatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

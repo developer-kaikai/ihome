@@ -29,4 +29,9 @@ public class ComplaintServiceImpl implements ComplaintService {
     public List<IOrderComplaint> complaintlistAll() {
         return  iOrderComplaintMapper.selectByExample(null);
     }
+
+    @Override
+    public List<IOrderComplaint> selectComplaintByStatus(IOrderComplaint complaint) {
+        return iOrderComplaintMapper.selectComplaintByStatus(complaint);
+    }
 }

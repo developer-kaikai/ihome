@@ -14,4 +14,8 @@ public interface ComplaintService {
     /*查看所有投诉*/
     List<IOrderComplaint> complaintlistAll();
 
+    /*
+    * 根据投诉状态查询*/
+    List<IOrderComplaint> selectComplaintByStatus(IOrderComplaint complaint);
+
 }
