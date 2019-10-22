@@ -9,11 +9,11 @@ public class IServiceTimer {
 
     private Integer staffnum;
 
-    private String date;
+    private String adate;
 
     private Date updatetimer;
 
-    private Double index;
+    private Float index;
 
     private Integer num;
 
@@ -41,12 +41,12 @@ public class IServiceTimer {
         this.staffnum = staffnum;
     }
 
-    public String getDate() {
-        return date;
+    public String getAdate() {
+        return adate;
     }
 
-    public void setDate(String date) {
-        this.date = date == null ? null : date.trim();
+    public void setAdate(String adate) {
+        this.adate = adate == null ? null : adate.trim();
     }
 
     public Date getUpdatetimer() {
@@ -57,11 +57,11 @@ public class IServiceTimer {
         this.updatetimer = updatetimer;
     }
 
-    public Double getIndex() {
+    public Float getIndex() {
         return index;
     }
 
-    public void setIndex(Double index) {
+    public void setIndex(Float index) {
         this.index = index;
     }
 
