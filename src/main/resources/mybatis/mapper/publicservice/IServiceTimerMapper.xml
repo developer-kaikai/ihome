@@ -7,7 +7,7 @@
     <result column="staffnum" property="staffnum" jdbcType="INTEGER" />
     <result column="adate" property="adate" jdbcType="VARCHAR" />
     <result column="updateTimer" property="updatetimer" jdbcType="DATE" />
-    <result column="index" property="index" jdbcType="REAL" />
+    <result column="index" property="index" jdbcType="DOUBLE" />
     <result column="num" property="num" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -106,9 +106,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into i_service_timer (servicelId, staffnum, adate, 
-      updateTimer, index, num)
+      updateTimer, index, num
+      )
     values (#{servicelid,jdbcType=INTEGER}, #{staffnum,jdbcType=INTEGER}, #{adate,jdbcType=VARCHAR}, 
-      #{updatetimer,jdbcType=DATE}, #{index,jdbcType=REAL}, #{num,jdbcType=INTEGER})
+      #{updatetimer,jdbcType=DATE}, #{index,jdbcType=DOUBLE}, #{num,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.IServiceTimer" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -149,7 +151,7 @@
         #{updatetimer,jdbcType=DATE},
       </if>
       <if test="index != null" >
-        #{index,jdbcType=REAL},
+        #{index,jdbcType=DOUBLE},
       </if>
       <if test="num != null" >
         #{num,jdbcType=INTEGER},
@@ -181,7 +183,7 @@
         updateTimer = #{record.updatetimer,jdbcType=DATE},
       </if>
       <if test="record.index != null" >
-        index = #{record.index,jdbcType=REAL},
+        index = #{record.index,jdbcType=DOUBLE},
       </if>
       <if test="record.num != null" >
         num = #{record.num,jdbcType=INTEGER},
@@ -198,7 +200,7 @@
       staffnum = #{record.staffnum,jdbcType=INTEGER},
       adate = #{record.adate,jdbcType=VARCHAR},
       updateTimer = #{record.updatetimer,jdbcType=DATE},
-      index = #{record.index,jdbcType=REAL},
+      index = #{record.index,jdbcType=DOUBLE},
       num = #{record.num,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -220,7 +222,7 @@
         updateTimer = #{updatetimer,jdbcType=DATE},
       </if>
       <if test="index != null" >
-        index = #{index,jdbcType=REAL},
+        index = #{index,jdbcType=DOUBLE},
       </if>
       <if test="num != null" >
         num = #{num,jdbcType=INTEGER},
@@ -234,7 +236,7 @@
       staffnum = #{staffnum,jdbcType=INTEGER},
       adate = #{adate,jdbcType=VARCHAR},
       updateTimer = #{updatetimer,jdbcType=DATE},
-      index = #{index,jdbcType=REAL},
+      index = #{index,jdbcType=DOUBLE},
       num = #{num,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

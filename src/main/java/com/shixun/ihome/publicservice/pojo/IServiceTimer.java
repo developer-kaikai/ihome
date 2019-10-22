@@ -13,7 +13,7 @@ public class IServiceTimer {
 
     private Date updatetimer;
 
-    private Float index;
+    private Double index;
 
     private Integer num;
 
@@ -57,11 +57,11 @@ public class IServiceTimer {
         this.updatetimer = updatetimer;
     }
 
-    public Float getIndex() {
+    public Double getIndex() {
         return index;
     }
 
-    public void setIndex(Float index) {
+    public void setIndex(Double index) {
         this.index = index;
     }
 

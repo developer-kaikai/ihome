@@ -452,52 +452,52 @@ public class IServiceTimerExample {
             return (Criteria) this;
         }
 
-        public Criteria andIndexEqualTo(Float value) {
+        public Criteria andIndexEqualTo(Double value) {
             addCriterion("index =", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotEqualTo(Float value) {
+        public Criteria andIndexNotEqualTo(Double value) {
             addCriterion("index <>", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThan(Float value) {
+        public Criteria andIndexGreaterThan(Double value) {
             addCriterion("index >", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThanOrEqualTo(Float value) {
+        public Criteria andIndexGreaterThanOrEqualTo(Double value) {
             addCriterion("index >=", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThan(Float value) {
+        public Criteria andIndexLessThan(Double value) {
             addCriterion("index <", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThanOrEqualTo(Float value) {
+        public Criteria andIndexLessThanOrEqualTo(Double value) {
             addCriterion("index <=", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexIn(List<Float> values) {
+        public Criteria andIndexIn(List<Double> values) {
             addCriterion("index in", values, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotIn(List<Float> values) {
+        public Criteria andIndexNotIn(List<Double> values) {
             addCriterion("index not in", values, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexBetween(Float value1, Float value2) {
+        public Criteria andIndexBetween(Double value1, Double value2) {
             addCriterion("index between", value1, value2, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotBetween(Float value1, Float value2) {
+        public Criteria andIndexNotBetween(Double value1, Double value2) {
             addCriterion("index not between", value1, value2, "index");
             return (Criteria) this;
         }

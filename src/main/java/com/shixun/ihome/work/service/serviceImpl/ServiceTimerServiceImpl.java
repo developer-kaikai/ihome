@@ -26,9 +26,9 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
             //执行时间表更新
             now = Qutil.removeTimer(now);
             iServiceTimer.setUpdatetimer(now);
-            List<Integer> timers = timerSpilt(iServiceTimer.getDate());
+            List<Integer> timers = timerSpilt(iServiceTimer.getAdate());
             timers = updateTimer(timers,Qutil.consumDays(updateTimer, now), serviceId == 1?6:1);
-            iServiceTimer.setDate(toText(timers));
+            iServiceTimer.setAdate(toText(timers));
             //更新时间表
             int result = serviceTimerMapper.updateByPrimaryKeySelective(iServiceTimer);
 
@@ -42,7 +42,7 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
         int num = timer.getNum();
         double index = timer.getIndex();
         int result = (staffNum * num * index / timer.getServicelid() == 1? 6:1);
-        List<Integer> list = timerSpilt(timer.getDate());
+        List<Integer> list = timerSpilt(timer.getAdate());
         StringBuffer stringBuffer = new StringBuffer();
         for(int i  = 0; i < list.size(); i++){
             stringBuffer.append(list.get(i) <= result?0:1);
@@ -57,7 +57,7 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
         int day = Qutil.consumDays(now , date);
         //计算所占的格
         int s = Qutil.getTimer(date);
-        List<Integer> list = timerSpilt(timer.getDate());
+        List<Integer> list = timerSpilt(timer.getAdate());
         int pos = 1;
         if (timer.getServicelid() == 1){
             pos = 6;
@@ -65,7 +65,7 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
         int index = day * pos + s - 1;
         int value = list.get(index);
         list.set(index, value + type);
-        timer.setDate(toText(list));
+        timer.setAdate(toText(list));
         serviceTimerMapper.updateByPrimaryKeySelective(timer);
         return true;
     }
