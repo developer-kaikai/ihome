@@ -312,73 +312,73 @@ public class IServiceTimerExample {
             return (Criteria) this;
         }
 
-        public Criteria andDateIsNull() {
-            addCriterion("date is null");
+        public Criteria andAdateIsNull() {
+            addCriterion("adate is null");
             return (Criteria) this;
         }
 
-        public Criteria andDateIsNotNull() {
-            addCriterion("date is not null");
+        public Criteria andAdateIsNotNull() {
+            addCriterion("adate is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDateEqualTo(String value) {
-            addCriterion("date =", value, "date");
+        public Criteria andAdateEqualTo(String value) {
+            addCriterion("adate =", value, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateNotEqualTo(String value) {
-            addCriterion("date <>", value, "date");
+        public Criteria andAdateNotEqualTo(String value) {
+            addCriterion("adate <>", value, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateGreaterThan(String value) {
-            addCriterion("date >", value, "date");
+        public Criteria andAdateGreaterThan(String value) {
+            addCriterion("adate >", value, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateGreaterThanOrEqualTo(String value) {
-            addCriterion("date >=", value, "date");
+        public Criteria andAdateGreaterThanOrEqualTo(String value) {
+            addCriterion("adate >=", value, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateLessThan(String value) {
-            addCriterion("date <", value, "date");
+        public Criteria andAdateLessThan(String value) {
+            addCriterion("adate <", value, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateLessThanOrEqualTo(String value) {
-            addCriterion("date <=", value, "date");
+        public Criteria andAdateLessThanOrEqualTo(String value) {
+            addCriterion("adate <=", value, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateLike(String value) {
-            addCriterion("date like", value, "date");
+        public Criteria andAdateLike(String value) {
+            addCriterion("adate like", value, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateNotLike(String value) {
-            addCriterion("date not like", value, "date");
+        public Criteria andAdateNotLike(String value) {
+            addCriterion("adate not like", value, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateIn(List<String> values) {
-            addCriterion("date in", values, "date");
+        public Criteria andAdateIn(List<String> values) {
+            addCriterion("adate in", values, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateNotIn(List<String> values) {
-            addCriterion("date not in", values, "date");
+        public Criteria andAdateNotIn(List<String> values) {
+            addCriterion("adate not in", values, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateBetween(String value1, String value2) {
-            addCriterion("date between", value1, value2, "date");
+        public Criteria andAdateBetween(String value1, String value2) {
+            addCriterion("adate between", value1, value2, "adate");
             return (Criteria) this;
         }
 
-        public Criteria andDateNotBetween(String value1, String value2) {
-            addCriterion("date not between", value1, value2, "date");
+        public Criteria andAdateNotBetween(String value1, String value2) {
+            addCriterion("adate not between", value1, value2, "adate");
             return (Criteria) this;
         }
 
@@ -452,62 +452,52 @@ public class IServiceTimerExample {
             return (Criteria) this;
         }
 
-        public Criteria andIndexEqualTo(Double value) {
+        public Criteria andIndexEqualTo(Float value) {
             addCriterion("index =", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotEqualTo(Double value) {
+        public Criteria andIndexNotEqualTo(Float value) {
             addCriterion("index <>", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThan(Double value) {
+        public Criteria andIndexGreaterThan(Float value) {
             addCriterion("index >", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThanOrEqualTo(Double value) {
+        public Criteria andIndexGreaterThanOrEqualTo(Float value) {
             addCriterion("index >=", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThan(Double value) {
+        public Criteria andIndexLessThan(Float value) {
             addCriterion("index <", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThanOrEqualTo(Double value) {
+        public Criteria andIndexLessThanOrEqualTo(Float value) {
             addCriterion("index <=", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLike(Double value) {
-            addCriterion("index like", value, "index");
-            return (Criteria) this;
-        }
-
-        public Criteria andIndexNotLike(Double value) {
-            addCriterion("index not like", value, "index");
-            return (Criteria) this;
-        }
-
-        public Criteria andIndexIn(List<Double > values) {
+        public Criteria andIndexIn(List<Float> values) {
             addCriterion("index in", values, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotIn(List<Double > values) {
+        public Criteria andIndexNotIn(List<Float> values) {
             addCriterion("index not in", values, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexBetween(Double value1, Double value2) {
+        public Criteria andIndexBetween(Float value1, Float value2) {
             addCriterion("index between", value1, value2, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotBetween(Double value1, Double value2) {
+        public Criteria andIndexNotBetween(Float value1, Float value2) {
             addCriterion("index not between", value1, value2, "index");
             return (Criteria) this;
         }
@@ -552,22 +542,12 @@ public class IServiceTimerExample {
             return (Criteria) this;
         }
 
-        public Criteria andNumLike(Integer value) {
-            addCriterion("num like", value, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumNotLike(Integer value) {
-            addCriterion("num not like", value, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumIn(List<Integer > values) {
+        public Criteria andNumIn(List<Integer> values) {
             addCriterion("num in", values, "num");
             return (Criteria) this;
         }
 
-        public Criteria andNumNotIn(List<Integer > values) {
+        public Criteria andNumNotIn(List<Integer> values) {
             addCriterion("num not in", values, "num");
             return (Criteria) this;
         }

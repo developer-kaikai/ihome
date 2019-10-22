@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="servicelId" property="servicelid" jdbcType="INTEGER" />
     <result column="staffnum" property="staffnum" jdbcType="INTEGER" />
-    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="adate" property="adate" jdbcType="VARCHAR" />
     <result column="updateTimer" property="updatetimer" jdbcType="DATE" />
     <result column="index" property="index" jdbcType="REAL" />
     <result column="num" property="num" jdbcType="INTEGER" />
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, servicelId, staffnum, date, updateTimer, index, num
+    id, servicelId, staffnum, adate, updateTimer, index, num
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shixun.ihome.publicservice.pojo.IServiceTimerExample" >
     select
@@ -105,9 +105,9 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into i_service_timer (servicelId, staffnum, date, 
+    insert into i_service_timer (servicelId, staffnum, adate, 
       updateTimer, index, num)
-    values (#{servicelid,jdbcType=INTEGER}, #{staffnum,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR}, 
+    values (#{servicelid,jdbcType=INTEGER}, #{staffnum,jdbcType=INTEGER}, #{adate,jdbcType=VARCHAR}, 
       #{updatetimer,jdbcType=DATE}, #{index,jdbcType=REAL}, #{num,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.IServiceTimer" >
@@ -122,8 +122,8 @@
       <if test="staffnum != null" >
         staffnum,
       </if>
-      <if test="date != null" >
-        date,
+      <if test="adate != null" >
+        adate,
       </if>
       <if test="updatetimer != null" >
         updateTimer,
@@ -142,8 +142,8 @@
       <if test="staffnum != null" >
         #{staffnum,jdbcType=INTEGER},
       </if>
-      <if test="date != null" >
-        #{date,jdbcType=VARCHAR},
+      <if test="adate != null" >
+        #{adate,jdbcType=VARCHAR},
       </if>
       <if test="updatetimer != null" >
         #{updatetimer,jdbcType=DATE},
@@ -174,8 +174,8 @@
       <if test="record.staffnum != null" >
         staffnum = #{record.staffnum,jdbcType=INTEGER},
       </if>
-      <if test="record.date != null" >
-        date = #{record.date,jdbcType=VARCHAR},
+      <if test="record.adate != null" >
+        adate = #{record.adate,jdbcType=VARCHAR},
       </if>
       <if test="record.updatetimer != null" >
         updateTimer = #{record.updatetimer,jdbcType=DATE},
@@ -196,7 +196,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       servicelId = #{record.servicelid,jdbcType=INTEGER},
       staffnum = #{record.staffnum,jdbcType=INTEGER},
-      date = #{record.date,jdbcType=VARCHAR},
+      adate = #{record.adate,jdbcType=VARCHAR},
       updateTimer = #{record.updatetimer,jdbcType=DATE},
       index = #{record.index,jdbcType=REAL},
       num = #{record.num,jdbcType=INTEGER}
@@ -213,8 +213,8 @@
       <if test="staffnum != null" >
         staffnum = #{staffnum,jdbcType=INTEGER},
       </if>
-      <if test="date != null" >
-        date = #{date,jdbcType=VARCHAR},
+      <if test="adate != null" >
+        adate = #{adate,jdbcType=VARCHAR},
       </if>
       <if test="updatetimer != null" >
         updateTimer = #{updatetimer,jdbcType=DATE},
@@ -232,7 +232,7 @@
     update i_service_timer
     set servicelId = #{servicelid,jdbcType=INTEGER},
       staffnum = #{staffnum,jdbcType=INTEGER},
-      date = #{date,jdbcType=VARCHAR},
+      adate = #{adate,jdbcType=VARCHAR},
       updateTimer = #{updatetimer,jdbcType=DATE},
       index = #{index,jdbcType=REAL},
       num = #{num,jdbcType=INTEGER}
