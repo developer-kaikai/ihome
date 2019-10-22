@@ -40,17 +40,21 @@ public class TimerController {
     @PostMapping("/getMessage")
     public ResultBase getMessage(@ApiJsonObject ( name = "name",value = {
             @ApiJsonProperty(key="hours", example = "2", description = "时间"),
-            @ApiJsonProperty(key = "detailType", example = "1"),
+            @ApiJsonProperty(key = "serviceId", example = "1"),
             @ApiJsonProperty(key = "type", example = "0", description = "默认未0如果未1就返回只有上面时间")
     })@RequestBody JSONObject name){
         int hours=name.getInteger("hours");
-        int detailType = name.getInteger("detailType");
+        int serviceId = name.getInteger("serviceId");
+        Integer type = name.getInteger("type");
+        if (type != null && type == 1){
+            List<RedisTimerInfo> timerInfos = redisTimerService.getMessageOther(serviceId);
+            return ResultBase.success(timerInfos);
+        }
         if (hours > 8 || hours <= 0){
             return ResultBase.fail("时间超出可以选择的范围");
         }
         //获取类型
-        Integer type = name.getInteger("type");
-        List<RedisTimerInfo> timerInfo = redisTimerService.getMessage(detailType,hours);
+        List<RedisTimerInfo> timerInfo = redisTimerService.getMessage(serviceId,hours);
         return ResultBase.success(timerInfo);
     }
 

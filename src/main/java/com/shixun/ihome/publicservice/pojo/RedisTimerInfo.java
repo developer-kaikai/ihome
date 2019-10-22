@@ -41,6 +41,15 @@ public class RedisTimerInfo  implements Serializable {
         this.date = date;
     }
 
+
+    @Override
+    public String toString() {
+        return "RedisTimerInfo{" +
+                "date='" + date + '\'' +
+                ", value='" + value + '\'' +
+                ", timer=" + timer +
+                '}';
+    }
 }
 
 

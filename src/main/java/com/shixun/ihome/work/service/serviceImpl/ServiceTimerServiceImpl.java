@@ -27,7 +27,7 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
             now = Qutil.removeTimer(now);
             iServiceTimer.setUpdatetimer(now);
             List<Integer> timers = timerSpilt(iServiceTimer.getAdate());
-            timers = updateTimer(timers,Qutil.consumDays(updateTimer, now), serviceId == 1?6:1);
+            timers = updateTimer(timers,Qutil.consumDays(now, updateTimer), 6);
             iServiceTimer.setAdate(toText(timers));
             //更新时间表
             int result = serviceTimerMapper.updateByPrimaryKeySelective(iServiceTimer);
@@ -41,13 +41,23 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
         int staffNum = timer.getStaffnum();
         int num = timer.getNum();
         double index = timer.getAindex();
-        int result = (staffNum * num * index / timer.getServicelid() == 1? 6:1);
+        int result = (int)((staffNum * num * index )/6);
         List<Integer> list = timerSpilt(timer.getAdate());
         StringBuffer stringBuffer = new StringBuffer();
         for(int i  = 0; i < list.size(); i++){
             stringBuffer.append(list.get(i) <= result?0:1);
         }
         return Long.parseLong(stringBuffer.toString(), 2);
+    }
+
+    public List<Integer> toTimerList(Long value, int serviceId){
+        int pos = 63;
+        int index = 6;
+        List<Integer> list = new ArrayList<>();
+       for(int i = 0; i < 8; i++) {
+           list.add((int)((value >> (i* index)) & pos));
+       }
+       return list;
     }
 
     @Override
@@ -58,10 +68,7 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
         //计算所占的格
         int s = Qutil.getTimer(date);
         List<Integer> list = timerSpilt(timer.getAdate());
-        int pos = 1;
-        if (timer.getServicelid() == 1){
-            pos = 6;
-        }
+        int pos = 6;
         int index = day * pos + s - 1;
         int value = list.get(index);
         list.set(index, value + type);
@@ -73,7 +80,7 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
     @Override
     public List<Integer> getlist(int serviceId) {
         IServiceTimer serviceTimer = getOne(serviceId);
-        List<Integer> list = timerSpilt(serviceTimer.getDate());
+        List<Integer> list = timerSpilt(serviceTimer.getAdate());
         return list;
     }
 
@@ -82,11 +89,14 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
 
     //转换成List<integer>
     private List<Integer> timerSpilt(String text){
-        String [] s = text.split("|");
+        String [] s = text.split("\\|");
         List<Integer> timers = new ArrayList<>();
-        for (String s1 : s) {
+        for (String s1 :s) {
             Integer i = Integer.parseInt(s1);
             timers.add(i);
+        }
+        if(timers.size() != 48){
+            throw new RuntimeException("时间分割存在问题");
         }
         return timers;
     }
@@ -94,7 +104,7 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
     private String toText(List<Integer>timers){
         StringBuffer s = new StringBuffer();
         for (int i = 0; i < timers.size(); i++){
-            s.append(i);
+            s.append(timers.get(i));
             s.append('|');
         }
         return s.substring(0, s.length()-1);
@@ -102,16 +112,19 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
     //更新天数
     private List<Integer> updateTimer(List<Integer> timers, int day, int pos){
         List<Integer> newTimers = new ArrayList<>();
-        int start = day * pos - 1;
-        //将旧数据转移到新list中
-        for (int i  = start; i < timers.size(); i++){
-            newTimers.add(timers.get(i));
-        }
+        int start =  timers.size() - day * pos ;
 
-        for ( int i = 0 ; i < start; i++){
+        //前部添加0
+        for ( int i = 0 ; i < day * pos ; i++){
             newTimers.add(0);
         }
-
+        //将旧数据转移到新list中
+        for (int i  = 0; i < start; i++){
+            newTimers.add(timers.get(i));
+        }
+        if (newTimers.size() != 48){
+            throw new RuntimeException("更新日期存在问题");
+        }
         return newTimers;
 
     }

@@ -14,4 +14,6 @@ public interface ServiceTimerService {
     boolean changeTimer(IServiceTimer timer, Date date, int type);
     //获取List<Integer>
     List<Integer> getlist(int serviceId);
+    //装成能用的时间表列表
+    List<Integer> toTimerList(Long value, int serviceId);
 }

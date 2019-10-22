@@ -1,10 +1,7 @@
 package com.shixun.ihome;
 
 
-import com.shixun.ihome.publicservice.pojo.IOrder;
-import com.shixun.ihome.publicservice.pojo.IStaff;
-import com.shixun.ihome.publicservice.pojo.ITimer;
-import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
+import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.OrderService;
 import com.shixun.ihome.work.service.RedisTimerService;
@@ -87,7 +84,14 @@ public class qiaoTests {
 
     @Test
     public void test7(){
-        System.out.println(redisTimerService.getMessage(1, 2));
+        List<RedisTimerInfo> redisTimerInfos = redisTimerService.getMessageOther(1);
+        for (RedisTimerInfo redisTimerInfo : redisTimerInfos ) {
+            System.out.println(redisTimerInfo.getDate());
+            List<LabelValue> labelValues = redisTimerInfo.getTimer();
+            for (LabelValue labelValue: labelValues ) {
+                System.out.println(labelValue.getLabel());
+            }
+        }
     }
 
 
