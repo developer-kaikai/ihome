@@ -8,11 +8,14 @@ import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
+import com.shixun.ihome.publicservice.pojo.IEvaluate;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
-import com.shixun.ihome.publicservice.pojo.IServiceTimer;
 import com.shixun.ihome.publicservice.pojo.IStaff;
-import com.shixun.ihome.work.service.*;
+import com.shixun.ihome.work.service.EvaluateService;
+import com.shixun.ihome.work.service.OrderService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
+import com.shixun.ihome.work.service.StaffService;
+import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,9 +41,49 @@ public class OrderController {
     @Autowired
     private StaffService staffService;
     @Autowired
-    private ServiceTimerService serviceTimerService;
-    @Autowired
-    private ServicetypeService servicetypeService;
+    private EvaluateService evaluateService;
+
+
+    @ApiOperation(value = "用户查看订单评价")
+    @RequestMapping(value = "/evlistByid", method = RequestMethod.POST)
+    public void orderAllByType(@RequestBody JSONObject name, HttpServletResponse response) throws IOException {
+
+        int userid=name.getInteger("userid");
+        int id=name.getInteger("temp");
+        List<IEvaluate> iEvaluateList = new ArrayList<>();
+        //员工
+        if(id==1){
+
+        iEvaluateList=evaluateService.listbystaff(userid);
+        }else{
+           iEvaluateList=evaluateService.listAll(userid);
+        }
+        response.setContentType("application/json;charset=utf-8");
+        String json;
+        json = Result.build(ResultType.Success).appendData("iEvaluateList", iEvaluateList).convertIntoJSON();
+        response.getWriter().write(json);
+    }
+
+    @ApiOperation(value = "用户或员工查看订单")
+    @RequestMapping(value = "/orderlistByid", method = RequestMethod.POST)
+    public void orderlistbyid(@RequestBody JSONObject name, HttpServletResponse response) throws IOException {
+
+        int userid=name.getInteger("userid");
+        int id=name.getInteger("temp");
+        int state=name.getInteger("state");
+        List<IOrder> iOrderList = new ArrayList<>();
+        //员工
+        if(id==1){
+            iOrderList=orderService.listbystaffid(userid,state);
+        }else{
+            iOrderList=orderService.listbyuserid(userid,state);
+        }
+        response.setContentType("application/json;charset=utf-8");
+        String json;
+        json = Result.build(ResultType.Success).appendData("iOrderList", iOrderList).convertIntoJSON();
+        response.getWriter().write(json);
+    }
+
 
 
     @ApiOperation(value = "增加订单")
@@ -122,13 +166,6 @@ public class OrderController {
         //
         //
         if (orderService.addOrderRecord(order, "乔哥")){
-            //修改时间表
-            //获取服务大类id
-            int serviceId = servicetypeService.getServiceType(detailTypeId);
-
-            IServiceTimer serviceTimer  = serviceTimerService.getOne(serviceId);
-            serviceTimerService.changeTimer(serviceTimer, order.getStartTime(), +1);
-
             return ResultBase.success();
         }
         return ResultBase.fail("添加订单失败");
@@ -150,22 +187,15 @@ public class OrderController {
 
     }
 
-    @ApiOperation(value = "取消订单")
+    @ApiOperation(value = "取消维修订单")
     @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "int")
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
     public Boolean cancelOrder(@ApiJsonObject(name = "name", value = {
             @ApiJsonProperty(key = "id", example = "1", description = "订单id")
     })@RequestBody JSONObject name) {
         int id=name.getInteger("id");
-        if( orderService.cancelOrder(id)){
-//            获取订单
-            IOrder order = orderService.getOrder(id);
-            int serviceId = servicetypeService.getServiceType(order.getDetailtypeId());
-            IServiceTimer serviceTimer = serviceTimerService.getOne(serviceId);
-            serviceTimerService.changeTimer(serviceTimer, order.getStartTime(), -1);
-            return true;
-        }
-        return false;
+        boolean success = orderService.cancelOrder(id);
+        return success;
     }
 
     @ApiOperation(value = "填写维修详情")
@@ -247,19 +277,9 @@ public class OrderController {
     }
 
     @ApiOperation(value = "删除订单")
-    @RequestMapping(value = "/deleteOrder/{id}", method = RequestMethod.GET)
-    public ResultBase deleteorder(@PathVariable Integer id) {
-        //获取订单
-        IOrder order = orderService.getOrder(id);
-        int status = order.getState();
-        if (status == 4 || status == 2){
-            boolean success = orderService.deleteOrder(id);
-            if (success){
-                return ResultBase.success();
-            }
-            return ResultBase.fail("删除失败");
-        }
-        return ResultBase.fail("订单必须已完成或取消才能删除");
+    @RequestMapping(value = "/deleteOrder", method = RequestMethod.GET)
+    public void deleteorder(Integer id) {
+        boolean success = orderService.deleteOrder(id);
     }
 
     @ApiOperation(value = "高级查询订单")

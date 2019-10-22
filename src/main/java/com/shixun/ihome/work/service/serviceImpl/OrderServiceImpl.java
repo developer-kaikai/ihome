@@ -28,6 +28,17 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private IOrderStaffMapper orderStaffMapper;
 
+
+    @Override
+    public List<IOrder> listbyuserid(int userid, int orderstate) {
+        return orderMapper.listbyuser(userid,orderstate);
+    }
+
+    @Override
+    public List<IOrder> listbystaffid(int staffid, int orderstate) {
+        return orderMapper.listbystaff(staffid,orderstate);
+    }
+
     @Override
     public boolean addOrderRecord(IOrder order, String byWho) {
         redisTemplate.delete("orderall");
@@ -86,13 +97,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<IOrder> listAll() {
-        List<IOrder> orderList = (List<IOrder>) redisTemplate.opsForValue().get("orderall");
-        System.out.println("从Redis缓存中读出");
-       if(orderList==null){
-        orderList=orderMapper.listAll();
-           System.out.println("从数据库中读出");
-           redisTemplate.opsForValue().set("orderall", orderList);
-       }
+//        List<IOrder> orderList = (List<IOrder>) redisTemplate.opsForValue().get("orderall");
+//        System.out.println("从Redis缓存中读出");
+//       if(orderList==null){
+        List<IOrder> orderList=orderMapper.listAll();
+//           System.out.println("从数据库中读出");
+//           redisTemplate.opsForValue().set("orderall", orderList);
+//       }
 
         return orderList;
     }

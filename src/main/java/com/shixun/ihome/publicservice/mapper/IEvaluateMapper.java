@@ -30,4 +30,11 @@ public interface IEvaluateMapper {
     int updateByPrimaryKeySelective(IEvaluate record);
 
     int updateByPrimaryKey(IEvaluate record);
+
+    List<IEvaluate> listByid(int userid);
+
+    List<IEvaluate> listBystaffid(int staffid);
+
+
+    //待服务 服务中 已完成
 }

@@ -18,6 +18,26 @@ public class IEvaluate {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date finallytime;
 
+    private IOrder order;
+
+    private IDetailtype detailtype;
+
+    public IOrder getOrder() {
+        return order;
+    }
+
+    public void setOrder(IOrder order) {
+        this.order = order;
+    }
+
+    public IDetailtype getDetailtype() {
+        return detailtype;
+    }
+
+    public void setDetailtype(IDetailtype detailtype) {
+        this.detailtype = detailtype;
+    }
+
     public Integer getId() {
         return id;
     }

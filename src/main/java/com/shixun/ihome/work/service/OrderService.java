@@ -56,4 +56,10 @@ public interface OrderService {
     /*订单高级筛选*/
     List<IOrder> listByCondition(IOrder order);
 
+
+    List<IOrder> listbyuserid(int userid,int orderstate);
+    List<IOrder> listbystaffid(int staffid,int orderstate);
+
+
+
 }
