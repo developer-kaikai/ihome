@@ -2,7 +2,10 @@ package com.shixun.ihome.work.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.shixun.ihome.config.ApiJsonObject;
+import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
+import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.ISalary;
 import com.shixun.ihome.work.service.FinanceService;
@@ -80,6 +83,27 @@ public class FinanceController {
         response.getWriter().write(json);
     }
 
+    @ApiOperation(value="调整基础工资")
+    @ResponseBody
+    @RequestMapping(value = "/modifyBaseSalary",method = RequestMethod.POST)
+    public ResultBase modifyBaseSalary(@ApiJsonObject(name = "name", value = {
+            @ApiJsonProperty(key = "id", example = "1", description = "工资表id"),
+            @ApiJsonProperty(key = "basesalary", example = "3000", description = "基础工资")})
+        @RequestBody JSONObject name,HttpServletResponse response)throws IOException{
 
+        double basesalary=name.getDouble("basesalary");
+        int id=name.getInteger("id");
+        //System.out.println(id);
+        ISalary iSalary=new ISalary();
+        iSalary.setId(id);
+        iSalary.setBasesalary(basesalary);
+        boolean flag=financeService.modifyBaseSalar(iSalary);
+        if (flag){
+
+            return ResultBase.success();
+        }
+        return ResultBase.fail("修改失败");
+
+    }
 
 }

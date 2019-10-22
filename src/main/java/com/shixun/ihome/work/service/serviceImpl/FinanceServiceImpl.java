@@ -71,4 +71,10 @@ public class FinanceServiceImpl implements FinanceService {
         }
 
     }
+
+    @Override
+    public boolean modifyBaseSalar(ISalary iSalary) {
+        iSalaryMapper.updateByPrimaryKeySelective(iSalary);
+        return true;
+    }
 }

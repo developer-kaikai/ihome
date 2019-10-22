@@ -17,4 +17,7 @@ public interface FinanceService {
     Boolean modifySalary(int typeid,double bonusrate,double rolatyrate);
 
     List<ISalary> selectSalaryBymonth(Date date,List<Map<String, Object>> map);
+
+    boolean modifyBaseSalar(ISalary iSalary);
+
 }
