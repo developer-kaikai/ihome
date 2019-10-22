@@ -109,7 +109,7 @@
       updateTimer, index, num
       )
     values (#{servicelid,jdbcType=INTEGER}, #{staffnum,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR}, 
-      #{updatetimer,jdbcType=DATE}, #{index,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}
+      #{updatetimer,jdbcType=DATE}, #{index,jdbcType=FLOAT}, #{num,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.IServiceTimer" >
@@ -151,10 +151,10 @@
         #{updatetimer,jdbcType=DATE},
       </if>
       <if test="index != null" >
-        #{index,jdbcType=VARCHAR},
+        #{index,jdbcType=FLOAT},
       </if>
       <if test="num != null" >
-        #{num,jdbcType=VARCHAR},
+        #{num,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -183,10 +183,10 @@
         updateTimer = #{record.updatetimer,jdbcType=DATE},
       </if>
       <if test="record.index != null" >
-        index = #{record.index,jdbcType=VARCHAR},
+        index = #{record.index,jdbcType=FLOAT},
       </if>
       <if test="record.num != null" >
-        num = #{record.num,jdbcType=VARCHAR},
+        num = #{record.num,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -200,8 +200,8 @@
       staffnum = #{record.staffnum,jdbcType=INTEGER},
       date = #{record.date,jdbcType=VARCHAR},
       updateTimer = #{record.updatetimer,jdbcType=DATE},
-      index = #{record.index,jdbcType=VARCHAR},
-      num = #{record.num,jdbcType=VARCHAR}
+      index = #{record.index,jdbcType=FLOAT},
+      num = #{record.num,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -222,10 +222,10 @@
         updateTimer = #{updatetimer,jdbcType=DATE},
       </if>
       <if test="index != null" >
-        index = #{index,jdbcType=VARCHAR},
+        index = #{index,jdbcType=FLOAT},
       </if>
       <if test="num != null" >
-        num = #{num,jdbcType=VARCHAR},
+        num = #{num,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -236,8 +236,8 @@
       staffnum = #{staffnum,jdbcType=INTEGER},
       date = #{date,jdbcType=VARCHAR},
       updateTimer = #{updatetimer,jdbcType=DATE},
-      index = #{index,jdbcType=VARCHAR},
-      num = #{num,jdbcType=VARCHAR}
+      index = #{index,jdbcType=FLOAT},
+      num = #{num,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -85,6 +85,11 @@ public class qiaoTests {
         System.out.println(Qutil.getTimer(calendar.getTime()));
     }
 
+    @Test
+    public void test7(){
+        System.out.println(redisTimerService.getMessage(1, 2));
+    }
+
 
 
 }

@@ -3,6 +3,7 @@ package com.shixun.ihome.work.service;
 import com.shixun.ihome.publicservice.pojo.IServiceTimer;
 
 import java.util.Date;
+import java.util.List;
 
 public interface ServiceTimerService {
     //获取ServiceTimer并且检测更新
@@ -11,4 +12,6 @@ public interface ServiceTimerService {
     Long toTimer(IServiceTimer timer);
     //添加订单时更新时间表
     boolean changeTimer(IServiceTimer timer, Date date, int type);
+    //获取List<Integer>
+    List<Integer> getlist(int serviceId);
 }

@@ -1,11 +1,9 @@
 package com.shixun.ihome.work.service.serviceImpl;
 
 import com.shixun.ihome.publicservice.mapper.ITimerMapper;
-import com.shixun.ihome.publicservice.pojo.ITimer;
-import com.shixun.ihome.publicservice.pojo.LabelValue;
-import com.shixun.ihome.publicservice.pojo.RedisTimer;
-import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
+import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.work.service.RedisTimerService;
+import com.shixun.ihome.work.service.ServiceTimerService;
 import com.shixun.ihome.work.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,6 +15,8 @@ import java.util.*;
 public class RedisTimerServiceImpl implements RedisTimerService {
     @Autowired
     private ITimerMapper timerMapper;
+    @Autowired
+    private ServiceTimerService serviceTimerService;
 
     @Override
     public List<RedisTimerInfo> getMessageOther(Integer detailTypeId) {
@@ -24,10 +24,9 @@ public class RedisTimerServiceImpl implements RedisTimerService {
     }
 
     @Override
-    public List<RedisTimerInfo> getMessage(Integer detailTypeId, Integer hours) {
+    public List<RedisTimerInfo> getMessage(Integer serviceId, Integer hours) {
         //获取时间表
-        List<ITimer> times =  timerMapper.selectStaffTimer(detailTypeId);
-        List<Integer> timers = timeSpilt(timerSum(times, 0), 0);
+        List<Integer> timers = serviceTimerService.getlist(serviceId);
         System.out.println(timers);
         List<RedisTimerInfo> timerInfos = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();

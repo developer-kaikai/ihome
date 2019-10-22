@@ -70,9 +70,12 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
         return true;
     }
 
-
-
-
+    @Override
+    public List<Integer> getlist(int serviceId) {
+        IServiceTimer serviceTimer = getOne(serviceId);
+        List<Integer> list = timerSpilt(serviceTimer.getDate());
+        return list;
+    }
 
 
     //-----------------------------------------------------------------------------------------------------
