@@ -40,7 +40,7 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
     public Long toTimer(IServiceTimer timer) {
         int staffNum = timer.getStaffnum();
         int num = timer.getNum();
-        double index = timer.getIndex();
+        double index = timer.getAindex();
         int result = (staffNum * num * index / timer.getServicelid() == 1? 6:1);
         List<Integer> list = timerSpilt(timer.getAdate());
         StringBuffer stringBuffer = new StringBuffer();

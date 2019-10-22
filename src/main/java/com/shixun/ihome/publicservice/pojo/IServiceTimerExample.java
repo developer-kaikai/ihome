@@ -442,63 +442,63 @@ public class IServiceTimerExample {
             return (Criteria) this;
         }
 
-        public Criteria andIndexIsNull() {
-            addCriterion("index is null");
+        public Criteria andAindexIsNull() {
+            addCriterion("aindex is null");
             return (Criteria) this;
         }
 
-        public Criteria andIndexIsNotNull() {
-            addCriterion("index is not null");
+        public Criteria andAindexIsNotNull() {
+            addCriterion("aindex is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIndexEqualTo(Double value) {
-            addCriterion("index =", value, "index");
+        public Criteria andAindexEqualTo(Double value) {
+            addCriterion("aindex =", value, "aindex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotEqualTo(Double value) {
-            addCriterion("index <>", value, "index");
+        public Criteria andAindexNotEqualTo(Double value) {
+            addCriterion("aindex <>", value, "aindex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThan(Double value) {
-            addCriterion("index >", value, "index");
+        public Criteria andAindexGreaterThan(Double value) {
+            addCriterion("aindex >", value, "aindex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThanOrEqualTo(Double value) {
-            addCriterion("index >=", value, "index");
+        public Criteria andAindexGreaterThanOrEqualTo(Double value) {
+            addCriterion("aindex >=", value, "aindex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThan(Double value) {
-            addCriterion("index <", value, "index");
+        public Criteria andAindexLessThan(Double value) {
+            addCriterion("aindex <", value, "aindex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThanOrEqualTo(Double value) {
-            addCriterion("index <=", value, "index");
+        public Criteria andAindexLessThanOrEqualTo(Double value) {
+            addCriterion("aindex <=", value, "aindex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexIn(List<Double> values) {
-            addCriterion("index in", values, "index");
+        public Criteria andAindexIn(List<Double> values) {
+            addCriterion("aindex in", values, "aindex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotIn(List<Double> values) {
-            addCriterion("index not in", values, "index");
+        public Criteria andAindexNotIn(List<Double> values) {
+            addCriterion("aindex not in", values, "aindex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexBetween(Double value1, Double value2) {
-            addCriterion("index between", value1, value2, "index");
+        public Criteria andAindexBetween(Double value1, Double value2) {
+            addCriterion("aindex between", value1, value2, "aindex");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotBetween(Double value1, Double value2) {
-            addCriterion("index not between", value1, value2, "index");
+        public Criteria andAindexNotBetween(Double value1, Double value2) {
+            addCriterion("aindex not between", value1, value2, "aindex");
             return (Criteria) this;
         }
 

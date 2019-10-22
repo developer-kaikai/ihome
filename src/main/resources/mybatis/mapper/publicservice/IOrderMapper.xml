@@ -329,7 +329,7 @@ select * from i_order o,i_user u,i_detailtype d,i_user_detail a
   </select>
 
   <select id="listbystaff" parameterType="int" resultMap="listall">
-select * from i_staff s,i_order_staff os,i_order o where s.id=#{staffid} and os.staff_id=s.id and o.id=os.order_id
+select * from i_staff s,i_order_staff os,i_order o where s.id=#{staffid} and os.staff_id=s.id and o.id=os.order_id and o.state!=5
     <if test="orderstate!=7&amp;orderstate!=5">
       and o.state=#{orderstate}
     </if>
