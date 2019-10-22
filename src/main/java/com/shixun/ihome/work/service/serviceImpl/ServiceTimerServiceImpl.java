@@ -51,14 +51,25 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
     }
 
     @Override
-    public boolean addTimer(IServiceTimer timer, Date date) {
-        return false;
+    public boolean changeTimer(IServiceTimer timer, Date date, int type) {
+        //计算日期
+        Date now = new Date();
+        int day = Qutil.consumDays(now , date);
+        //计算所占的格
+        int s = Qutil.getTimer(date);
+        List<Integer> list = timerSpilt(timer.getDate());
+        int pos = 1;
+        if (timer.getServicelid() == 1){
+            pos = 6;
+        }
+        int index = day * pos + s - 1;
+        int value = list.get(index);
+        list.set(index, value + type);
+        timer.setDate(toText(list));
+        serviceTimerMapper.updateByPrimaryKeySelective(timer);
+        return true;
     }
 
-    @Override
-    public boolean cancelTimer(IServiceTimer timer, Date date) {
-        return false;
-    }
 
 
 

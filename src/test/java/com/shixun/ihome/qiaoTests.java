@@ -5,6 +5,7 @@ import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.ITimer;
 import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
+import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.OrderService;
 import com.shixun.ihome.work.service.RedisTimerService;
 import com.shixun.ihome.work.service.StaffService;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.validation.constraints.Min;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -75,10 +77,12 @@ public class qiaoTests {
 
     @Test
     public void test6(){
-        List<RedisTimerInfo> timers = redisTimerService.getMessage(2, 2);
-        for (RedisTimerInfo time :timers) {
-            System.out.println(time.getDate() + "  " + time.getTimer());
-        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE,0);
+        System.out.println(Qutil.getTimer(calendar.getTime()));
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        System.out.println(Qutil.getTimer(calendar.getTime()));
     }
 
 

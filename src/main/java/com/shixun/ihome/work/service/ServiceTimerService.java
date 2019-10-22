@@ -10,7 +10,5 @@ public interface ServiceTimerService {
     //转换成Long时间表
     Long toTimer(IServiceTimer timer);
     //添加订单时更新时间表
-    boolean addTimer(IServiceTimer timer, Date date);
-    //撤销订单时更新时间表
-    boolean cancelTimer(IServiceTimer timer, Date date);
+    boolean changeTimer(IServiceTimer timer, Date date, int type);
 }

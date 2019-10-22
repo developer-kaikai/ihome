@@ -3,6 +3,7 @@ package com.shixun.ihome.publicservice.util;
 
 import com.shixun.ihome.publicservice.pojo.IRecord;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -98,6 +99,19 @@ public class Qutil {
             throw new RuntimeException("时间转换出错");
         }
         return date;
+    }
+
+    //时间表专用，计算时间占用哪一个时间段
+    public static int getTimer(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY) + (calendar.get(Calendar.MINUTE) > 0?1:0);
+        hour =( hour - 8) / 2 + 1;
+        if (hour > 6){
+            return 6;
+        }
+        return hour;
     }
 
     /**

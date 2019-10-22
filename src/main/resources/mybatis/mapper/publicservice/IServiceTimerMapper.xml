@@ -8,7 +8,7 @@
     <result column="date" property="date" jdbcType="VARCHAR" />
     <result column="updateTimer" property="updatetimer" jdbcType="DATE" />
     <result column="index" property="index" jdbcType="INTEGER" />
-    <result column="num" property="num" jdbcType="Float" />
+    <result column="num" property="num" jdbcType="FLOAT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
