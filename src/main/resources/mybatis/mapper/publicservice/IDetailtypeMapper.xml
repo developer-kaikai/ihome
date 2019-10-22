@@ -320,7 +320,11 @@
     </select>
 
   <select id="selectByname" parameterType="String" resultMap="BaseResultMap">
-      select * from i_detailtype where typename like "%"#{typename}"%"
+      select * from i_detailtype <where>
+    <if test="typename != null">
+      typename like "%"#{typename}"%"
+    </if>
+  </where>
   </select>
 
   <select id="selectByServicetypeid" parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.IDetailtype">

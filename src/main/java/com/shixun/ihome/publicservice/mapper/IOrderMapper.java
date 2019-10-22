@@ -44,4 +44,7 @@ public interface IOrderMapper {
 
     /*查询所有*/
     List<IOrder> listAll();
+
+    List<IOrder> listbyuser(int userid,int orderstate);
+    List<IOrder> listbystaff(int staffid,int orderstate);
 }

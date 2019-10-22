@@ -223,4 +223,24 @@
       finallytime = #{finallytime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="listMap" type="com.shixun.ihome.publicservice.pojo.IEvaluate"  extends="BaseResultMap">
+    <id column="id" property="id"/>
+      <association property="order" javaType="com.shixun.ihome.publicservice.pojo.IOrder" resultMap="com.shixun.ihome.publicservice.mapper.IOrderMapper.BaseResultMap">
+    </association>
+
+    <association property="detailtype" javaType="com.shixun.ihome.publicservice.pojo.IDetailtype" resultMap="com.shixun.ihome.publicservice.mapper.IDetailtypeMapper.BaseResultMap">
+    </association>
+  </resultMap>
+
+  <select id="listByid" parameterType="int" resultMap="listMap">
+     select * from i_evaluate e,i_order o,i_detailtype d,i_user u where
+     o.user_id=#{userid} and e.order_id=o.id and o.detailtype_id=d.id
+
+  </select>
+
+  <select id="listBystaffid" parameterType="int" resultMap="listMap">
+     select * from i_evaluate e,i_order_staff os,i_staff s,i_detailtype d,i_order o where s.id=1 and s.id=os.staff_id and os.order_id=o.id and e.order_id=o.id
+  </select>
+
 </mapper>
