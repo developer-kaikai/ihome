@@ -1,7 +1,10 @@
 package com.shixun.ihome.backgroundsystem.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.backgroundsystem.service.ComplaintService;
+import com.shixun.ihome.config.ApiJsonObject;
+import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.IOrderComplaint;
@@ -52,6 +55,21 @@ public class ComplaintController {
         json = Result.build(ResultType.Success).appendData("complaints", complaints).convertIntoJSON();
 
         response.getWriter().write(json);
+
+    }
+    @ApiOperation(value = "根据投诉状态查询")
+    @RequestMapping(value="/selectComplaintByStatus",method = RequestMethod.GET)
+    @ResponseBody
+    public void selectComplaintByStatus(@ApiJsonObject(name = "iUserDetail", value = {
+            @ApiJsonProperty(key = "cstatus", example = "0", description = "状态")})
+          @RequestBody JSONObject complaint,HttpServletResponse response)throws IOException {
+        int cstatus=complaint.getInteger("cstatus");
+        //IOrderComplaint
+        //List<IOrderComplaint> complaints=complaintService.selectComplaintByStatus();
+        response.setContentType("application/json;charset=utf-8");
+        String json ;
+        //json = Result.build(ResultType.Success).appendData("complaints", complaints).convertIntoJSON();
+        //esponse.getWriter().write(json);
 
     }
 

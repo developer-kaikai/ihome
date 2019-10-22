@@ -30,4 +30,6 @@ public interface IOrderComplaintMapper {
     int updateByPrimaryKeySelective(IOrderComplaint record);
 
     int updateByPrimaryKey(IOrderComplaint record);
+
+    List<IOrderComplaint> selectComplaintByStatus(IOrderComplaint record);
 }

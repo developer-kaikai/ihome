@@ -295,10 +295,10 @@
     <association property="user" javaType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="com.shixun.ihome.publicservice.mapper.IUserMapper.BaseResultMap">
     </association>
 
-    <association property="userDetail" javaType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="com.shixun.ihome.publicservice.mapper.IUserDetailMapper.BaseResultMap">
+    <association property="userDetail" javaType="com.shixun.ihome.publicservice.pojo.IUserDetail" resultMap="com.shixun.ihome.publicservice.mapper.IUserDetailMapper.BaseResultMap">
     </association>
 
-    <association property="detailtype" javaType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="com.shixun.ihome.publicservice.mapper.IDetailtypeMapper.BaseResultMap">
+    <association property="detailtype" javaType="com.shixun.ihome.publicservice.pojo.IDetailtype" resultMap="com.shixun.ihome.publicservice.mapper.IDetailtypeMapper.BaseResultMap">
     </association>
   </resultMap>
 
@@ -322,17 +322,43 @@
 
   <select id="listbyuser" parameterType="int" resultMap="listall">
 select * from i_order o,i_user u,i_detailtype d,i_user_detail a
-    where u.id=#{userid} and o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id
-    <if test="orderstate!=7&amp;orderstate!=5">
+    where u.id=#{userid} and o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id and o.state!=5
+    <if test="orderstate!=7">
       and o.state=#{orderstate}
     </if>
   </select>
 
   <select id="listbystaff" parameterType="int" resultMap="listall">
 select * from i_staff s,i_order_staff os,i_order o where s.id=#{staffid} and os.staff_id=s.id and o.id=os.order_id and o.state!=5
-    <if test="orderstate!=7&amp;orderstate!=5">
+    <if test="orderstate!=7">
       and o.state=#{orderstate}
     </if>
  </select>
+
+
+  <select id="listbyuserTypeid" parameterType="int" resultMap="listall">
+    sselect * from i_order o,i_user u,i_detailtype d,i_user_detail a
+    where u.id=#{userid} and o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id and o.state!=5 and o.detailtype_id=#{detailtypeid}
+
+  </select>
+
+  <select id="listbystaffTypeid" parameterType="int" resultMap="listall">
+    select * from i_staff s,i_order_staff os,i_order o where s.id=#{staffid} and os.staff_id=s.id and o.id=os.order_id and o.state!=5 and o.detailtype_id=#{detailtypeid}
+
+  </select>
+
+  <select id="idbyTypename" parameterType="String" resultType="com.shixun.ihome.publicservice.pojo.IDetailtype">
+    select * from i_detailtype where typename like "%"#{typename}"%"
+  </select>
+
+    <select id="oderbyuserTypename" parameterType="int" resultMap="listall">
+        SELECT * FROM i_order o,i_user u,i_user_detail ud,i_detailtype d where u.id=#{userid} and o.user_id=u.id and o.detailtype_id=#{id} and d.id=#{id} and ud.id=o.useraddress_id and o.state!=5
+
+    </select>
+
+
+    <select id="oderbystaffTypename" parameterType="int" resultMap="listall">
+        select * from i_order o,i_staff s,i_order_staff os,i_detailtype d,i_user_detail ud where s.id=#{staffid} and os.staff_id=s.id and os.order_id=o.id and o.detailtype_id=#{id} and o.detailtype_id=d.id and o.useraddress_id=ud.id and o.state!=5
+    </select>
 
 </mapper>

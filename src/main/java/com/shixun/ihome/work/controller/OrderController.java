@@ -44,6 +44,25 @@ public class OrderController {
     private EvaluateService evaluateService;
 
 
+    @ApiOperation(value = "test")
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public void orderAllByTy(@RequestBody JSONObject name, HttpServletResponse response) throws IOException {
+        String typename=name.getString("typename");
+        int userid=name.getInteger("userid");
+        int temp=name.getInteger("temp");
+        List<IOrder> orders =new ArrayList<>();
+        /*员工*/
+        if(temp==1){
+            orders=orderService.listbystaffTypename(userid,typename);
+        }else{
+         orders=orderService.listbyuserTypename(userid,typename);}
+
+        response.setContentType("application/json;charset=utf-8");
+        String json;
+        json = Result.build(ResultType.Success).appendData("orders", orders).convertIntoJSON();
+        response.getWriter().write(json);
+    }
+
     @ApiOperation(value = "用户查看订单评价")
     @RequestMapping(value = "/evlistByid", method = RequestMethod.POST)
     public void orderAllByType(@RequestBody JSONObject name, HttpServletResponse response) throws IOException {

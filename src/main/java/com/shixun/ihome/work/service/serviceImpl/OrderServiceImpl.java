@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -28,6 +30,35 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private IOrderStaffMapper orderStaffMapper;
 
+    @Override
+    public List<IOrder> listbyuserTypename(int userid, String typename) {
+        List<IDetailtype> listint=orderMapper.idbyTypename(typename);
+        List<IOrder> maplist=new ArrayList<>();
+        List<IOrder> orderList=new ArrayList<>();
+        System.out.println(listint);
+        for(int i=0;i<listint.size();i++){
+            orderList=orderMapper.oderbyuserTypename(userid,listint.get(i).getId());
+           maplist.addAll(orderList);
+        }
+
+
+        return maplist;
+    }
+
+    @Override
+    public List<IOrder> listbystaffTypename(int staffid, String typename) {
+        List<IDetailtype> listint=orderMapper.idbyTypename(typename);
+        List<IOrder> maplist=new ArrayList<>();
+        List<IOrder> orderList=new ArrayList<>();
+        System.out.println(listint);
+        for(int i=0;i<listint.size();i++){
+            orderList=orderMapper.oderbystaffTypename(staffid,listint.get(i).getId());
+            maplist.addAll(orderList);
+        }
+
+
+        return maplist;
+    }
 
     @Override
     public List<IOrder> listbyuserid(int userid, int orderstate) {

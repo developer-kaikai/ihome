@@ -1,5 +1,6 @@
 package com.shixun.ihome.publicservice.mapper;
 
+import com.shixun.ihome.publicservice.pojo.IDetailtype;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderExample;
 import org.apache.ibatis.annotations.Param;
@@ -45,6 +46,18 @@ public interface IOrderMapper {
     /*查询所有*/
     List<IOrder> listAll();
 
+    /*用户/员工查看自己的订单*/
     List<IOrder> listbyuser(int userid,int orderstate);
     List<IOrder> listbystaff(int staffid,int orderstate);
+
+    /*用户/员工查看自己的评价*/
+    List<IOrder> listbyuserTypeid(int userid,int detailtypeid);
+    List<IOrder> listbystaffTypeid(int staffid,int detailtype);
+
+    List<IDetailtype> idbyTypename(String typename);
+
+    /*用户/员工模糊找自己的订单*/
+   List<IOrder> oderbyuserTypename(int userid,int id);
+   List<IOrder> oderbystaffTypename(int staffid,int id);
+
 }
