@@ -355,11 +355,6 @@
       </if>
     </where>
   </select>
-  <select id="selectStaffByServiceTypeAndStatus" parameterType="map"  resultType="com.shixun.ihome.publicservice.pojo.IStaff">
-    SELECT s.id, s.name, s.sex, s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status,s.basesalary
-FROM ihome.i_staff s left join i_detailtype d on s.detailtype_id = d.id left join i_servicetype st on st.id = d.servicetpye_id
-where st.id = #{type} and status = #{status}
-  </select>
 
   <select id="selectHourworkStaffsByStatus" parameterType="map" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
     SELECT s.id , s.name, s.sex
@@ -394,5 +389,9 @@ where st.id = #{type} and status = #{status}
     , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status,s.basesalary
     from i_order_staff os left join i_staff s on s.id = os.order_id
     where os.order_id = {orderId} and s.status = 2
+  </select>
+
+  <select id="selectStaffForHour" parameterType="map" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
+
   </select>
 </mapper>

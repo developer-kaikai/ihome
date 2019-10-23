@@ -68,37 +68,19 @@ public class StaffController {
     }
 
 
-    @ApiOperation("获取空闲的钟点工")
+    @ApiOperation("获取空闲的员工")
     @PostMapping("getFreeHourworkStaffs")
     public ResultBase getFreeHourworkStaffs(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key = "pageNum", example = "0", description = "页码"),
-            @ApiJsonProperty(key = "pageSize", example = "10", description = "一页显示数量")
+            @ApiJsonProperty(key = "pageSize", example = "10", description = "一页显示数量"),
+            @ApiJsonProperty(key = "serviceId", example = "1", description = "1为钟点工，其他未其他员工")
     }) @RequestBody JSONObject params){
         Map<String,Object> map = new HashMap<> ();
         map.put("pageNum", params.getIntValue("pageNum"));
         map.put("pageSize", params.getIntValue("pageSize"));
-        map.put("status", 0);
         PageInfo<IStaff> pageInfo = staffService.selectHourworkStaffsByStatus(map);
         if (pageInfo.getSize() == 0){
             return ResultBase.fail("没有获取到空闲的钟点工");
-        }
-        return getPageData(pageInfo);
-    }
-
-
-    @ApiOperation(value="获取空闲员工除了钟点工")
-    @PostMapping("getFreeStaffs")
-    public ResultBase getFreeStaffs(@ApiJsonObject(name = "params", value = {
-            @ApiJsonProperty(key = "pageSize", example= "页"),
-            @ApiJsonProperty(key = "pageNum", example= "页数"),
-            @ApiJsonProperty(key = "type", example = "1")
-    })@RequestBody JSONObject params){
-        Integer pageNum = params.getInteger("pageNum");
-        Integer pageSize = params.getInteger("pageSize");
-        Integer type = params.getInteger("type");
-        PageInfo<IStaff> pageInfo = staffService.selectStaffByServiceTypeAndStatus(type, 0, pageNum, pageSize);
-        if (pageInfo.getSize()!= 0) {
-            return ResultBase.fail("获取长期工数据失败");
         }
         return getPageData(pageInfo);
     }

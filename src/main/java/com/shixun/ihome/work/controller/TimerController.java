@@ -71,9 +71,13 @@ public class TimerController {
         Integer pageSize = params.getInteger("pageSize");
         Integer pageNum = params.getInteger("pageNum");
         Integer index = params.getInteger("index");
+        map.put("pageSize",pageSize);
+        map.put("pageNum",pageNum);
+        map.put("index", index);
         PageInfo<IStaff> pageInfo = null;
         if (serviceId != 1){
             //如果存在服务大类id不为1就是不是钟点工，就搜索其他员工
+            map.put("serviceId", serviceId);
             pageInfo = timeService.selectStaffByFreeForOther(map);
         }else{
             pageInfo = timeService.selectStaffByFree(map);

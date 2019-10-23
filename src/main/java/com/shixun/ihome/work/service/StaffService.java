@@ -8,13 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface StaffService {
-    /**
-     * 根据服务类型以及状态搜索员工
-     * @param type 1：钟点工，2：一般家政，3：家维修，4：长期工
-     * @param status  0：空闲中，1：休假中，2：服务中，3：无效
-     * @return 搜索的员工列表
-     */
-    PageInfo<IStaff> selectStaffByServiceTypeAndStatus(int type, int status, int pageNum, int pageSize);
 
     //根据条件搜索员工
     PageInfo<IStaff> selectStaffs(IStaff istaff, int pageNum, int pageSize);
