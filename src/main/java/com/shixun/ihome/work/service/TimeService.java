@@ -27,7 +27,7 @@ public interface TimeService {
      */
     boolean updateTimerByOrder(int id,  IOrder order, int serviceId);
 
-    boolean removeTimerByOrder(int id, IOrder order);
+    boolean removeTimerByOrder(int id, IOrder order, int serviceId);
 
     /**
      * 获取空闲员工(钟点工）

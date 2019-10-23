@@ -43,13 +43,13 @@ public class TimerController {
             @ApiJsonProperty(key = "serviceId", example = "1"),
             @ApiJsonProperty(key = "type", example = "0", description = "默认未0如果未1就返回只有上面时间")
     })@RequestBody JSONObject name){
-        int hours=name.getInteger("hours");
         int serviceId = name.getInteger("serviceId");
         Integer type = name.getInteger("type");
         if (type != null && type == 1){
             List<RedisTimerInfo> timerInfos = redisTimerService.getMessageOther(serviceId);
             return ResultBase.success(timerInfos);
         }
+        int hours=name.getInteger("hours");
         if (hours > 8 || hours <= 0){
             return ResultBase.fail("时间超出可以选择的范围");
         }

@@ -60,12 +60,14 @@ public class Qutil {
             return 0;
         }
 
+        newdate = removeTimer(newdate);
+        olddate = removeTimer(olddate);
         Calendar cal = Calendar.getInstance();
         cal.setTime(newdate);
         long time1 = cal.getTimeInMillis();
         cal.setTime(olddate);
         long time2 = cal.getTimeInMillis();
-        long between_days=(time1-time2)/(1000*3600*24);
+        long between_days=(Math.abs(time1-time2))/(1000*3600*24);
         return Integer.parseInt(String.valueOf(between_days));
     }
 
