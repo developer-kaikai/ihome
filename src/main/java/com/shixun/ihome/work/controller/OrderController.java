@@ -1,6 +1,5 @@
 package com.shixun.ihome.work.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.config.ApiJsonObject;
@@ -11,11 +10,8 @@ import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.IEvaluate;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
 import com.shixun.ihome.publicservice.pojo.IStaff;
-import com.shixun.ihome.work.service.EvaluateService;
-import com.shixun.ihome.work.service.OrderService;
+import com.shixun.ihome.work.service.*;
 import com.shixun.ihome.publicservice.pojo.IOrder;
-import com.shixun.ihome.work.service.StaffService;
-import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +38,8 @@ public class OrderController {
     private StaffService staffService;
     @Autowired
     private EvaluateService evaluateService;
-
+    @Autowired
+    private UserService userService;
 
     @ApiOperation(value = "test")
     @RequestMapping(value = "/test", method = RequestMethod.POST)
@@ -103,19 +100,6 @@ public class OrderController {
         response.getWriter().write(json);
     }
 
-
-
-    @ApiOperation(value = "增加订单")
-    @Transactional
-    @ApiImplicitParam(name = "order", value = "订单实体类", required = true, dataType = "IOrder")
-    @PostMapping("addIOrder")
-    public ResultBase addorder(@RequestBody IOrder order) {
-        if (orderService.addOrderRecord(order, "乔哥")){
-            return ResultBase.success();
-        }
-        return ResultBase.fail("添加订单失败");
-    }
-
     @ApiOperation(value = "添加订单")
     @PostMapping("addOrder")
     @Transactional
@@ -124,12 +108,11 @@ public class OrderController {
             @ApiJsonProperty(key = "userAddressId", example = "1", description = "用户地址id"),
             @ApiJsonProperty(key = "price", example = "0.0", description = "价格"),
             @ApiJsonProperty(key = "comm", example = "注释", description = "注释"),
-            @ApiJsonProperty(key = "date", example = "2019年10月24日 8:00|2019年10月24日 10:00")
-    })@RequestBody JSONObject params,@ApiIgnore HttpSession session){
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null){
-            return ResultBase.fail("在添加订单前请登录");
-        }
+            @ApiJsonProperty(key = "date", example = "2019年10月24日 8:00|2019年10月24日 10:00"),
+            @ApiJsonProperty(key = "userId", example = "1", description = "用户id测试用")
+    })@RequestBody JSONObject params){
+
+        Integer userId = params.getInteger("userId");
         Integer detailTypeId = params.getInteger("detailTypeId");
         if (detailTypeId == null){
             return ResultBase.fail("订单缺少详细服务类型");
@@ -157,13 +140,13 @@ public class OrderController {
         IOrder order = new IOrder();
         order.setState(0);
         order.setUserId(userId);
-        order.setUseraddressId(detailTypeId);
+        order.setDetailtypeId(detailTypeId);
         order.setUseraddressId(addressId);
         order.setPrice(price);
         order.setComm(comm);
         //处理订单的日期和时间 开始时间|结束时间
         String [] s = date.split("\\|");
-        if (s.length >= 2){
+        if (s.length > 2){
             return ResultBase.fail("请检测时间的格式是否正确");
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 hh:mm");
@@ -179,8 +162,8 @@ public class OrderController {
         }
         order.setOrderTime(new Date());
 
-//        String openId =
-        if (orderService.addOrderRecord(order, "乔哥")){
+        String openId = userService.getOpenId(userId);
+        if (orderService.addOrderRecord(order, openId)){
             return ResultBase.success();
         }
         return ResultBase.fail("添加订单失败");
@@ -202,13 +185,13 @@ public class OrderController {
 
     }
 
-    @ApiOperation(value = "取消维修订单")
+    @ApiOperation(value = "取消订单")
     @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "int")
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
     public Boolean cancelOrder(@ApiJsonObject(name = "name", value = {
             @ApiJsonProperty(key = "id", example = "1", description = "订单id")
     })@RequestBody JSONObject name) {
-        int id=name.getInteger("id");
+        Integer id=name.getInteger("id");
         boolean success = orderService.cancelOrder(id);
         return success;
     }

@@ -205,7 +205,7 @@
   <resultMap id="weixinResultMap" type="com.shixun.ihome.publicservice.pojo.IWeixin">
     <id column="wid" property="id" jdbcType="INTEGER" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
-    <result column="position_id" property="positionId" jdbcType="INTEER" />
+    <result column="position_id" property="positionId" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="listUsers" type="com.shixun.ihome.publicservice.pojo.IUser" extends="BaseResultMap">
     <collection property="userDetail" ofType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="userDetailsResultMap">

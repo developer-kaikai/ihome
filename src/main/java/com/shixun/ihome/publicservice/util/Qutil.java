@@ -86,6 +86,9 @@ public class Qutil {
         return false;
     }
 
+    public static boolean assertTimer(Date date1, Date date2, int cal_type, ){
+    }
+
     /**
      * 移除日期的时间部分
      * @param date
