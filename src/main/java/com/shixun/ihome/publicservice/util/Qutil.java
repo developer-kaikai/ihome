@@ -86,8 +86,13 @@ public class Qutil {
         return false;
     }
 
+    public final static int MINUTE = 60 * 1000;
+    public final static int SECONE = 1000;
+    public final static  int HOUR = 1000 * 60 * 60;
+
     public static boolean assertTimer(Date date1, Date date2, int cal_type, int num ){
-        return false;
+        long diff = Math.abs(date1.getTime() - date2.getTime());
+        return (diff/cal_type) < num;
     }
 
     /**

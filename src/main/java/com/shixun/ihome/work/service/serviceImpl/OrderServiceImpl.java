@@ -2,6 +2,7 @@ package com.shixun.ihome.work.service.serviceImpl;
 
 import com.shixun.ihome.publicservice.mapper.*;
 import com.shixun.ihome.publicservice.pojo.*;
+import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -87,7 +88,10 @@ public class OrderServiceImpl implements OrderService {
     public boolean cancelOrder(int id) {
         redisTemplate.delete("orderall");
         IOrder order=orderMapper.selectByPrimaryKey(id);
-        System.out.println(order.getState());
+        Date orderTimer = order.getOrderTime();
+        if (!Qutil.assertTimer(new Date(), orderTimer, Qutil.MINUTE, 15)){
+            return false;
+        }
         order.setState(IOrderMapper.CANCEL);
         orderMapper.updateByPrimaryKeySelective(order);
         List<IOrder> orderList=orderMapper.listAll();
@@ -152,8 +156,6 @@ public class OrderServiceImpl implements OrderService {
 
         List<IOrder> orderList=orderMapper.listAll();
         redisTemplate.opsForValue().set("orderall", orderList);
-
-
         return true;
     }
 

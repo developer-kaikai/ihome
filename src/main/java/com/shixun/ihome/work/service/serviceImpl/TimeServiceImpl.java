@@ -29,27 +29,32 @@ public class TimeServiceImpl implements TimeService {
     }
 
     @Override
-    public boolean updateTimerByOrder(int id, IOrder order) {
+    public boolean updateTimerByOrder(int id, IOrder order, int serviceId) {
         //获取时间表
         ITimer timer1= getITimeByStaffId(id);
         long timer = timer1.getTimer();
-        //计算订单的时间表
         long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
-        System.out.println(timer2);
-        //处理
-        timer2 = worktimer(timer2);
-        System.out.println(timer2);
-        timer2 = timer2 << ((timerLeft(order.getStartTime()) + 1 ) * 6);
-        System.out.println(timer2);
-        //开始运算
-        if ((timer & timer2) == 0){
-            timer = (timer ^ timer2) & ITimerMapper.MAXTIMER;
-        } else {
-            throw new RuntimeException("这个错误你知道的");
+        if(serviceId == 1){
+            //计算订单的时间表
+            System.out.println(timer2);
+            //处理
+            timer2 = worktimer(timer2);
+            System.out.println(timer2);
+            timer2 = timer2 << ((timerLeft(order.getStartTime()) + 1 ) * 6);
+            System.out.println(timer2);
+            //开始运算
+            if ((timer & timer2) == 0){
+                timer = (timer ^ timer2) & ITimerMapper.MAXTIMER;
+            } else {
+                throw new RuntimeException("这个错误你知道的");
+            }
+            timer1.setTimer(timer);
+        }else{
+            //不是钟点工
+
+
         }
-        System.out.println(Long.toBinaryString(timer1.getTimer()));
-        System.out.println(Long.toBinaryString(timer));
-        timer1.setTimer(timer);
+
         if (iTimerMapper.updateByPrimaryKeySelective(timer1) == 0){
             throw new RuntimeException("时间表更新出错");
         }

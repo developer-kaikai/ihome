@@ -188,12 +188,15 @@ public class OrderController {
     @ApiOperation(value = "取消订单")
     @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "int")
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public Boolean cancelOrder(@ApiJsonObject(name = "name", value = {
+    public ResultBase cancelOrder(@ApiJsonObject(name = "name", value = {
             @ApiJsonProperty(key = "id", example = "1", description = "订单id")
     })@RequestBody JSONObject name) {
         Integer id=name.getInteger("id");
         boolean success = orderService.cancelOrder(id);
-        return success;
+        if (success){
+            return ResultBase.success();
+        }
+        return ResultBase.fail("取消订单失败，超出15分钟,或订单已经在服务之中");
     }
 
     @ApiOperation(value = "填写维修详情")
@@ -267,7 +270,7 @@ public class OrderController {
         IOrder order = orderService.getOrder(orderId);
         if (orderService.removeStaffForOrder(orderId, staffId)) {
             timeService.removeTimerByOrder(staffId, order);
-            staffService.updateStaffStatus(staffId, 0);
+            staffService.updateStaffStatus(staffId, 0, 2);
             return new ResultBase(200, "员工移除成功");
         }
 
@@ -276,8 +279,13 @@ public class OrderController {
 
     @ApiOperation(value = "删除订单")
     @RequestMapping(value = "/deleteOrder", method = RequestMethod.GET)
-    public void deleteorder(Integer id) {
+    public ResultBase deleteorder(Integer id) {
         boolean success = orderService.deleteOrder(id);
+        if (success){
+            return ResultBase.success();
+        }else {
+            return ResultBase.fail("删除订单失败");
+        }
     }
 
     @ApiOperation(value = "高级查询订单")
@@ -312,9 +320,9 @@ public class OrderController {
                 //插入到订单员工表之中
                 orderService.addStaffForOrder(orderId, id);
                 //更新员工的时间表
-                timeService.updateTimerByOrder(id, order);
+                timeService.updateTimerByOrder(id, order, 2);
                 //更新员工的状态(为服务中2)
-                staffService.updateStaffStatus(id, 2);
+                staffService.updateStaffStatus(id, 2, 0);
             }
 
             return ResultBase.success();
@@ -344,9 +352,8 @@ public class OrderController {
         if (finish){
             //修改订单的状态为完成 4
             List<IStaff> staffs = staffService.selectStaffForOrder(orderId);
-            for (IStaff staff :
-                    staffs) {
-                staffService.updateStaffStatus(staff.getId(), 0);
+            for (IStaff staff : staffs) {
+                staffService.updateStaffStatus(staff.getId(), 0, 2);
             }
             if(orderService.updateOrderState(orderId, 4)){
                 return ResultBase.success();

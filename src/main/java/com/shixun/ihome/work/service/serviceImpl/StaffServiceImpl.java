@@ -91,14 +91,14 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public boolean updateStaffStatus(int staffId, int staffStatus) {
+    public boolean updateStaffStatus(int staffId, int staffStatus, int wantStatus) {
+        IStaffExample iStaffExample = new IStaffExample();
+        IStaffExample.Criteria criteria = iStaffExample.createCriteria();
+        criteria.andStatusEqualTo(wantStatus);
         IStaff iStaff = new IStaff();
         iStaff.setId(staffId);
         iStaff.setStatus(staffStatus);
-        if(staffMapper.updateByPrimaryKeySelective(iStaff) == 0){
-            throw new RuntimeException("更新员工状态出现问题");
-        }
-
+        staffMapper.updateByExampleSelective(iStaff, iStaffExample);
         return true;
     }
 

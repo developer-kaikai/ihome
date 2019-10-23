@@ -25,7 +25,7 @@ public interface TimeService {
      * @param order
      * @return
      */
-    boolean updateTimerByOrder(int id,  IOrder order);
+    boolean updateTimerByOrder(int id,  IOrder order, int serviceId);
 
     boolean removeTimerByOrder(int id, IOrder order);
 

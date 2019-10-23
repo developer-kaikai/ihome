@@ -31,8 +31,11 @@ public class qiaoTests {
     private UserService userService;
 
     @Test
-    public void test1(){
-        System.out.println(userService.getOpenId(1));
+    public void test1() throws Exception{
+        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        Date date1 = sdf.parse("2019-10-24 15:15");
+        Date date2 = sdf.parse("2019-10-24 15:5");
+        System.out.println(Qutil.assertTimer(date1, date2, Qutil.MINUTE, 15));
     }
 
 

@@ -60,27 +60,23 @@ public class TimerController {
 
     @ApiOperation(value = "获取空闲员工")
     @PostMapping("/getFreeStaffs")
-    public ResultBase getFreeStaffs(@ApiJsonObject(name = "map", value = {
+    public ResultBase getFreeStaffs(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key = "index", example = "0-7"),
-            @ApiJsonProperty(key = "detailType", example = "详细服务类型id(可有可无)"),
-            @ApiJsonProperty(key = "status", example = "员工状态(可有可无）"),
+            @ApiJsonProperty(key = "serviceId", example = "详细服务类型id(可有可无)"),
             @ApiJsonProperty(key = "pageSize", example = "10"),
             @ApiJsonProperty(key = "pageNum", example = "1")
-    })@RequestBody Map<String, Object> map){
-        Integer detailType = (Integer) map.get("detailType");
+    })@RequestBody JSONObject params){
+        Map<String, Object> map = new HashMap<>();
+        Integer serviceId = params.getInteger("serviceId");
+        Integer pageSize = params.getInteger("pageSize");
+        Integer pageNum = params.getInteger("pageNum");
+        Integer index = params.getInteger("index");
         PageInfo<IStaff> pageInfo = null;
-        if (detailType == null){
-            //详细服务id为空，默认不管服务类型全查
-            pageInfo = timeService.selectStaffByFree(map);
+        if (serviceId != 1){
+            //如果存在服务大类id不为1就是不是钟点工，就搜索其他员工
+            pageInfo = timeService.selectStaffByFreeForOther(map);
         }else{
-            //获取服务大类id
-            Integer serviceId = servicetypeService.getServiceType(detailType);
-            if (serviceId != 1){
-                //如果存在服务大类id不为1就是不是钟点工，就搜索其他员工
-                pageInfo = timeService.selectStaffByFreeForOther(map);
-            }else{
-                pageInfo = timeService.selectStaffByFree(map);
-            }
+            pageInfo = timeService.selectStaffByFree(map);
         }
         Map<String, Object> data = new HashMap<>();
         data.put("data", pageInfo.getList());

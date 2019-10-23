@@ -34,7 +34,7 @@ public interface StaffService {
     PageInfo<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map);
 
     //员工服务状态修改（不记录）
-    boolean updateStaffStatus(int staffId , int staffStatus);
+    boolean updateStaffStatus(int staffId , int staffStatus, int wantStatus);
 
     List<IStaff> selectStaffForOrder(Integer orderId);
 
