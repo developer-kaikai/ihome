@@ -86,7 +86,8 @@ public class Qutil {
         return false;
     }
 
-    public static boolean assertTimer(Date date1, Date date2, int cal_type, ){
+    public static boolean assertTimer(Date date1, Date date2, int cal_type, int num ){
+        return false;
     }
 
     /**
