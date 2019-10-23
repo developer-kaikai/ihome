@@ -8,6 +8,8 @@ import com.shixun.ihome.config.ApiJsonObject;
 import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.publicservice.pojo.IStaff;
+import com.shixun.ihome.work.service.ServiceTimerService;
+import com.shixun.ihome.work.service.ServicetypeService;
 import com.shixun.ihome.work.service.StaffService;
 import com.shixun.ihome.work.service.TimeService;
 import io.swagger.annotations.*;
@@ -26,6 +28,10 @@ public class StaffController {
     private StaffService staffService;
     @Autowired
     private TimeService timerService;
+    @Autowired
+    private ServiceTimerService serviceTimerService;
+    @Autowired
+    private ServicetypeService servicetypeService;
 
 
     @ApiOperation(value = "添加员工")
@@ -37,6 +43,10 @@ public class StaffController {
         staffService.addStaffRecord(iStaff, "乔哥");
         //为员工添加时间表
         timerService.addTimer(iStaff.getId());
+        //获取服务大类id
+        int serviceId = servicetypeService.getServiceType(iStaff.getDetailtypeId());
+        serviceTimerService.changeStaff(serviceId, 1);
+
 
 
         return new ResultBase(200, "添加员工成功");
@@ -123,10 +133,19 @@ public class StaffController {
         //获取旧记录
         IStaff iStaff1 = staffService.getOne(iStaff.getId());
         //获取session之中的修改人
+        int detailId1  = iStaff1.getDetailtypeId();
+        int detailId2 = iStaff.getDetailtypeId();
 
         String bywho = "";
         //
         if (staffService.updateStaffRecord(iStaff1,iStaff,bywho)){
+            //如果管理员修改了员工的详细服务，就重新修改服务类时间表
+            if (detailId1 != detailId2){
+                int serviceId1 = servicetypeService.getServiceType(detailId1);
+                int serviceId2 = servicetypeService.getServiceType(detailId2);
+                serviceTimerService.changeStaff(serviceId1, -1);
+                serviceTimerService.changeStaff(serviceId2, 1);
+            }
             return "修改成功";
         }
         return "修改失败";
@@ -140,6 +159,8 @@ public class StaffController {
     })@RequestBody JSONObject params) {
         IStaff record = staffService.getOne(params.getInteger("id"));
         if(staffService.deleteStaffRecord(record, "乔哥").equals("员工删除成功")){
+            int serviceId = servicetypeService.getServiceType(record.getDetailtypeId());
+            serviceTimerService.changeStaff(serviceId, -1);
             return new ResultBase(200, "删除员工成功");
         }
         return new ResultBase(400, "删除员工失败");

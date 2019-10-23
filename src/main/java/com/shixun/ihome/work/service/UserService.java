@@ -19,4 +19,7 @@ public interface UserService {
     boolean addUserDetail(IUserDetail iUserDetail);
 
     boolean updateUserDetail(IUserDetail iUserDetail);
+
+    //获取用户的openid
+    String getOpenId(int userId);
 }

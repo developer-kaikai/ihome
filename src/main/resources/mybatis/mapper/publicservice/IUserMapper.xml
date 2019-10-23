@@ -202,6 +202,11 @@
     <result column="orderPhone" property="phone" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
+  <resultMap id="weixinResultMap" type="com.shixun.ihome.publicservice.pojo.IWeixin">
+    <id column="wid" property="id" jdbcType="INTEGER" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="position_id" property="positionId" jdbcType="INTEER" />
+  </resultMap>
   <resultMap id="listUsers" type="com.shixun.ihome.publicservice.pojo.IUser" extends="BaseResultMap">
     <collection property="userDetail" ofType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="userDetailsResultMap">
     </collection>
@@ -219,6 +224,15 @@
       <if test="phone!=null">
         and a.phone like "%"#{phone}"%"
       </if>
+  </select>
 
+  <resultMap id="UserWeixinResultMap" type="com.shixun.ihome.publicservice.pojo.IUser" extends="BaseResultMap">
+      <association property="weixin" resultMap="weixinResultMap" ></association>
+  </resultMap>
+
+
+
+  <select id="getOpenId" resultMap="UserWeixinResultMap" parameterType="Integer" >
+SELECT u.id, u.weixin_id, u.phone, w.id as wid, w.open_id, w.position_id FROM i_user u left join i_weixin w on w.id = u.weixin_id where u.id = #{userId}
   </select>
 </mapper>

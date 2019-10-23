@@ -47,4 +47,10 @@ public class UserServiceImpl implements UserService {
         iUserDetailMapper.updateByPrimaryKeySelective(iUserDetail);
         return true;
     }
+
+    @Override
+    public String getOpenId(int userId) {
+        IUser user = iUserMapper.getOpenId(userId);
+        return user.getWeixin().getOpenId();
+    }
 }

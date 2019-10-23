@@ -12,6 +12,8 @@ public class IUser implements Serializable {
 
     private String name;
 
+    private IWeixin weixin;
+
     private List<IUserDetail> userDetail;
 
     public Integer getId() {
@@ -52,5 +54,14 @@ public class IUser implements Serializable {
 
     public void setUserDetail(List<IUserDetail> userDetail) {
         this.userDetail = userDetail;
+    }
+
+
+    public IWeixin getWeixin() {
+        return weixin;
+    }
+
+    public void setWeixin(IWeixin weixin) {
+        this.weixin = weixin;
     }
 }

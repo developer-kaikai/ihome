@@ -33,4 +33,6 @@ public interface IUserMapper {
     int updateByPrimaryKey(IUser record);
 
     List<IUser> selectUsers(IUser iUser);
+
+    IUser getOpenId(Integer userId);
 }

@@ -124,7 +124,7 @@ public class OrderController {
             @ApiJsonProperty(key = "userAddressId", example = "1", description = "用户地址id"),
             @ApiJsonProperty(key = "price", example = "0.0", description = "价格"),
             @ApiJsonProperty(key = "comm", example = "注释", description = "注释"),
-            @ApiJsonProperty(key = "date", example = "2019年10月12日 8:00|2019年10月12日 10:00")
+            @ApiJsonProperty(key = "date", example = "2019年10月24日 8:00|2019年10月24日 10:00")
     })@RequestBody JSONObject params,@ApiIgnore HttpSession session){
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null){
@@ -162,7 +162,7 @@ public class OrderController {
         order.setPrice(price);
         order.setComm(comm);
         //处理订单的日期和时间 开始时间|结束时间
-        String [] s = date.split("|");
+        String [] s = date.split("\\|");
         if (s.length >= 2){
             return ResultBase.fail("请检测时间的格式是否正确");
         }
@@ -179,11 +179,7 @@ public class OrderController {
         }
         order.setOrderTime(new Date());
 
-        //获取工号
-
-        //
-        //
-        //
+//        String openId =
         if (orderService.addOrderRecord(order, "乔哥")){
             return ResultBase.success();
         }

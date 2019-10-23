@@ -16,4 +16,6 @@ public interface ServiceTimerService {
     List<Integer> getlist(int serviceId);
     //装成能用的时间表列表
     List<Integer> toTimerList(Long value, int serviceId);
+    //修改员工
+    boolean changeStaff(int serviceId, int num);
 }

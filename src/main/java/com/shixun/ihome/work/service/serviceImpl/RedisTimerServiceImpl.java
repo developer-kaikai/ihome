@@ -4,12 +4,9 @@ import com.shixun.ihome.publicservice.mapper.ITimerMapper;
 import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.work.service.RedisTimerService;
 import com.shixun.ihome.work.service.ServiceTimerService;
-import com.shixun.ihome.work.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Min;
 import java.util.*;
 
 @Service

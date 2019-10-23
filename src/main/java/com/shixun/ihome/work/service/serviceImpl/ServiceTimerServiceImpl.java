@@ -84,6 +84,16 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
         return list;
     }
 
+    @Override
+    public boolean changeStaff(int serviceId, int num) {
+        IServiceTimer serviceTimer = getOne(serviceId);
+        int staffNum = serviceTimer.getStaffnum();
+        serviceTimer.setStaffnum(staffNum + num);
+        int result = serviceTimerMapper.updateByPrimaryKeySelective(serviceTimer);
+        if (result > 0)return true;
+        else throw new RuntimeException("修改员工失败");
+    }
+
 
     //-----------------------------------------------------------------------------------------------------
 
