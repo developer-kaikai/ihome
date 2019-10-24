@@ -1,6 +1,7 @@
 package com.shixun.ihome.work.controller;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.pagehelper.PageInfo;
@@ -108,29 +109,56 @@ public class StaffController {
     }
 
     @ApiOperation(value = "修改员工")
-    @ApiImplicitParam(name="iStaff", required = true, dataType ="IStaff")
     @PostMapping("updateStaff")
     @Transactional
-    public Object updateStaff(@RequestBody IStaff iStaff) {
-        //获取旧记录
-        IStaff iStaff1 = staffService.getOne(iStaff.getId());
-        //获取session之中的修改人
-        int detailId1  = iStaff1.getDetailtypeId();
-        int detailId2 = iStaff.getDetailtypeId();
-
-        String bywho = "";
-        //
-        if (staffService.updateStaffRecord(iStaff1,iStaff,bywho)){
-            //如果管理员修改了员工的详细服务，就重新修改服务类时间表
-            if (detailId1 != detailId2){
-                int serviceId1 = servicetypeService.getServiceType(detailId1);
-                int serviceId2 = servicetypeService.getServiceType(detailId2);
-                serviceTimerService.changeStaff(serviceId1, -1);
-                serviceTimerService.changeStaff(serviceId2, 1);
-            }
-            return "修改成功";
-        }
-        return "修改失败";
+    public ResultBase updateStaff(@RequestBody JSONObject parmas) {
+        //读取数据
+        IStaff iStaff2 = parmas.toJavaObject(IStaff.class);
+        System.out.println(iStaff2);
+        return ResultBase.success();
+//        IStaff iStaff = new IStaff();
+//        Integer id = parmas.getInteger("id");
+//        Integer sex = parmas.getInteger("sex");
+//        String phone = parmas.getString("phone");
+//        String health = parmas.getString("health");
+//        String idCard = parmas.getString("idCard");
+//        JSONArray arr = parmas.getJSONArray("detailtypeId");
+//        Integer detailtypeId = arr.getInteger(2);
+//        String qualification = parmas.getString("qualification");
+//        Integer status = parmas.getInteger("status");
+//        Integer wechatId = parmas.getInteger("wechatId");
+//        iStaff.setId(id);
+//        iStaff.setSex(sex);
+//        iStaff.setPhone(phone);
+//        iStaff.setHealth(health);
+//        iStaff.setIdCard(idCard);
+//        iStaff.setDetailtypeId(detailtypeId);
+//        iStaff.setQualification(qualification);
+//        iStaff.setStatus(status);
+//        iStaff.setWechatId(wechatId);
+//
+//
+//        //获取旧记录
+//        IStaff iStaff1 = staffService.getOne(iStaff.getId());
+//
+//
+//        //获取session之中的修改人
+//        int detailId1  = iStaff1.getDetailtypeId();
+//        int detailId2 = iStaff.getDetailtypeId();
+//
+//        String bywho = "";
+//        //
+//        if (staffService.updateStaffRecord(iStaff1,iStaff,bywho)){
+//            //如果管理员修改了员工的详细服务，就重新修改服务类时间表
+//            if (detailId1 != detailId2){
+//                int serviceId1 = servicetypeService.getServiceType(detailId1);
+//                int serviceId2 = servicetypeService.getServiceType(detailId2);
+//                serviceTimerService.changeStaff(serviceId1, -1);
+//                serviceTimerService.changeStaff(serviceId2, 1);
+//            }
+//            return "修改成功";
+//        }
+//        return "修改失败";
     }
 
     @ApiOperation(value = "删除员工")

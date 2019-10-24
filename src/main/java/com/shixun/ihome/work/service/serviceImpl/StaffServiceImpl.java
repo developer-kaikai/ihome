@@ -38,7 +38,8 @@ public class StaffServiceImpl implements StaffService {
                 criteria.andNameLike(istaff.getName());
             }
         }
-        PageInfo<IStaff> staffs = new PageInfo<IStaff>(staffMapper.selectByExample(iStaffExample));
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<IStaff> staffs = new PageInfo<>(staffMapper.selectByExample(iStaffExample));
         return staffs;
     }
 
