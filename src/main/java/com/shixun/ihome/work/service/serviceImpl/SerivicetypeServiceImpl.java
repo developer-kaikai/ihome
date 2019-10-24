@@ -53,4 +53,11 @@ public class SerivicetypeServiceImpl implements ServicetypeService {
 
         return iDetailtype.getServicetpyeId();
     }
+
+
+    @Override
+    public List<IDetailtype> getDetailsByDetailId(int detailtypeId) {
+        List<IDetailtype> list = iDetailtypeMapper.selectServiceIdByDetailId(detailtypeId);
+        return list;
+    }
 }

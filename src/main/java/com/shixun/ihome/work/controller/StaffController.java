@@ -115,7 +115,7 @@ public class StaffController {
         //读取数据
         IStaff iStaff2 = parmas.toJavaObject(IStaff.class);
         System.out.println(iStaff2);
-        return ResultBase.success();
+        return ResultBase.success(iStaff2);
 //        IStaff iStaff = new IStaff();
 //        Integer id = parmas.getInteger("id");
 //        Integer sex = parmas.getInteger("sex");

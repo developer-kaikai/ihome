@@ -36,4 +36,6 @@ public interface IDetailtypeMapper {
     List<IDetailtype> selectByname(String typename);
 
     List<IDetailtype> selectByServicetypeid(int serviceid);
+    //根据详细服务id搜索相关服务
+    List<IDetailtype> selectServiceIdByDetailId(int detailtypeId);
 }

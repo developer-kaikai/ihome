@@ -327,6 +327,10 @@
   </where>
   </select>
 
+  <select id="selectServiceIdByDetailId" parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.IDetailtype">
+    SELECT * FROM i_detailtype where servicetpye_id = (select servicetpye_id from i_detailtype where id = #{detailtypeId})
+  </select>
+
   <select id="selectByServicetypeid" parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.IDetailtype">
    select * from i_detailtype where i_detailtype.servicetpye_id=#{serviceid}
   </select>

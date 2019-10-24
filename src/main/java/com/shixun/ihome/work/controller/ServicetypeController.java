@@ -12,6 +12,7 @@ import com.shixun.ihome.publicservice.pojo.IDetailtype;
 import com.shixun.ihome.publicservice.pojo.IServicetype;
 import com.shixun.ihome.work.service.ServicetypeService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @Api(description = "服务模块")
 @RequestMapping("json/order")
 public class ServicetypeController {
@@ -32,7 +33,6 @@ public class ServicetypeController {
     private ServicetypeService servicetypeService;
 
     @ApiOperation(value = "服务类型页面数据")
-    @ResponseBody
     @RequestMapping(value = "/servicelist",method = RequestMethod.POST)
     public void service(@RequestBody JSONObject name, HttpServletResponse response)throws IOException {
         int typeid=name.getInteger("typeid");
@@ -44,7 +44,6 @@ public class ServicetypeController {
     }
 
     @ApiOperation(value = "详细类型页面数据")
-    @ResponseBody
     @RequestMapping(value = "/typelist",method = RequestMethod.POST)
     public void servicetype(@RequestBody JSONObject name, HttpServletResponse response)throws IOException {
         int id=name.getInteger("id");
@@ -56,7 +55,6 @@ public class ServicetypeController {
     }
 
     @ApiOperation(value = "查找服务详细类别")
-    @ResponseBody
     @RequestMapping(value = "/selectBytypename",method = RequestMethod.POST)
     public void selectTypename(@RequestBody JSONObject name, HttpServletResponse response)throws IOException{
         String typename=name.getString("typename");
@@ -71,7 +69,6 @@ public class ServicetypeController {
     }
 
     @ApiOperation(value="查找服务详细类别测试")
-    @ResponseBody
     @RequestMapping(value = "/selectBytypenameTest", method = RequestMethod.POST)
     public ResultBase selectTypenameTest(@ApiJsonObject (name = "params2", value={
             @ApiJsonProperty(key = "typename", example = "清洁工", description = "服务类型名称"),
@@ -83,7 +80,6 @@ public class ServicetypeController {
     }
 
     @ApiOperation(value = "根据服务大类分类")
-    @ResponseBody
     @RequestMapping(value = "/selectByserviceid",method = RequestMethod.POST)
     public void selectServiceid(@RequestBody JSONObject name, HttpServletResponse response)throws IOException{
        // String serviceid=name.getString("serviceid");
@@ -103,7 +99,6 @@ public class ServicetypeController {
     }
 
     @ApiOperation(value = "根据服务大类分类测试")
-    @ResponseBody
     @RequestMapping(value = "/selectByserviceidTest",method = RequestMethod.POST)
     public ResultBase selectServiceidTest(@ApiJsonObject(name = "params1", value = {
             @ApiJsonProperty(key = "serviceid", example = "1", description = "服务id"),
@@ -111,7 +106,34 @@ public class ServicetypeController {
         int id = Integer.parseInt(params1.get("serviceid"));
         System.out.println(id);
         List<IDetailtype> listss = servicetypeService.selectByServicetypeid(id);
-        return ResultBase.success(listss);
+        JSONArray arr = new JSONArray();
+        for (IDetailtype detail:listss) {
+            JSONObject object = new JSONObject(3);
+            object.put("label", detail.getTypename());
+            object.put("value",detail.getId());
+            object.put("leaf", true);
+            arr.add(object);
+        }
+        return ResultBase.success(arr);
     }
 
+
+    @ApiOperation(value = "根据详细服务类id获取详细服务类")
+    @GetMapping("getDetailsBydetailId")
+    @ApiImplicitParam(name = "detailId", value = "1", required = true, paramType = "path", dataType = "int")
+    public ResultBase getDetailsBydetailId(@PathVariable int detailId){
+        List<IDetailtype> list = servicetypeService.getDetailsByDetailId(detailId);
+        JSONObject data= new JSONObject(2);
+        JSONArray arr = new JSONArray();
+        for (IDetailtype detail:list) {
+            JSONObject object = new JSONObject(3);
+            object.put("label", detail.getTypename());
+            object.put("value",detail.getId());
+            object.put("leaf", true);
+            arr.add(object);
+        }
+        data.put("arr",arr);
+        data.put("index",list.get(0).getServicetpyeId());
+        return ResultBase.success(arr);
+    }
 }

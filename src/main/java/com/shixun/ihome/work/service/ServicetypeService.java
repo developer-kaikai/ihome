@@ -22,6 +22,7 @@ public interface ServicetypeService {
     //获取服务大类id
     Integer getServiceType(int detailTypeId);
 
+    List<IDetailtype> getDetailsByDetailId(int detailtypeId);
 
 
 }
