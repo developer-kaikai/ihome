@@ -13,6 +13,7 @@
     <result column="id_card" property="idCard" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="basesalary" property="basesalary" jdbcType="DOUBLE" />
+    <result column="typename" property="typename" jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >

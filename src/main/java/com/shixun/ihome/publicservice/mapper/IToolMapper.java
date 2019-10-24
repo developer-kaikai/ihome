@@ -30,4 +30,6 @@ public interface IToolMapper {
     int updateByPrimaryKeySelective(ITool record);
 
     int updateByPrimaryKey(ITool record);
+
+
 }

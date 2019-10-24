@@ -43,8 +43,19 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "test")
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @ApiOperation(value="双向确认")
+    @RequestMapping(value="/updateOrderState",method = RequestMethod.POST)
+    public void updateOrder(@RequestBody JSONObject name){
+        int orderid=name.getInteger("orderid");
+
+        Boolean success=orderService.updateOrderState(orderid);
+
+
+    }
+
+
+    @ApiOperation(value = "用户和员工模糊查找订单")
+    @RequestMapping(value = "/orderBytypename", method = RequestMethod.POST)
     public void orderAllByTy(@RequestBody JSONObject name, HttpServletResponse response) throws IOException {
         String typename=name.getString("typename");
         int userid=name.getInteger("userid");
@@ -191,15 +202,16 @@ public class OrderController {
     @ApiOperation(value = "取消订单")
     @ApiImplicitParam(name = "id", value = "订单id", required = true, paramType = "query", dataType = "int")
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.POST)
-    public ResultBase cancelOrder(@ApiJsonObject(name = "name", value = {
+    public String cancelOrder(@ApiJsonObject(name = "name", value = {
             @ApiJsonProperty(key = "id", example = "1", description = "订单id")
     })@RequestBody JSONObject name) {
         Integer id=name.getInteger("id");
         boolean success = orderService.cancelOrder(id);
-        if (success){
-            return ResultBase.success();
+        if(success==true){
+            return "已为您取消订单!";
+        }else{
+            return "订单已超时，请联系客服进行取消!";
         }
-        return ResultBase.fail("取消订单失败，超出15分钟,或订单已经在服务之中");
     }
 
     @ApiOperation(value = "填写维修详情")

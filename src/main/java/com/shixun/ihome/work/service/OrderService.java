@@ -63,6 +63,8 @@ public interface OrderService {
     List<IOrder> listbyuserTypename(int userid,String typename);
     List<IOrder> listbystaffTypename(int staffid,String typename);
 
+    /*双向确认订单*/
+    Boolean updateOrderState(int orderid);
 
 
 }
