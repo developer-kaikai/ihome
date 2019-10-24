@@ -32,6 +32,18 @@ public class Qutil {
         return iRecord;
     }
 
+
+    public static Date toDate(String s){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try{
+            date = sdf.parse(s);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return date;
+    }
+
     /**
      * 字符串转换成时间表能识别的int
      * @param s 时间表字符串"01010111"之类的

@@ -85,8 +85,8 @@ public class StaffServiceImpl implements StaffService {
         IStaffExample iStaffExample = new IStaffExample();
         IStaffExample.Criteria criteria = iStaffExample.createCriteria();
         criteria.andStatusEqualTo(wantStatus);
+        criteria.andIdEqualTo(staffId);
         IStaff iStaff = new IStaff();
-        iStaff.setId(staffId);
         iStaff.setStatus(staffStatus);
         staffMapper.updateByExampleSelective(iStaff, iStaffExample);
         return true;
