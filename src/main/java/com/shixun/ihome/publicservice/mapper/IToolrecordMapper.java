@@ -30,4 +30,6 @@ public interface IToolrecordMapper {
     int updateByPrimaryKeySelective(IToolrecord record);
 
     int updateByPrimaryKey(IToolrecord record);
+
+    IToolrecord selectToolrecord(int orderid,int staffid);
 }

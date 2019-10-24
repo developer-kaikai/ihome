@@ -32,6 +32,14 @@ public class OrderServiceImpl implements OrderService {
     private IOrderStaffMapper orderStaffMapper;
 
     @Override
+    public Boolean updateOrderState(int orderid) {
+        IOrder order=orderMapper.selectByPrimaryKey(orderid);
+        order.setState(4);
+        orderMapper.updateByPrimaryKeySelective(order);
+        return  true;
+    }
+
+    @Override
     public List<IOrder> listbyuserTypename(int userid, String typename) {
         List<IDetailtype> listint=orderMapper.idbyTypename(typename);
         List<IOrder> maplist=new ArrayList<>();
@@ -86,17 +94,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean cancelOrder(int id) {
-        redisTemplate.delete("orderall");
+
         IOrder order=orderMapper.selectByPrimaryKey(id);
         Date orderTimer = order.getOrderTime();
         if (!Qutil.assertTimer(new Date(), orderTimer, Qutil.MINUTE, 15)){
+            order.setState(2);
+
+            orderMapper.updateByPrimaryKeySelective(order);
             return false;
+        }else{
+            order.setState(1);
+
+            orderMapper.updateByPrimaryKeySelective(order);
+            return true;
         }
-        order.setState(IOrderMapper.CANCEL);
-        orderMapper.updateByPrimaryKeySelective(order);
-        List<IOrder> orderList=orderMapper.listAll();
-        redisTemplate.opsForValue().set("orderall", orderList);
-        return true;
     }
 
     @Override

@@ -1,11 +1,10 @@
 package com.shixun.ihome.work.service.serviceImpl;
 
 
+import com.shixun.ihome.publicservice.mapper.IOrderMapper;
 import com.shixun.ihome.publicservice.mapper.IToolMapper;
 import com.shixun.ihome.publicservice.mapper.IToolrecordMapper;
-import com.shixun.ihome.publicservice.pojo.ITool;
-import com.shixun.ihome.publicservice.pojo.IToolrecord;
-import com.shixun.ihome.publicservice.pojo.IToolrecordExample;
+import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.work.service.ToolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,52 +17,56 @@ public class ToolServiceImpl implements ToolService {
     private IToolMapper iToolMapper;
     @Autowired
     private IToolrecordMapper iToolrecordMapper;
+    @Autowired
+    private IOrderMapper orderMapper;
+
+
     @Override
-    public List<ITool> selectTools() {
-        return iToolMapper.selectByExample(null);
-    }
-    @Override
-    public List<IToolrecord> selectToolsByOrderId(int id){
-        IToolrecordExample iToolrecordExample = new IToolrecordExample();
-        IToolrecordExample.Criteria criteria = iToolrecordExample.createCriteria();
-        criteria.andOrderIdEqualTo(id);
-        return iToolrecordMapper.selectByExample(iToolrecordExample);
+    public Boolean receiveTool(int orderid, int staffid) {
+        IOrder order=orderMapper.selectByPrimaryKey(orderid);
+        IToolrecord iToolrecord=new IToolrecord();
+        iToolrecord.setOrderId(orderid);
+        iToolrecord.setStaffId(staffid);
+
+        IToolExample example=new IToolExample();
+        IToolExample.Criteria criteria=example.createCriteria();
+        criteria.andDetailtypeIdEqualTo(order.getDetailtypeId());
+
+        List<ITool> iToolList=iToolMapper.selectByExample(example);
+        ITool iTool=new ITool();
+        iTool=iToolList.get(0);
+        iTool.setCount(iTool.getCount()-1);
+        iToolMapper.updateByPrimaryKeySelective(iTool);
+        iToolrecord.setToolId(iTool.getId());
+        iToolrecord.setCount(1);
+        iToolrecord.setState(1);
+        iToolrecordMapper.insert(iToolrecord);
+        order.setState(3);
+        orderMapper.updateByPrimaryKeySelective(order);
+
+        return true;
+
     }
 
     @Override
-    public boolean getTool(IToolrecord iToolrecord) {
-        //获取工具数量
-        ITool iTool = iToolMapper.selectByPrimaryKey(iToolrecord.getToolId());
-        if (iTool.getCount() < iToolrecord.getCount()){
-            return false;
-        }
-        iTool.setCount(iTool.getCount() - iToolrecord.getCount());
-        try{
-            iToolMapper.updateByPrimaryKeySelective(iTool);
-            iToolrecordMapper.insertSelective(iToolrecord);
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
+    public Boolean returnTool(int orderid,int staffid) {
+        IToolrecord iToolrecord=iToolrecordMapper.selectToolrecord(orderid,staffid);
+        iToolrecord.setState(2);
+        ITool iTool=iToolMapper.selectByPrimaryKey(iToolrecord.getToolId());
+        iTool.setCount(iTool.getCount()+1);
+        iToolrecordMapper.updateByPrimaryKeySelective(iToolrecord);
+        iToolMapper.updateByPrimaryKeySelective(iTool);
 
         return true;
     }
 
     @Override
-    public boolean returnTool(IToolrecord iToolrecord) {
-        //获取原本工具
-        ITool iTool = iToolMapper.selectByPrimaryKey(iToolrecord.getToolId());
-        iTool.setCount(iTool.getCount() + iToolrecord.getCount());
-        iToolMapper.updateByPrimaryKeySelective(iTool);
-        //更新记录状态
-        iToolrecord.setState(2);
-        return iToolrecordMapper.updateByPrimaryKeySelective(iToolrecord)> 0;
-
-    }
-
-    @Override
-    public boolean brokenTool(IToolrecord iToolrecord) {
+    public Boolean damageTool(int orderid, int staffid) {
+        IToolrecord iToolrecord=iToolrecordMapper.selectToolrecord(orderid,staffid);
         iToolrecord.setState(3);
-        return iToolrecordMapper.updateByPrimaryKey(iToolrecord) > 0;
+        iToolrecordMapper.updateByPrimaryKeySelective(iToolrecord);
+
+
+        return true;
     }
 }

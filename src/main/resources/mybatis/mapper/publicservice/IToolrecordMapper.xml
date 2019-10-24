@@ -229,4 +229,8 @@
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectToolrecord" parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.IToolrecord">
+    select * from i_toolrecord where order_id=#{orderid} and staff_id=#{staffid}
+  </select>
 </mapper>

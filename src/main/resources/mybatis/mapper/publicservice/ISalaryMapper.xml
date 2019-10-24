@@ -9,6 +9,7 @@
     <result column="ssum" property="ssum" jdbcType="DOUBLE" />
     <result column="staff_id" property="staffId" jdbcType="INTEGER" />
     <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -299,8 +300,8 @@ GROUP BY s.name
 
 
   <select id="existMonth" resultMap="listsalary" parameterType="Date">
-      select * from i_salary sa,i_staff st where year(sa.updatetime)=year(#{date3})
+      select * from i_salary sa,i_staff st,i_detailtype t where year(sa.updatetime)=year(#{date3})
 and month(sa.updatetime)=month(#{date3})
-and sa.staff_id=st.id
+and sa.staff_id=st.id and t.id=st.detailtype_id
   </select>
 </mapper>
