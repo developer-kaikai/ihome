@@ -192,7 +192,7 @@ public class OrderServiceImpl implements OrderService {
         IOrderStaff orderStaff = new IOrderStaff();
         orderStaff.setOrderId(orderId);
         orderStaff.setStaffId(staffId);
-        if (orderStaffMapper.insert(orderStaff) > 0){
+        if (orderStaffMapper.insert(orderStaff) == 0){
             throw new RuntimeException("为订单添加员工失败");
         }
         return true;

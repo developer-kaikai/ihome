@@ -8,6 +8,7 @@ import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.RedisTimer;
 import com.shixun.ihome.publicservice.pojo.RedisTimerInfo;
+import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.RedisTimerService;
 import com.shixun.ihome.work.service.ServicetypeService;
 import com.shixun.ihome.work.service.TimeService;
@@ -15,6 +16,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,16 +63,18 @@ public class TimerController {
     @ApiOperation(value = "获取空闲员工")
     @PostMapping("/getFreeStaffs")
     public ResultBase getFreeStaffs(@ApiJsonObject(name = "params", value = {
-            @ApiJsonProperty(key = "index", example = "0-7"),
+            @ApiJsonProperty(key = "startTime", example = "订单开始日期"),
             @ApiJsonProperty(key = "serviceId", example = "详细服务类型id(可有可无)"),
             @ApiJsonProperty(key = "pageSize", example = "10"),
-            @ApiJsonProperty(key = "pageNum", example = "1")
+            @ApiJsonProperty(key = "pageNum", example = "1"),
     })@RequestBody JSONObject params){
         Map<String, Object> map = new HashMap<>();
         Integer serviceId = params.getInteger("serviceId");
         Integer pageSize = params.getInteger("pageSize");
         Integer pageNum = params.getInteger("pageNum");
-        Integer index = params.getInteger("index");
+        String startTime = params.getString("startTime");
+        Date startDate = Qutil.toDate(startTime);
+        Integer index = Qutil.consumDays(new Date(),startDate);
         map.put("pageSize",pageSize);
         map.put("pageNum",pageNum);
         map.put("index", index);
@@ -86,6 +90,7 @@ public class TimerController {
         data.put("data", pageInfo.getList());
         data.put("pageNum", pageInfo.getPageNum());
         data.put("pageSize", pageInfo.getPageSize());
+        data.put("index", index);
 
         return ResultBase.success(data);
     }

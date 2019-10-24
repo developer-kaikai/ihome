@@ -15,6 +15,7 @@ import com.shixun.ihome.work.service.*;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -171,6 +172,7 @@ public class OrderController {
     }
 
 
+
     @ApiOperation(value = "添加长期工的订单")
     @Transactional
     @ApiImplicitParam(name = "orderLong", value = "长期工订单实体类", dataType = "IOrderLong")
@@ -252,11 +254,18 @@ public class OrderController {
     @ApiOperation(value = "查看所有订单测试")
     @RequestMapping(value = "/listAllTest", method = RequestMethod.GET)
     public ResultBase orderAllTest() {
-
         List<IOrder> orderList = orderService.listAll();
         return ResultBase.success(orderList);
+    }
 
-
+    @ApiOperation(value = "获取不同状态的订单")
+    @GetMapping("/getOrderByStatus/{status}")
+    @ApiImplicitParam(name = "status", value = "0", required = true, paramType = "path", dataType = "int")
+    public ResultBase getOrderByStatus(@PathVariable int status ) {
+        IOrder order = new IOrder();
+        order.setState(status);
+        List<IOrder> orders = orderService.selectOrder(order);
+        return ResultBase.success(orders);
     }
 
 
