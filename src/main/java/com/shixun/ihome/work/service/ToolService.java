@@ -14,4 +14,24 @@ public interface ToolService {
 
     /*工具损坏*/
     Boolean damageTool(int orderid,int staffid);
+
+    /*工具增删查改*/
+    Boolean addTool(ITool iTool);
+
+    Boolean deleteTool(int itoolid);
+
+    Boolean updateTool(ITool iTool);
+
+    List<ITool> selectByname(String itoolname);
+
+    List<ITool> selectAll();
+
+    /*工具记录*/
+    List<IToolrecord> allRecord();
+
+    Boolean deteToolrecord(int recordid);
+
+    Boolean updateToolrecord(IToolrecord iToolrecord);
+
+
 }

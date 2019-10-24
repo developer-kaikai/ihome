@@ -31,5 +31,6 @@ public interface IToolMapper {
 
     int updateByPrimaryKey(ITool record);
 
+    List<ITool> selectByname(String name);
 
 }

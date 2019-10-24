@@ -3,11 +3,11 @@ package com.shixun.ihome.publicservice.pojo;
 public class ITool {
     private Integer id;
 
-    private String name;
+    private String tname;
 
     private Integer detailtypeId;
 
-    private Integer count;
+    private Integer tcount;
 
     public Integer getId() {
         return id;
@@ -17,12 +17,12 @@ public class ITool {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTname() {
+        return tname;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setTname(String tname) {
+        this.tname = tname == null ? null : tname.trim();
     }
 
     public Integer getDetailtypeId() {
@@ -33,11 +33,11 @@ public class ITool {
         this.detailtypeId = detailtypeId;
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getTcount() {
+        return tcount;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setTcount(Integer tcount) {
+        this.tcount = tcount;
     }
 }

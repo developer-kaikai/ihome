@@ -6,6 +6,7 @@ public class IToolrecord {
     private Integer orderId;
 
     private Integer staffId;
+    private String staffname;
 
     private Integer toolId;
 
@@ -14,6 +15,14 @@ public class IToolrecord {
     private Integer state;
 
     private ITool iTool;
+
+    public String getStaffname() {
+        return staffname;
+    }
+
+    public void setStaffname(String staffname) {
+        this.staffname = staffname;
+    }
 
     public ITool getiTool() {
         return iTool;
