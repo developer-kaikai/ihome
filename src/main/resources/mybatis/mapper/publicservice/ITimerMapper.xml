@@ -220,35 +220,24 @@
   </update>
 
   <select id="selectStaffByFree" parameterType="map" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
-select s,id, s.name, s.sex
+select s.id, s.name, s.sex
     , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status,
 (6 - length(replace((t.timer &gt;&gt; (datediff(now(), t.update_time)*6) &gt;&gt; #{index} * 6)&amp; 63,'0',''))) as timer
 from i_staff s left join i_timer t on t.staff_id = s.id left join i_detailtype d on d.id = s.detailtype_id
-  <where>
-    <if test="_parameter.containsKey('serviceId')">
-      d.servicetype_id = #{serviceId}
-    </if>
-    <if test="_parameter.containsKey('status')">
-      and s.status = #{status}
-    </if>
-  </where>
-
+where d.servicetpye_id = 1
 order by timer desc, s.id asc
   </select>
 
   <select id="selectStaffByFreeOther" parameterType="map" resultType="com.shixun.ihome.publicservice.pojo.IStaff">
-    select s,id, s.name, s.sex
+    select s.id, s.name, s.sex
     , s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status
-    from i_staff s left join i_timer t on t.staff_id = s.id
+    from i_staff s left join i_timer t on t.staff_id = s.id  left join i_detailtype d on d.id = s.detailtype_id
     <where>
       <if test="_parameter.containsKey('serviceId')">
-        d.servicetype_id = #{serviceId}
+        d.servicetpye_id = #{serviceId}
       </if>
       <if test="_parameter.containsKey('index')">
-        (t.timer &gt;&gt; (datediff(now(), t.update_time)) &gt;&gt; #{ index } &amp; 1) == 0
-      </if>
-      <if test="_parameter.containsKey('status')">
-        and s.status = #{status}
+        and ((t.timer &gt;&gt; (datediff(now(), t.update_time))) &gt;&gt; #{ index }) &amp; 1 = 0
       </if>
     </where>
 

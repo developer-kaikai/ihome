@@ -10,6 +10,7 @@ import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.IEvaluate;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
 import com.shixun.ihome.publicservice.pojo.IStaff;
+import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.*;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import io.swagger.annotations.*;
@@ -281,7 +282,7 @@ public class OrderController {
     public ResultBase removeStaffFromOrder (Integer orderId, Integer staffId) {
         IOrder order = orderService.getOrder(orderId);
         if (orderService.removeStaffForOrder(orderId, staffId)) {
-            timeService.removeTimerByOrder(staffId, order);
+            timeService.removeTimerByOrder(staffId, order, 2);
             staffService.updateStaffStatus(staffId, 0, 2);
             return new ResultBase(200, "员工移除成功");
         }
@@ -325,6 +326,9 @@ public class OrderController {
         Integer orderId = params.getInteger("orderId");
         JSONArray jsonArray = params.getJSONArray("staffIds");
         IOrder order = orderService.getOrder(orderId);
+        if (Qutil.assertTimer(new Date(), order.getOrderTime(), Qutil.MINUTE, 15)){
+            return ResultBase.fail("订单请在15分钟内取消");
+        }
         //循环员工id
         if (!jsonArray.isEmpty()){
             List<Integer> staffIds = jsonArray.toJavaList(Integer.class);

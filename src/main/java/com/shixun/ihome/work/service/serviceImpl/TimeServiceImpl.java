@@ -32,28 +32,37 @@ public class TimeServiceImpl implements TimeService {
     public boolean updateTimerByOrder(int id, IOrder order, int serviceId) {
         //获取时间表
         ITimer timer1= getITimeByStaffId(id);
+        Date now = new Date();
+        timer1.setUpdateTime(now);
+        int uTimer = Qutil.consumDays(now , timer1.getUpdateTime());
         long timer = timer1.getTimer();
+
         long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
         if(serviceId == 1){
+            //先更新现有时间
+            timer = timer >> (6 * uTimer);
             //计算订单的时间表
-            System.out.println(timer2);
             //处理
             timer2 = worktimer(timer2);
-            System.out.println(timer2);
-            timer2 = timer2 << ((timerLeft(order.getStartTime()) + 1 ) * 6);
-            System.out.println(timer2);
+            timer2 = timer2 << ((timerLeft(order.getStartTime()) ) * 6);
             //开始运算
             if ((timer & timer2) == 0){
                 timer = (timer ^ timer2) & ITimerMapper.MAXTIMER;
             } else {
                 throw new RuntimeException("这个错误你知道的");
             }
-            timer1.setTimer(timer);
         }else{
             //不是钟点工
-
-
+            timer = timer >> uTimer;
+            System.out.println(Qutil.consumDays(order.getStartTime(), now));
+            int t = 1<<(Qutil.consumDays(order.getStartTime(), now) );
+            if((timer & t) > 0){
+                throw new RuntimeException("当前员工时间端没有空");
+            }
+            timer = (timer ^ t) & 255;
         }
+
+        timer1.setTimer(timer);
 
         if (iTimerMapper.updateByPrimaryKeySelective(timer1) == 0){
             throw new RuntimeException("时间表更新出错");
@@ -81,23 +90,38 @@ public class TimeServiceImpl implements TimeService {
     }
 
     @Override
-    public boolean removeTimerByOrder(int id, IOrder order) {
+    public boolean removeTimerByOrder(int id, IOrder order, int serviceId) {
         //获取时间表
         ITimer timer = getITimeByStaffId(id);
         long timer1 = timer.getTimer();
+        //更新时间表
+        Date now = new Date();
+        timer1 = timer1 << Qutil.consumDays(now, timer.getUpdateTime());
+        timer.setUpdateTime(now);
         //根据订单获得时间表
-        long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
-        timer2 = worktimer(timer2);
-        timer2 = timer2 << ((timerLeft(order.getStartTime()) + 1 ) * 6);
-        //开始运算
-        if ((timer2 & timer1) != 0){
-            timer1 = (timer1 ^ timer2) & ITimerMapper.MAXTIMER;
-        }else {
-            throw new RuntimeException("检测是否存在问题");
+        if(serviceId == 1){
+            long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
+            timer2 = worktimer(timer2);
+            timer2 = timer2 << ((timerLeft(order.getStartTime()) + 1 ) * 6);
+            //开始运算
+            if ((timer2 & timer1) != 0){
+                timer1 = (timer1 ^ timer2) & ITimerMapper.MAXTIMER;
+            }else {
+                throw new RuntimeException("检测是否存在问题");
+            }
+        }else{
+            int t =  1 << Qutil.consumDays(order.getStartTime(), now);
+            if ((timer1 & t )> 0){
+                timer1 -= t;
+            }else{
+                throw new RuntimeException("这段时间是空闲的");
+            }
         }
+
         System.out.println(timer1);
         //更新数据
         timer.setTimer(timer1);
+        System.out.println(timer);
         if (iTimerMapper.updateByPrimaryKeySelective(timer) == 0){
             throw new RuntimeException("时间表更新出错");
         }

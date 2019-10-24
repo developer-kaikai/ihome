@@ -43,13 +43,13 @@ public class TimerController {
             @ApiJsonProperty(key = "serviceId", example = "1"),
             @ApiJsonProperty(key = "type", example = "0", description = "默认未0如果未1就返回只有上面时间")
     })@RequestBody JSONObject name){
-        int hours=name.getInteger("hours");
         int serviceId = name.getInteger("serviceId");
         Integer type = name.getInteger("type");
         if (type != null && type == 1){
             List<RedisTimerInfo> timerInfos = redisTimerService.getMessageOther(serviceId);
             return ResultBase.success(timerInfos);
         }
+        int hours=name.getInteger("hours");
         if (hours > 8 || hours <= 0){
             return ResultBase.fail("时间超出可以选择的范围");
         }
@@ -71,9 +71,13 @@ public class TimerController {
         Integer pageSize = params.getInteger("pageSize");
         Integer pageNum = params.getInteger("pageNum");
         Integer index = params.getInteger("index");
+        map.put("pageSize",pageSize);
+        map.put("pageNum",pageNum);
+        map.put("index", index);
         PageInfo<IStaff> pageInfo = null;
         if (serviceId != 1){
             //如果存在服务大类id不为1就是不是钟点工，就搜索其他员工
+            map.put("serviceId", serviceId);
             pageInfo = timeService.selectStaffByFreeForOther(map);
         }else{
             pageInfo = timeService.selectStaffByFree(map);

@@ -32,10 +32,39 @@ public class qiaoTests {
 
     @Test
     public void test1() throws Exception{
-        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        Date date1 = sdf.parse("2019-10-24 15:15");
-        Date date2 = sdf.parse("2019-10-24 15:5");
-        System.out.println(Qutil.assertTimer(date1, date2, Qutil.MINUTE, 15));
+
+//        '9', '1', '1', '1', '2019-10-24 08:00:00', '1000', '2019-10-23 08:47:09', '2019-10-24 10:00:00', '0', '注释'
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        IOrder order = new IOrder();
+        order.setId(9);
+        order.setUserId(1);
+        order.setUseraddressId(1);
+        order.setDetailtypeId(1);
+        order.setStartTime((sdf.parse("2019-10-24 08:00:0")));
+        order.setPrice(1000.0);
+        order.setOrderTime((sdf.parse("2019-10-23 08:47:09")));
+        order.setFinalyTime(sdf.parse("2019-10-24 10:00:00"));
+        order.setState(3);
+        order.setComm("asdasd");
+
+        timeService.updateTimerByOrder(1,order,2);
+    }
+
+    @Test
+    public void test2()throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        IOrder order = new IOrder();
+        order.setId(9);
+        order.setUserId(1);
+        order.setUseraddressId(1);
+        order.setDetailtypeId(1);
+        order.setStartTime((sdf.parse("2019-10-24 08:00:0")));
+        order.setPrice(1000.0);
+        order.setOrderTime((sdf.parse("2019-10-23 08:47:09")));
+        order.setFinalyTime(sdf.parse("2019-10-24 10:00:00"));
+        order.setState(3);
+        order.setComm("asdasd");
+        timeService.removeTimerByOrder(1, order, 2);
     }
 
 

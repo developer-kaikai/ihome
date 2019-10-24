@@ -21,16 +21,6 @@ public class StaffServiceImpl implements StaffService {
 
 
     @Override
-    public PageInfo<IStaff> selectStaffByServiceTypeAndStatus(int type, int status, int pageNum, int pageSize) {
-        Map<String, Object> map  = new HashMap<>();
-        map.put("type", type);
-        map.put("status", status);
-        PageHelper.startPage(pageNum, pageSize);
-        PageInfo<IStaff> staffs = new PageInfo<>(staffMapper.selectStaffByServiceTypeAndStatus(map));
-        return staffs;
-    }
-
-    @Override
     public PageInfo<IStaff> selectStaffs(IStaff istaff, int pageNum, int pageSize) {
         IStaffExample iStaffExample = new IStaffExample();
         IStaffExample.Criteria criteria = iStaffExample.createCriteria();

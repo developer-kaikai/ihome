@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -58,18 +59,31 @@ public class ComplaintController {
 
     }
     @ApiOperation(value = "根据投诉状态查询")
-    @RequestMapping(value="/selectComplaintByStatus",method = RequestMethod.GET)
+    @RequestMapping(value="/selectComplaintByStatus",method = RequestMethod.POST)
     @ResponseBody
-    public void selectComplaintByStatus(@ApiJsonObject(name = "iUserDetail", value = {
+    public void selectComplaintByStatus(@ApiJsonObject(name = "complaint", value = {
             @ApiJsonProperty(key = "cstatus", example = "0", description = "状态")})
           @RequestBody JSONObject complaint,HttpServletResponse response)throws IOException {
-        int cstatus=complaint.getInteger("cstatus");
-        //IOrderComplaint
-        //List<IOrderComplaint> complaints=complaintService.selectComplaintByStatus();
+        String cstatus=complaint.getString("cstatus");
+        IOrderComplaint complaint1 =new IOrderComplaint();
+        List<IOrderComplaint> complaints= new ArrayList<>();
+        if(cstatus==null){
+             complaints=complaintService.selectComplaintByStatus(complaint1);
+        }
+        else if (cstatus.equals("0")) {
+            //System.out.println(111111);
+            complaint1.setCstatus(0);
+            complaints=complaintService.selectComplaintByStatus(complaint1);
+        }else{
+            complaint1.setCstatus(1);
+            complaints=complaintService.selectComplaintByStatus(complaint1);
+        }
+        //complaint1.setCstatus(cstatus);
+
         response.setContentType("application/json;charset=utf-8");
         String json ;
-        //json = Result.build(ResultType.Success).appendData("complaints", complaints).convertIntoJSON();
-        //esponse.getWriter().write(json);
+        json = Result.build(ResultType.Success).appendData("complaints", complaints).convertIntoJSON();
+        response.getWriter().write(json);
 
     }
 
