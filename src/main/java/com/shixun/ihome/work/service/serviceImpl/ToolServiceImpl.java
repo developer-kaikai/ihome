@@ -35,7 +35,7 @@ public class ToolServiceImpl implements ToolService {
         List<ITool> iToolList=iToolMapper.selectByExample(example);
         ITool iTool=new ITool();
         iTool=iToolList.get(0);
-        iTool.setCount(iTool.getCount()-1);
+        iTool.setTcount(iTool.getTcount()-1);
         iToolMapper.updateByPrimaryKeySelective(iTool);
         iToolrecord.setToolId(iTool.getId());
         iToolrecord.setCount(1);
@@ -53,7 +53,7 @@ public class ToolServiceImpl implements ToolService {
         IToolrecord iToolrecord=iToolrecordMapper.selectToolrecord(orderid,staffid);
         iToolrecord.setState(2);
         ITool iTool=iToolMapper.selectByPrimaryKey(iToolrecord.getToolId());
-        iTool.setCount(iTool.getCount()+1);
+        iTool.setTcount(iTool.getTcount()+1);
         iToolrecordMapper.updateByPrimaryKeySelective(iToolrecord);
         iToolMapper.updateByPrimaryKeySelective(iTool);
 
@@ -67,6 +67,52 @@ public class ToolServiceImpl implements ToolService {
         iToolrecordMapper.updateByPrimaryKeySelective(iToolrecord);
 
 
+        return true;
+    }
+
+    @Override
+    public Boolean addTool(ITool iTool) {
+        iToolMapper.insert(iTool);
+        return true;
+    }
+
+    @Override
+    public Boolean deleteTool(int itoolid) {
+        iToolMapper.deleteByPrimaryKey(itoolid);
+        return true;
+    }
+
+    @Override
+    public Boolean updateTool(ITool iTool) {
+        iToolMapper.updateByPrimaryKeySelective(iTool);
+        return true;
+    }
+
+    @Override
+    public List<ITool> selectByname(String itoolname) {
+        List<ITool> iToolList=iToolMapper.selectByname(itoolname);
+        return iToolList;
+    }
+
+    @Override
+    public List<ITool> selectAll() {
+        return iToolMapper.selectByExample(null);
+    }
+
+    @Override
+    public List<IToolrecord> allRecord() {
+        return iToolrecordMapper.selectall();
+    }
+
+    @Override
+    public Boolean deteToolrecord(int recordid) {
+        iToolrecordMapper.deleteByPrimaryKey(recordid);
+        return true;
+    }
+
+    @Override
+    public Boolean updateToolrecord(IToolrecord iToolrecord) {
+        iToolrecordMapper.updateByPrimaryKeySelective(iToolrecord);
         return true;
     }
 }

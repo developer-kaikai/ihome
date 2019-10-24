@@ -164,73 +164,73 @@ public class IToolExample {
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNull() {
-            addCriterion("name is null");
+        public Criteria andTnameIsNull() {
+            addCriterion("tname is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNotNull() {
-            addCriterion("name is not null");
+        public Criteria andTnameIsNotNull() {
+            addCriterion("tname is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(String value) {
-            addCriterion("name =", value, "name");
+        public Criteria andTnameEqualTo(String value) {
+            addCriterion("tname =", value, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(String value) {
-            addCriterion("name <>", value, "name");
+        public Criteria andTnameNotEqualTo(String value) {
+            addCriterion("tname <>", value, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(String value) {
-            addCriterion("name >", value, "name");
+        public Criteria andTnameGreaterThan(String value) {
+            addCriterion("tname >", value, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(String value) {
-            addCriterion("name >=", value, "name");
+        public Criteria andTnameGreaterThanOrEqualTo(String value) {
+            addCriterion("tname >=", value, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(String value) {
-            addCriterion("name <", value, "name");
+        public Criteria andTnameLessThan(String value) {
+            addCriterion("tname <", value, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(String value) {
-            addCriterion("name <=", value, "name");
+        public Criteria andTnameLessThanOrEqualTo(String value) {
+            addCriterion("tname <=", value, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameLike(String value) {
-            addCriterion("name like", value, "name");
+        public Criteria andTnameLike(String value) {
+            addCriterion("tname like", value, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotLike(String value) {
-            addCriterion("name not like", value, "name");
+        public Criteria andTnameNotLike(String value) {
+            addCriterion("tname not like", value, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<String> values) {
-            addCriterion("name in", values, "name");
+        public Criteria andTnameIn(List<String> values) {
+            addCriterion("tname in", values, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<String> values) {
-            addCriterion("name not in", values, "name");
+        public Criteria andTnameNotIn(List<String> values) {
+            addCriterion("tname not in", values, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(String value1, String value2) {
-            addCriterion("name between", value1, value2, "name");
+        public Criteria andTnameBetween(String value1, String value2) {
+            addCriterion("tname between", value1, value2, "tname");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(String value1, String value2) {
-            addCriterion("name not between", value1, value2, "name");
+        public Criteria andTnameNotBetween(String value1, String value2) {
+            addCriterion("tname not between", value1, value2, "tname");
             return (Criteria) this;
         }
 
@@ -294,63 +294,63 @@ public class IToolExample {
             return (Criteria) this;
         }
 
-        public Criteria andCountIsNull() {
-            addCriterion("count is null");
+        public Criteria andTcountIsNull() {
+            addCriterion("tcount is null");
             return (Criteria) this;
         }
 
-        public Criteria andCountIsNotNull() {
-            addCriterion("count is not null");
+        public Criteria andTcountIsNotNull() {
+            addCriterion("tcount is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCountEqualTo(Integer value) {
-            addCriterion("count =", value, "count");
+        public Criteria andTcountEqualTo(Integer value) {
+            addCriterion("tcount =", value, "tcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountNotEqualTo(Integer value) {
-            addCriterion("count <>", value, "count");
+        public Criteria andTcountNotEqualTo(Integer value) {
+            addCriterion("tcount <>", value, "tcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountGreaterThan(Integer value) {
-            addCriterion("count >", value, "count");
+        public Criteria andTcountGreaterThan(Integer value) {
+            addCriterion("tcount >", value, "tcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("count >=", value, "count");
+        public Criteria andTcountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("tcount >=", value, "tcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountLessThan(Integer value) {
-            addCriterion("count <", value, "count");
+        public Criteria andTcountLessThan(Integer value) {
+            addCriterion("tcount <", value, "tcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountLessThanOrEqualTo(Integer value) {
-            addCriterion("count <=", value, "count");
+        public Criteria andTcountLessThanOrEqualTo(Integer value) {
+            addCriterion("tcount <=", value, "tcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountIn(List<Integer> values) {
-            addCriterion("count in", values, "count");
+        public Criteria andTcountIn(List<Integer> values) {
+            addCriterion("tcount in", values, "tcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountNotIn(List<Integer> values) {
-            addCriterion("count not in", values, "count");
+        public Criteria andTcountNotIn(List<Integer> values) {
+            addCriterion("tcount not in", values, "tcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountBetween(Integer value1, Integer value2) {
-            addCriterion("count between", value1, value2, "count");
+        public Criteria andTcountBetween(Integer value1, Integer value2) {
+            addCriterion("tcount between", value1, value2, "tcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("count not between", value1, value2, "count");
+        public Criteria andTcountNotBetween(Integer value1, Integer value2) {
+            addCriterion("tcount not between", value1, value2, "tcount");
             return (Criteria) this;
         }
     }

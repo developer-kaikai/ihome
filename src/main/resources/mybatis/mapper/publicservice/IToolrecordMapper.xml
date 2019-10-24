@@ -8,10 +8,11 @@
     <result column="tool_id" property="toolId" jdbcType="INTEGER" />
     <result column="count" property="count" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="staffname" property="name" jdbcType="VARCHAR" />
     <association property="iTool" >
       <id column="rid" property="id" jdbcType="INTEGER"/>
-      <result column="rcount" property="count" jdbcType="INTEGER" />
-      <result column="rname" property="name" jdbcType="VARCHAR" />
+      <result column="rcount" property="tcount" jdbcType="INTEGER" />
+      <result column="rname" property="tname" jdbcType="VARCHAR" />
       <result column="rdetailtype_id" property="detailtypeId" jdbcType="INTEGER" />
     </association>
   </resultMap>
@@ -232,5 +233,9 @@
 
   <select id="selectToolrecord" parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.IToolrecord">
     select * from i_toolrecord where order_id=#{orderid} and staff_id=#{staffid}
+  </select>
+
+  <select id="selectall" resultType="com.shixun.ihome.publicservice.pojo.IToolrecord">
+    select t.* from i_toolrecord t,i_staff s where t.staff_id=s.id
   </select>
 </mapper>

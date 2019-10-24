@@ -32,4 +32,6 @@ public interface IToolrecordMapper {
     int updateByPrimaryKey(IToolrecord record);
 
     IToolrecord selectToolrecord(int orderid,int staffid);
+
+    List<IToolrecord> selectall();
 }
