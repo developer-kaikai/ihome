@@ -2,6 +2,7 @@ package com.shixun.ihome.work.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.config.ApiJsonObject;
 import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
@@ -271,13 +272,26 @@ public class OrderController {
     }
 
     @ApiOperation(value = "获取不同状态的订单")
-    @GetMapping("/getOrderByStatus/{status}")
-    @ApiImplicitParam(name = "status", value = "0", required = true, paramType = "path", dataType = "int")
-    public ResultBase getOrderByStatus(@PathVariable int status ) {
+    @PostMapping("/getOrderByStatus")
+    public ResultBase getOrderByStatus(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key =  "pageNum", example = "1"),
+            @ApiJsonProperty(key = "pageSize", example = "10"),
+            @ApiJsonProperty(key = "staus", example = "0")
+    })@RequestBody JSONObject params) {
         IOrder order = new IOrder();
+        int pageNum = params.getInteger("pageNum");
+        int pageSize = params.getInteger("pageSize");
+        int status = params.getInteger("status");
         order.setState(status);
-        List<IOrder> orders = orderService.selectOrder(order);
-        return ResultBase.success(orders);
+        PageInfo<IOrder> pages = orderService.listByConditionPage(order, pageNum, pageSize);
+        JSONObject object = new JSONObject(4);
+        JSONArray array = new JSONArray();
+        array.addAll(pages.getList());
+        object.put("list", array);
+        object.put("pageSize", pages.getPageSize());
+        object.put("pageNum", pages.getPageNum());
+        object.put("total", pages.getTotal());
+        return ResultBase.success(object);
     }
 
 
@@ -349,6 +363,8 @@ public class OrderController {
                 //更新员工的状态(为服务中2)
                 staffService.updateStaffStatus(id, 2, 0);
             }
+            //更新订单状态
+            orderService.updateOrderState(orderId, 2);
 
             return ResultBase.success();
         }else{

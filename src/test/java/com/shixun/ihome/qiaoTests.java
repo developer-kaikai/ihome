@@ -1,6 +1,7 @@
 package com.shixun.ihome;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.*;
@@ -65,6 +66,20 @@ public class qiaoTests {
         order.setState(3);
         order.setComm("asdasd");
         timeService.removeTimerByOrder(1, order, 2);
+    }
+
+
+    @Test
+    public void test3(){
+        JSONObject json = new JSONObject();
+        fuck(json);
+        String fuck = json.getString("fuck");
+        System.out.println(fuck);
+    }
+
+
+    private void fuck(JSONObject json){
+        json.put("fuck", "fuck");
     }
 
 

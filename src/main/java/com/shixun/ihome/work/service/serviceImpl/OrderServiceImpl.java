@@ -1,5 +1,7 @@
 package com.shixun.ihome.work.service.serviceImpl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.mapper.*;
 import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.publicservice.util.Qutil;
@@ -232,6 +234,13 @@ public class OrderServiceImpl implements OrderService {
             redisTemplate.opsForValue().set("orderall", listh);
         }
         return orderMapper.listByCondition(order);
+    }
+
+    @Override
+    public PageInfo<IOrder> listByConditionPage(IOrder order, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<IOrder> pages = new PageInfo<>(orderMapper.listByCondition(order));
+        return pages;
     }
 
     @Override

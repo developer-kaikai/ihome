@@ -1,5 +1,6 @@
 package com.shixun.ihome.work.service;
 
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
 import com.shixun.ihome.publicservice.pojo.IStaff;
@@ -55,6 +56,8 @@ public interface OrderService {
 
     /*订单高级筛选*/
     List<IOrder> listByCondition(IOrder order);
+
+    PageInfo<IOrder> listByConditionPage(IOrder order, int pageNum,int pageSize);
 
 
     List<IOrder> listbyuserid(int userid,int orderstate);
