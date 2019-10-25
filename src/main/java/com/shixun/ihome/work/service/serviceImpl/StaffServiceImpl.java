@@ -89,8 +89,10 @@ public class StaffServiceImpl implements StaffService {
         criteria.andIdEqualTo(staffId);
         IStaff iStaff = new IStaff();
         iStaff.setStatus(staffStatus);
-        staffMapper.updateByExampleSelective(iStaff, iStaffExample);
-        return true;
+        if(staffMapper.updateByExampleSelective(iStaff, iStaffExample) > 0){
+            return true;
+        }
+        throw new RuntimeException("修改员工状态失败");
     }
 
 

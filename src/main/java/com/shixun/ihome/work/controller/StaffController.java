@@ -108,34 +108,54 @@ public class StaffController {
         return getPageData(pageInfo);
     }
 
+    @ApiOperation(value = "恢复员工")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "id", value = "1", required = true, paramType = "path", dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "detailtypeId", value = "1", required = true, paramType = "path", dataTypeClass = Integer.class)
+    })
+    @Transactional
+    @GetMapping("/recoverStaff/{detailtypeId}/{id}")
+    public ResultBase recoverStaff(@PathVariable Integer id, @PathVariable Integer detailtypeId){
+        if(staffService.updateStaffStatus(id, 0, 3)){
+            Integer serviceID = servicetypeService.getServiceType(detailtypeId);
+            serviceTimerService.changeStaff(serviceID, 1);
+            return ResultBase.success();
+        }
+        return ResultBase.fail();
+    }
     @ApiOperation(value = "修改员工")
     @PostMapping("updateStaff")
     @Transactional
-    public ResultBase updateStaff(@RequestBody JSONObject parmas) {
+    public ResultBase updateStaff(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "id", example = "1"),
+            @ApiJsonProperty(key = "sex", example = "1"),
+            @ApiJsonProperty(key = "phone", example = "手机号"),
+            @ApiJsonProperty(key = "health", example = "健康证"),
+            @ApiJsonProperty(key = "idCard", example = "身份证"),
+            @ApiJsonProperty(key = "detailtypeId", example = "1"),
+            @ApiJsonProperty(key = "qualification", example = "从业资格证"),
+            @ApiJsonProperty(key = "status", example = "状态")
+    })@RequestBody JSONObject params) {
         //读取数据
-        IStaff iStaff2 = parmas.toJavaObject(IStaff.class);
+        IStaff iStaff2 =params.toJavaObject(IStaff.class);
         System.out.println(iStaff2);
-        return ResultBase.success(iStaff2);
-//        IStaff iStaff = new IStaff();
-//        Integer id = parmas.getInteger("id");
-//        Integer sex = parmas.getInteger("sex");
-//        String phone = parmas.getString("phone");
-//        String health = parmas.getString("health");
-//        String idCard = parmas.getString("idCard");
-//        JSONArray arr = parmas.getJSONArray("detailtypeId");
-//        Integer detailtypeId = arr.getInteger(2);
-//        String qualification = parmas.getString("qualification");
-//        Integer status = parmas.getInteger("status");
-//        Integer wechatId = parmas.getInteger("wechatId");
+        IStaff iStaff = new IStaff();
+//        Integer id =params.getInteger("id");
+//        Integer sex =params.getInteger("sex");
+//        String phone =params.getString("phone");
+//        String health =params.getString("health");
+//        String idCard =params.getString("idCard");
+//        Integer detailtypeId =params.getInteger("detailtypeId");
+//        String qualification =params.getString("qualification");
+//        Integer status =params.getInteger("status");
 //        iStaff.setId(id);
 //        iStaff.setSex(sex);
 //        iStaff.setPhone(phone);
 //        iStaff.setHealth(health);
+//        iStaff.setStatus(status);
 //        iStaff.setIdCard(idCard);
 //        iStaff.setDetailtypeId(detailtypeId);
 //        iStaff.setQualification(qualification);
-//        iStaff.setStatus(status);
-//        iStaff.setWechatId(wechatId);
 //
 //
 //        //获取旧记录
@@ -156,9 +176,9 @@ public class StaffController {
 //                serviceTimerService.changeStaff(serviceId1, -1);
 //                serviceTimerService.changeStaff(serviceId2, 1);
 //            }
-//            return "修改成功";
+//            return ResultBase.success();
 //        }
-//        return "修改失败";
+        return ResultBase.fail();
     }
 
     @ApiOperation(value = "删除员工")
