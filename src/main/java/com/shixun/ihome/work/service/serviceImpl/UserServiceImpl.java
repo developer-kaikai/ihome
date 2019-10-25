@@ -1,11 +1,14 @@
 package com.shixun.ihome.work.service.serviceImpl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.publicservice.mapper.IUserDetailMapper;
 import com.shixun.ihome.publicservice.mapper.IUserMapper;
 import com.shixun.ihome.publicservice.pojo.IUser;
 
 
 import com.shixun.ihome.publicservice.pojo.IUserDetail;
+import com.shixun.ihome.publicservice.pojo.IUserExample;
 import com.shixun.ihome.work.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,5 +55,22 @@ public class UserServiceImpl implements UserService {
     public String getOpenId(int userId) {
         IUser user = iUserMapper.getOpenId(userId);
         return user.getWeixin().getOpenId();
+    }
+
+
+    @Override
+    public JSONArray getWeiXinId(String phone) {
+        IUserExample iUserExample = new IUserExample();
+        IUserExample.Criteria criteria = iUserExample.createCriteria();
+        criteria.andPhoneLike(phone);
+        List<IUser> users = iUserMapper.selectByExample(iUserExample);
+        JSONArray arr = new JSONArray(users.size());
+        for (IUser user: users ) {
+            JSONObject obj = new JSONObject(2);
+            obj.put("label",user.getPhone());
+            obj.put("value",user.getWeixinId());
+            arr.add(obj);
+        }
+        return arr;
     }
 }

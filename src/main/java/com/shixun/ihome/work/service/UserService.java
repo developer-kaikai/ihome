@@ -1,5 +1,7 @@
 package com.shixun.ihome.work.service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.publicservice.pojo.IUser;
 import com.shixun.ihome.publicservice.pojo.IUserDetail;
 
@@ -22,4 +24,6 @@ public interface UserService {
 
     //获取用户的openid
     String getOpenId(int userId);
+
+    JSONArray getWeiXinId(String phone);
 }
