@@ -32,6 +32,12 @@ public interface ToolService {
     Boolean deteToolrecord(int recordid);
 
     Boolean updateToolrecord(IToolrecord iToolrecord);
+    //添加工具记录
+    Boolean addToolrecord(IToolrecord iToolrecord);
+    //获取工具
+    ITool getOne(int detailId);
+
+
 
 
 }

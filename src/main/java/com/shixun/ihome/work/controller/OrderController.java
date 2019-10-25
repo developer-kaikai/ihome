@@ -8,12 +8,9 @@ import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
-import com.shixun.ihome.publicservice.pojo.IEvaluate;
-import com.shixun.ihome.publicservice.pojo.IOrderLong;
-import com.shixun.ihome.publicservice.pojo.IStaff;
+import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.*;
-import com.shixun.ihome.publicservice.pojo.IOrder;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -43,6 +40,8 @@ public class OrderController {
     private EvaluateService evaluateService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ToolService toolService;
 
     @ApiOperation(value="双向确认")
     @RequestMapping(value="/updateOrderState",method = RequestMethod.POST)
@@ -352,6 +351,13 @@ public class OrderController {
         if (Qutil.assertTimer(new Date(), order.getOrderTime(), Qutil.MINUTE, 15)){
             return ResultBase.fail("订单请在15分钟内取消");
         }
+        //生成工具
+        ITool tool = toolService.getOne(order.getDetailtypeId());
+        IToolrecord toolrecord = new IToolrecord();
+        toolrecord.setOrderId(orderId);
+        toolrecord.setToolId(tool.getId());
+        toolrecord.setCount(1);
+        toolrecord.setState(0);
         //循环员工id
         if (!jsonArray.isEmpty()){
             List<Integer> staffIds = jsonArray.toJavaList(Integer.class);
@@ -362,6 +368,10 @@ public class OrderController {
                 timeService.updateTimerByOrder(id, order, 2);
                 //更新员工的状态(为服务中2)
                 staffService.updateStaffStatus(id, 2, 0);
+                //添加工具记录
+                toolrecord.setStaffId(id);
+                toolService.addToolrecord(toolrecord);
+
             }
             //更新订单状态
             orderService.updateOrderState(orderId, 2);

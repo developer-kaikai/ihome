@@ -115,4 +115,23 @@ public class ToolServiceImpl implements ToolService {
         iToolrecordMapper.updateByPrimaryKeySelective(iToolrecord);
         return true;
     }
+
+    @Override
+    public Boolean addToolrecord(IToolrecord iToolrecord) {
+        int result = iToolrecordMapper.insert(iToolrecord);
+        if (result > 0){
+            return true;
+        }
+        throw new RuntimeException("添加工具订单失败");
+    }
+
+
+    @Override
+    public ITool getOne(int detailId) {
+        IToolExample toolExample = new IToolExample();
+        IToolExample.Criteria criteria = toolExample.createCriteria();
+        criteria.andDetailtypeIdEqualTo(detailId);
+        ITool tool  = iToolMapper.selectByExample(toolExample).get(0);
+        return tool;
+    }
 }
