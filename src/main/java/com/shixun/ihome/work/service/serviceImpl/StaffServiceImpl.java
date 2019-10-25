@@ -28,6 +28,9 @@ public class StaffServiceImpl implements StaffService {
             if (istaff.getStatus() != null) {
                 criteria.andStatusEqualTo(istaff.getStatus());
             }
+            if(istaff.getPhone() != null){
+                criteria.andPhoneLike(istaff.getPhone() + "%");
+            }
             if (istaff.getSex() != null){
                 criteria.andSexEqualTo(istaff.getSex());
             }
@@ -35,7 +38,7 @@ public class StaffServiceImpl implements StaffService {
                 criteria.andDetailtypeIdEqualTo(istaff.getDetailtypeId());
             }
             if (istaff.getName() != null){
-                criteria.andNameLike(istaff.getName());
+                criteria.andNameLike(istaff.getName() + "%");
             }
         }
         PageHelper.startPage(pageNum, pageSize);

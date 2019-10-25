@@ -244,6 +244,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public PageInfo<IOrder> selectByCondition(IOrder order, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+//        姓名
+//                性别
+//        手机号
+//                服务类型
+//        状态
+
+        return null;
+    }
+
+    @Override
     public boolean updateOrderState(int orderId, int state) {
         IOrder order = new IOrder();
         order.setId(orderId);

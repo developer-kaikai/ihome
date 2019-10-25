@@ -70,4 +70,7 @@ public interface OrderService {
     Boolean updateOrderState(int orderid);
 
 
+    PageInfo<IOrder> selectByCondition(IOrder order, int pageNum, int pageSize);
+
+
 }

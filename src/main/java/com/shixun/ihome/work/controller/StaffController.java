@@ -47,10 +47,32 @@ public class StaffController {
         //获取服务大类id
         int serviceId = servicetypeService.getServiceType(iStaff.getDetailtypeId());
         serviceTimerService.changeStaff(serviceId, 1);
-
-
-
         return ResultBase.success();
+    }
+
+    @ApiOperation(value = "员工高级搜索")
+    @PostMapping("/heightSearch")
+    public ResultBase heightSearch(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "name", example = "乔", description = "员工姓名"),
+            @ApiJsonProperty(key = "sex", example = "1", description = "0：男 1：女"),
+            @ApiJsonProperty(key = "phoen", example = "111111111111", description = "11位手机号"),
+            @ApiJsonProperty(key = "detailtypeId",example = "1", description = "详细服务类"),
+            @ApiJsonProperty(key = "status", example = "0", description = "0：休闲中 1：休假中 2：服务中 3:无效"),
+            @ApiJsonProperty(key = "pageSize", example = "10", description = "最大显示页数"),
+            @ApiJsonProperty(key = "pageNum", example = "1", description = "当前的页数")
+    })@RequestBody JSONObject params){
+        IStaff staff = params.toJavaObject(IStaff.class);
+        Integer pageSize = params.getInteger("pageSize");
+        Integer pageNum  = params.getInteger("pageNum");
+        PageInfo<IStaff> pages = staffService.selectStaffs(staff, pageNum, pageSize);
+        JSONObject data = new JSONObject();
+        data.put("total",pages.getTotal());
+        data.put("pageSize",pages.getPageSize());
+        data.put("pageNum",pageNum);
+        JSONArray arr = new JSONArray(pages.getSize());
+        arr.addAll(pages.getList());
+        data.put("list", arr);
+        return ResultBase.success(data);
     }
 
     @ApiOperation(value = "获取所有员工")
