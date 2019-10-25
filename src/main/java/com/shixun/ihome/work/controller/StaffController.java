@@ -50,7 +50,7 @@ public class StaffController {
 
 
 
-        return new ResultBase(200, "添加员工成功");
+        return ResultBase.success();
     }
 
     @ApiOperation(value = "获取所有员工")

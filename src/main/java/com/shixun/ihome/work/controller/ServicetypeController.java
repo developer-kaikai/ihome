@@ -119,7 +119,7 @@ public class ServicetypeController {
 
 
     @ApiOperation(value = "根据详细服务类id获取详细服务类")
-    @GetMapping("getDetailsBydetailId")
+    @GetMapping("/getDetailsBydetailId/{detailId}")
     @ApiImplicitParam(name = "detailId", value = "1", required = true, paramType = "path", dataType = "int")
     public ResultBase getDetailsBydetailId(@PathVariable int detailId){
         List<IDetailtype> list = servicetypeService.getDetailsByDetailId(detailId);
@@ -134,6 +134,6 @@ public class ServicetypeController {
         }
         data.put("arr",arr);
         data.put("index",list.get(0).getServicetpyeId());
-        return ResultBase.success(arr);
+        return ResultBase.success(data);
     }
 }
