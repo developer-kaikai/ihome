@@ -26,12 +26,27 @@ public class ToolController {
     @Autowired
     private ToolService toolService;
 
+    @ApiOperation(value = "员工查看工具记录")
+    @RequestMapping(value = "/seetool",method = RequestMethod.POST)
+    public void selectTool(@RequestBody JSONObject name, HttpServletResponse response) throws IOException {
+        int userid=name.getInteger("userid");
+        int state=name.getInteger("state");
+        List<IToolrecord> iToolrecordList=toolService.listbystaffid(userid,state);
+        response.setContentType("application/json;charset=utf-8");
+        String json;
+        json = Result.build(ResultType.Success).appendData("iToolrecordList",iToolrecordList).convertIntoJSON();
+        response.getWriter().write(json);
+    }
+
+
+
 
     @ApiOperation(value = "员工领取工具")
     @RequestMapping(value = "/gettool",method = RequestMethod.POST)
     public void getTool(@RequestBody JSONObject name){
         int orderid=name.getInteger("orderid");
         int staffid=name.getInteger("staffid");
+
         Boolean success=toolService.receiveTool(orderid,staffid);
     }
 
@@ -94,9 +109,10 @@ public class ToolController {
     }
 
     @ApiOperation(value = "查看所有工具记录")
-    @RequestMapping(value = "/alltoolrecord",method = RequestMethod.GET)
-    public void allToolrecord(HttpServletResponse response)throws IOException{
-        List<IToolrecord> iToolrecordList=toolService.allRecord();
+    @RequestMapping(value = "/alltoolrecord",method = RequestMethod.POST)
+    public void allToolrecord(@RequestBody JSONObject name, HttpServletResponse response)throws IOException{
+        int state=name.getInteger("state");
+        List<IToolrecord> iToolrecordList=toolService.allRecord(state);
         response.setContentType("application/json;charset=utf-8");
         String json ;
         json = Result.build(ResultType.Success).appendData("iToolrecordList",iToolrecordList).convertIntoJSON();

@@ -19,7 +19,11 @@ public class IOrder implements Serializable {
 
     private Integer detailtypeId;
     private IDetailtype detailtype;
-    private List<IStaff> staffs;
+   // private List<IStaff> staffs;
+
+    private IStaff iStaff;
+    private ITool iTool;
+    private IToolrecord iToolrecord;
 
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -37,18 +41,43 @@ public class IOrder implements Serializable {
 
     private String comm;
 
+
+    public IStaff getiStaff() {
+        return iStaff;
+    }
+
+    public void setiStaff(IStaff iStaff) {
+        this.iStaff = iStaff;
+    }
+
+    public ITool getiTool() {
+        return iTool;
+    }
+
+    public void setiTool(ITool iTool) {
+        this.iTool = iTool;
+    }
+
+    public IToolrecord getiToolrecord() {
+        return iToolrecord;
+    }
+
+    public void setiToolrecord(IToolrecord iToolrecord) {
+        this.iToolrecord = iToolrecord;
+    }
+
     public IUser getUser() {
         return user;
     }
 
 
-    public List<IStaff> getStaffs() {
-        return staffs;
-    }
-
-    public void setStaffs(List<IStaff> staffs) {
-        this.staffs = staffs;
-    }
+//    public List<IStaff> getStaffs() {
+//        return staffs;
+//    }
+//
+//    public void setStaffs(List<IStaff> staffs) {
+//        this.staffs = staffs;
+//    }
 
     public void setUser(IUser user) {
         this.user = user;

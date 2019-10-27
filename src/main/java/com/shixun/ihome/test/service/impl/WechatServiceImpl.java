@@ -1,5 +1,6 @@
 package com.shixun.ihome.test.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.publicservice.mapper.IUserMapper;
 import com.shixun.ihome.publicservice.mapper.IWeixinMapper;
 import com.shixun.ihome.publicservice.pojo.*;
@@ -16,10 +17,12 @@ public class WechatServiceImpl implements WechatService {
     @Autowired
     private IUserMapper iUserMapper;
 
+
+
     @Override
     public int wechatlogin(String openid) {
-        List<IWeixin> iWeixin1=iWeixinMapper.selectByopenid(openid);
-        if (iWeixin1.size()==0) {
+        IWeixin iWeixin1=iWeixinMapper.selectByopenid(openid);
+        if ("".equals(iWeixin1)||iWeixin1==null) {
             IWeixin iWeixin = new IWeixin();
             iWeixin.setOpenId(openid);
             iWeixin.setPositionId(4);
@@ -36,7 +39,7 @@ public class WechatServiceImpl implements WechatService {
             return iWeixin.getPositionId();
         }
         else {
-            return iWeixin1.get(0).getPositionId();
+            return iWeixin1.getPositionId();
         }
     }
 
@@ -57,5 +60,26 @@ public class WechatServiceImpl implements WechatService {
         return id;
 
 
+    }
+
+    @Override
+    public Boolean havaphone(int userid) {
+        IUser user=iUserMapper.selectByPrimaryKey(userid);
+
+        System.out.println(user.getPhone());
+        if("".equals(user.getPhone())||user.getPhone()==null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+    @Override
+    public Boolean addphone(int userid, String phone) {
+        IUser user=iUserMapper.selectByPrimaryKey(userid);
+        user.setPhone(phone);
+        iUserMapper.updateByPrimaryKeySelective(user);
+        return true;
     }
 }

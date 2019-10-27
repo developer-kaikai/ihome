@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,20 @@ public class FinanceServiceImpl implements FinanceService {
     private ISalaryRateMapper iSalaryRateMapper;
 
 
-
+    @Override
+    public Map listcount(int staffid, Date nowtime) {
+        Map map=new HashMap();
+        map.put("nowtime",nowtime);
+        map.put("staffid",staffid);
+        int sum=iSalaryMapper.findsum(map);
+        int monthcount=iSalaryMapper.findmonthcount(map);
+        int count=iSalaryMapper.findcount(map);
+        Map map1=new HashMap();
+        map1.put("sum",sum);
+        map1.put("monthcount",monthcount);
+        map1.put("count",count);
+        return map1;
+    }
 
     /*计算提成*/
     @Override

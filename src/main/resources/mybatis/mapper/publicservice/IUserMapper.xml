@@ -235,4 +235,5 @@
   <select id="getOpenId" resultMap="UserWeixinResultMap" parameterType="Integer" >
 SELECT u.id, u.weixin_id, u.phone, w.id as wid, w.open_id, w.position_id FROM i_user u left join i_weixin w on w.id = u.weixin_id where u.id = #{userId}
   </select>
+
 </mapper>

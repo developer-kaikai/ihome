@@ -31,6 +31,21 @@ public class FinanceController {
     @Autowired
     private FinanceService financeService;
 
+    @ApiOperation(value = "员工页面数据")
+    @ResponseBody
+    @RequestMapping(value = "/staffnews",method = RequestMethod.POST)
+    public void servicestaff(@RequestBody JSONObject name,HttpServletResponse response)throws IOException {
+        int staffid=name.getInteger("staffid");
+        Date date=new Date();
+        Map map=financeService.listcount(staffid,date);
+
+        response.setContentType("application/json;charset=utf-8");
+        String json ;
+        json = Result.build(ResultType.Success).appendData("map", map).convertIntoJSON();
+        response.getWriter().write(json);
+    }
+
+
     @ApiOperation(value = "test")
     @ResponseBody
     @RequestMapping(value = "/list",method = RequestMethod.GET)

@@ -103,9 +103,13 @@ public class OrderController {
         List<IOrder> iOrderList = new ArrayList<>();
         //员工
         if(id==1){
-            iOrderList=orderService.listbystaffid(userid,state);
+
+                iOrderList = orderService.listbystaffidtwo(userid,state);
+
         }else{
-            iOrderList=orderService.listbyuserid(userid,state);
+
+                iOrderList = orderService.listbyuserid(userid, state);
+
         }
         response.setContentType("application/json;charset=utf-8");
         String json;

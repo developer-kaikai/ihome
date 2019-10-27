@@ -49,6 +49,7 @@ public interface IOrderMapper {
     /*用户/员工查看自己的订单*/
     List<IOrder> listbyuser(int userid,int orderstate);
     List<IOrder> listbystaff(int staffid,int orderstate);
+    List<IOrder> listbystafftwo(int staffid,int orderstate);
 
     /*用户/员工查看自己的评价*/
     List<IOrder> listbyuserTypeid(int userid,int detailtypeid);

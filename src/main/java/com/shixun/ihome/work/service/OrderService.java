@@ -62,6 +62,7 @@ public interface OrderService {
 
     List<IOrder> listbyuserid(int userid,int orderstate);
     List<IOrder> listbystaffid(int staffid,int orderstate);
+    List<IOrder> listbystaffidtwo(int staffid,int orderstate);
 
     List<IOrder> listbyuserTypename(int userid,String typename);
     List<IOrder> listbystaffTypename(int staffid,String typename);

@@ -34,6 +34,11 @@ public class OrderServiceImpl implements OrderService {
     private IOrderStaffMapper orderStaffMapper;
 
     @Override
+    public List<IOrder> listbystaffidtwo(int staffid, int orderstate) {
+        return orderMapper.listbystafftwo(staffid,orderstate);
+    }
+
+    @Override
     public Boolean updateOrderState(int orderid) {
         IOrder order=orderMapper.selectByPrimaryKey(orderid);
         order.setState(4);

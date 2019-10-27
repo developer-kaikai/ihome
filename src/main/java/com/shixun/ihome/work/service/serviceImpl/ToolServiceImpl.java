@@ -22,27 +22,18 @@ public class ToolServiceImpl implements ToolService {
 
 
     @Override
+    public List<IToolrecord> listbystaffid(int staffid,int state) {
+        return iToolrecordMapper.selectbystaff(staffid,state);
+    }
+
+    @Override
     public Boolean receiveTool(int orderid, int staffid) {
-        IOrder order=orderMapper.selectByPrimaryKey(orderid);
-        IToolrecord iToolrecord=new IToolrecord();
-        iToolrecord.setOrderId(orderid);
-        iToolrecord.setStaffId(staffid);
-
-        IToolExample example=new IToolExample();
-        IToolExample.Criteria criteria=example.createCriteria();
-        criteria.andDetailtypeIdEqualTo(order.getDetailtypeId());
-
-        List<ITool> iToolList=iToolMapper.selectByExample(example);
-        ITool iTool=new ITool();
-        iTool=iToolList.get(0);
+        IToolrecord iToolrecord=iToolrecordMapper.selectToolrecord(orderid,staffid);
+        iToolrecord.setState(1);
+        iToolrecordMapper.updateByPrimaryKeySelective(iToolrecord);
+        ITool iTool=iToolMapper.selectByPrimaryKey(iToolrecord.getToolId());
         iTool.setTcount(iTool.getTcount()-1);
         iToolMapper.updateByPrimaryKeySelective(iTool);
-        iToolrecord.setToolId(iTool.getId());
-        iToolrecord.setCount(1);
-        iToolrecord.setState(1);
-        iToolrecordMapper.insert(iToolrecord);
-        order.setState(3);
-        orderMapper.updateByPrimaryKeySelective(order);
 
         return true;
 
@@ -51,6 +42,7 @@ public class ToolServiceImpl implements ToolService {
     @Override
     public Boolean returnTool(int orderid,int staffid) {
         IToolrecord iToolrecord=iToolrecordMapper.selectToolrecord(orderid,staffid);
+
         iToolrecord.setState(2);
         ITool iTool=iToolMapper.selectByPrimaryKey(iToolrecord.getToolId());
         iTool.setTcount(iTool.getTcount()+1);
@@ -100,8 +92,8 @@ public class ToolServiceImpl implements ToolService {
     }
 
     @Override
-    public List<IToolrecord> allRecord() {
-        return iToolrecordMapper.selectall();
+    public List<IToolrecord> allRecord(int state) {
+        return iToolrecordMapper.selectall(state);
     }
 
     @Override
