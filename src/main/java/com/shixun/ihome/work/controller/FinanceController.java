@@ -8,6 +8,7 @@ import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.ISalary;
+import com.shixun.ihome.test.service.WechatService;
 import com.shixun.ihome.work.service.FinanceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,26 @@ import java.util.Map;
 public class FinanceController {
     @Autowired
     private FinanceService financeService;
+    @Autowired
+    private WechatService wechatService;
+
+
+    @ApiOperation(value = "登录测试接口")
+    @RequestMapping(value="/longintest",method = RequestMethod.POST)
+    public String addtest(@RequestBody JSONObject name){
+        String openid=name.getString("openid");
+        int a=wechatService.wechatlogin(openid);
+        return "ok";
+    }
+
+    @ApiOperation(value = "电话测试接口")
+    @RequestMapping(value="/longinphone",method = RequestMethod.POST)
+    public String addtestrwo(@RequestBody JSONObject name){
+        int userid=name.getInteger("userid");
+        String success=wechatService.havaphone(userid);
+        System.out.println("ok");
+        return success;
+    }
 
     @ApiOperation(value = "员工页面数据")
     @ResponseBody

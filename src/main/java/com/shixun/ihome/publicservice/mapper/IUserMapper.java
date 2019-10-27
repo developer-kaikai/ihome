@@ -37,4 +37,7 @@ public interface IUserMapper {
     IUser getOpenId(Integer userId);
 
 
+    IUser getuser(int userid);
+
+
 }

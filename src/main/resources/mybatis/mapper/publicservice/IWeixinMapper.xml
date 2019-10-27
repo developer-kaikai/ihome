@@ -178,6 +178,6 @@
   </update>
 
   <select id="selectByopenid" parameterType="String" resultType="com.shixun.ihome.publicservice.pojo.IWeixin">
-      select * from i_weixin where open_id=#{openid}
+      select * from i_weixin where open_id=#{openid,jdbcType=VARCHAR}
   </select>
 </mapper>

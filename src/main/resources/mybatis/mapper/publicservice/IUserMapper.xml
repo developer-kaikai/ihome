@@ -236,4 +236,7 @@
 SELECT u.id, u.weixin_id, u.phone, w.id as wid, w.open_id, w.position_id FROM i_user u left join i_weixin w on w.id = u.weixin_id where u.id = #{userId}
   </select>
 
+  <select id="getuser" parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.IUser">
+    select * from i_user where id=#{userid}
+  </select>
 </mapper>

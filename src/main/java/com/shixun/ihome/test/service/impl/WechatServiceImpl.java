@@ -21,8 +21,10 @@ public class WechatServiceImpl implements WechatService {
 
     @Override
     public int wechatlogin(String openid) {
+        System.out.println("2222222"+openid);
         IWeixin iWeixin1=iWeixinMapper.selectByopenid(openid);
         if ("".equals(iWeixin1)||iWeixin1==null) {
+            System.out.println("已进入");
             IWeixin iWeixin = new IWeixin();
             iWeixin.setOpenId(openid);
             iWeixin.setPositionId(4);
@@ -39,6 +41,7 @@ public class WechatServiceImpl implements WechatService {
             return iWeixin.getPositionId();
         }
         else {
+            System.out.println("已存在");
             return iWeixin1.getPositionId();
         }
     }
@@ -57,20 +60,26 @@ public class WechatServiceImpl implements WechatService {
 
         List<IUser> userList=iUserMapper.selectByExample(example1);
         int userid=userList.get(0).getId();
-        return id;
+        return userid;
 
 
     }
 
     @Override
-    public Boolean havaphone(int userid) {
-        IUser user=iUserMapper.selectByPrimaryKey(userid);
+    public String havaphone(int userid) {
 
-        System.out.println(user.getPhone());
+        System.out.println("用户id"+userid);
+        IUser user=iUserMapper.getuser(userid);
+
+
+
+        System.out.println("用户电话为:"+user.getPhone());
         if("".equals(user.getPhone())||user.getPhone()==null){
-            return false;
+            System.out.println("电话为空！！");
+            return "false";
         }else{
-            return true;
+            System.out.println("电话不为空");
+            return "true";
         }
     }
 

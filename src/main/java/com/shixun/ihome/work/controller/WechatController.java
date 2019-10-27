@@ -47,11 +47,7 @@ public class WechatController {
         System.out.println(code);
         JSONObject userInfo=getcode.getJSONObject("userInfo");
         System.out.println(userInfo);
-//        code = StringEscapeUtils.unescapeJava(code);
-//        JSONObject jsonObject= JSON.parseObject(code);
-//        String data = jsonObject.getString("data");
-//        JSONObject jsondata= JSON.parseObject(data);
-//        String token = jsondata.getString("getcode");
+
         String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 
         String requestUrl = WX_URL.replace("APPID","wx28d20808cea0c171").
@@ -60,22 +56,21 @@ public class WechatController {
 
 
         String  returnvalue=GET(requestUrl);
-        System.out.println(requestUrl);
-        System.out.println(returnvalue);
+
 
         JSONObject convertvalue=new JSONObject();
         convertvalue=(JSONObject) JSON.parse(returnvalue);
 
 
-        System.out.println("return openid is ："+(String)convertvalue.get("openid"));
-        System.out.println("return sessionkey is ："+(String)convertvalue.get("session_key"));
 
         String openid=(String) convertvalue.get("openid");
+        System.out.println("111111111"+openid);
         String sessionkey=(String) convertvalue.get("session_key");
 
         int existence=wechatService.wechatlogin(openid);
         int userid=wechatService.userid(openid);
-        Boolean havephone=wechatService.havaphone(userid);
+
+        String havephone=wechatService.havaphone(userid);
 
         Map map=new HashMap();
         map.put("userid",userid);
