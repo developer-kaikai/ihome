@@ -231,7 +231,75 @@
     select * from i_toolrecord where order_id=#{orderid} and staff_id=#{staffid}
   </select>
 
-  <select id="selectall" resultMap="BaseResultMap">
+  <select id="selectall" parameterType="int" resultMap="BaseResultMap">
     select * from i_toolrecord t,i_staff s,i_tool tl where t.staff_id=s.id and t.tool_id=tl.id
+    <if test="state!=4">
+      and state=#{state}
+    </if>
   </select>
+
+  <resultMap id="recordMap" type="com.shixun.ihome.publicservice.pojo.IToolrecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <result column="tool_id" property="toolId" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="name" property="staffname" jdbcType="VARCHAR" />
+    <association property="iTool" javaType="com.shixun.ihome.publicservice.pojo.ITool" >
+      <id column="tid" property="id" jdbcType="INTEGER" />
+      <result column="tname" property="tname" jdbcType="VARCHAR" />
+      <result column="detailtype_id" property="detailtypeId" jdbcType="INTEGER" />
+      <result column="tcount" property="tcount" jdbcType="INTEGER" />
+    </association>
+
+    <association property="iOrder" javaType="com.shixun.ihome.publicservice.pojo.IOrder" >
+      <id column="oid" property="id" jdbcType="INTEGER" />
+      <result column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="useraddress_id" property="useraddressId" jdbcType="INTEGER" />
+      <result column="detailtype_id" property="detailtypeId" jdbcType="INTEGER" />
+      <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+      <result column="price" property="price" jdbcType="DOUBLE" />
+      <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+      <result column="finaly_time" property="finalyTime" jdbcType="TIMESTAMP" />
+      <result column="state" property="state" jdbcType="INTEGER" />
+      <result column="comm" property="comm" jdbcType="VARCHAR" />
+    </association>
+
+    <association property="iDetailtype" javaType="com.shixun.ihome.publicservice.pojo.IDetailtype" >
+      <id column="did" property="id" jdbcType="INTEGER" />
+      <result column="typename" property="typename" jdbcType="VARCHAR" />
+      <result column="servicetpye_id" property="servicetpyeId" jdbcType="INTEGER" />
+      <result column="ddescribe" property="ddescribe" jdbcType="VARCHAR" />
+      <result column="charge_type" property="chargeType" jdbcType="VARCHAR" />
+      <result column="comm" property="comm" jdbcType="VARCHAR" />
+      <result column="explains" property="explains" jdbcType="VARCHAR" />
+      <result column="picturepath1" property="picturepath1" jdbcType="VARCHAR" />
+      <result column="picturepath2" property="picturepath2" jdbcType="VARCHAR" />
+      <result column="price" property="price" jdbcType="DOUBLE" />
+      <result column="type_id" property="typeId" jdbcType="INTEGER" />
+
+    </association>
+
+
+  </resultMap>
+
+
+<select id="selectbystaff" parameterType="int" resultMap="recordMap">
+  select *,o.id as oid,t.id as tid,d.id as did from i_toolrecord tr,i_tool t,i_order_staff os,i_detailtype d,i_order o
+  where tr.staff_id=#{staffid}
+  and tr.state=#{state}
+  and o.id=tr.order_id
+  and os.order_id=o.id
+  and t.detailtype_id=o.detailtype_id
+  and d.id=o.detailtype_id
+<if test="state==2">
+  or tr.state=3
+</if>
+<if test="state==3">
+ or tr.state=2
+</if>
+</select>
+
+
 </mapper>

@@ -16,6 +16,26 @@ public class IToolrecord {
 
     private ITool iTool;
 
+    private IOrder iOrder;
+
+    private IDetailtype iDetailtype;
+
+    public IDetailtype getiDetailtype() {
+        return iDetailtype;
+    }
+
+    public void setiDetailtype(IDetailtype iDetailtype) {
+        this.iDetailtype = iDetailtype;
+    }
+
+    public IOrder getiOrder() {
+        return iOrder;
+    }
+
+    public void setiOrder(IOrder iOrder) {
+        this.iOrder = iOrder;
+    }
+
     public String getStaffname() {
         return staffname;
     }

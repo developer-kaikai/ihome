@@ -304,4 +304,23 @@ GROUP BY s.name
 and month(sa.updatetime)=month(#{date3})
 and sa.staff_id=st.id and t.id=st.detailtype_id
   </select>
+
+  <select id="findsum" parameterType="map" resultType="int">
+select ssum from i_salary where staff_id=#{staffid}
+ and year(i_salary.updatetime)=year(#{nowtime})
+and month(i_salary.updatetime)=month(#{nowtime})
+  </select>
+
+  <select id="findcount" parameterType="map" resultType="int">
+select count(order_id) from i_order_staff where staff_id=#{staffid} GROUP BY staff_id
+  </select>
+
+  <select id="findmonthcount" parameterType="map" resultType="int">
+select count(os.order_id) from i_order o,i_order_staff os
+where os.staff_id=#{staffid}
+and os.order_id=o.id
+and year(o.finaly_time)=year(#{nowtime})
+and month(o.finaly_time)=month(#{nowtime})
+GROUP BY os.staff_id
+  </select>
 </mapper>

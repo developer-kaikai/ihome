@@ -33,5 +33,7 @@ public interface IToolrecordMapper {
 
     IToolrecord selectToolrecord(int orderid,int staffid);
 
-    List<IToolrecord> selectall();
+    List<IToolrecord> selectall(int state);
+
+    List<IToolrecord> selectbystaff(int staffid,int state);
 }

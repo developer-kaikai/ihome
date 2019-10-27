@@ -5,4 +5,8 @@ public interface WechatService {
 
     int userid(String openid);
 
+    Boolean havaphone(int userid);
+
+
+    Boolean addphone(int userid,String phone);
 }

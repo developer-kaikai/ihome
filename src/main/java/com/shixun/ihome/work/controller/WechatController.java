@@ -5,10 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.test.service.WechatService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,14 +30,23 @@ public class WechatController {
     @Autowired
     private WechatService wechatService;
 
+
+    @RequestMapping(value="/updateOrderState",method = RequestMethod.POST)
+    public void addphone(@RequestBody JSONObject name){
+        int userid=name.getInteger("userid");
+        String phone=name.getString("phone");
+        Boolean sucess=wechatService.addphone(userid,phone);
+
+    }
+
     @ResponseBody
     @RequestMapping("getCode")
     public void getOpenid(@RequestBody JSONObject getcode, HttpServletResponse response)throws IOException {
 
         String code=getcode.getString("getcode");
+        System.out.println(code);
         JSONObject userInfo=getcode.getJSONObject("userInfo");
-        String name=userInfo.getString("nickName");
-        System.out.println(name);
+        System.out.println(userInfo);
 //        code = StringEscapeUtils.unescapeJava(code);
 //        JSONObject jsonObject= JSON.parseObject(code);
 //        String data = jsonObject.getString("data");
@@ -64,9 +75,12 @@ public class WechatController {
 
         int existence=wechatService.wechatlogin(openid);
         int userid=wechatService.userid(openid);
+        Boolean havephone=wechatService.havaphone(userid);
+
         Map map=new HashMap();
         map.put("userid",userid);
         map.put("existence",existence);
+        map.put("havephone",havephone);
 
         String json ;
         json = Result.build(ResultType.Success).appendData("map", map).convertIntoJSON();

@@ -35,4 +35,6 @@ public interface IUserMapper {
     List<IUser> selectUsers(IUser iUser);
 
     IUser getOpenId(Integer userId);
+
+
 }

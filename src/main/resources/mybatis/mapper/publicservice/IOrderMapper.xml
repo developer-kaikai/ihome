@@ -300,6 +300,39 @@
 
     <association property="detailtype" javaType="com.shixun.ihome.publicservice.pojo.IDetailtype" resultMap="com.shixun.ihome.publicservice.mapper.IDetailtypeMapper.BaseResultMap">
     </association>
+
+    <association property="iStaff" javaType="com.shixun.ihome.publicservice.pojo.IStaff" >
+      <id column="sid" property="id" jdbcType="INTEGER" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="sex" property="sex" jdbcType="INTEGER" />
+      <result column="phone" property="phone" jdbcType="VARCHAR" />
+      <result column="detailtype_id" property="detailtypeId" jdbcType="INTEGER" />
+      <result column="wechat_id" property="wechatId" jdbcType="INTEGER" />
+      <result column="qualification" property="qualification" jdbcType="VARCHAR" />
+      <result column="health" property="health" jdbcType="VARCHAR" />
+      <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+      <result column="status" property="status" jdbcType="INTEGER" />
+      <result column="basesalary" property="basesalary" jdbcType="DOUBLE" />
+      <result column="typename" property="typename" jdbcType="VARCHAR"/>
+    </association>
+
+    <association property="iTool" javaType="com.shixun.ihome.publicservice.pojo.ITool">
+      <id column="tid" property="id" jdbcType="INTEGER" />
+      <result column="tname" property="tname" jdbcType="VARCHAR" />
+      <result column="detailtype_id" property="detailtypeId" jdbcType="INTEGER" />
+      <result column="tcount" property="tcount" jdbcType="INTEGER" />
+    </association>
+
+    <association property="iToolrecord" javaType="com.shixun.ihome.publicservice.pojo.IToolrecord" >
+      <id column="trid" property="id" jdbcType="INTEGER" />
+      <result column="order_id" property="orderId" jdbcType="INTEGER" />
+      <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+      <result column="tool_id" property="toolId" jdbcType="INTEGER" />
+      <result column="count" property="count" jdbcType="INTEGER" />
+      <result column="trstate" property="state" jdbcType="INTEGER" />
+      <result column="name" property="staffname" jdbcType="VARCHAR" />
+    </association>
+
   </resultMap>
 
 
@@ -329,11 +362,29 @@ select * from i_order o,i_user u,i_detailtype d,i_user_detail a
   </select>
 
   <select id="listbystaff" parameterType="int" resultMap="listall">
-select * from i_staff s,i_order_staff os,i_order o where s.id=#{staffid} and os.staff_id=s.id and o.id=os.order_id and o.state!=5
+    select *,t.id as tid,s.id as sid,tr.id as trid,tr.state as trstate from i_order o,i_staff s,i_order_staff os,i_tool t,i_toolrecord tr,i_detailtype d where s.id=#{staffid}
+    and os.staff_id=s.id
+    and o.id=os.order_id
+    and o.state!=5
+    and o.detailtype_id=t.detailtype_id
+    and tr.staff_id=s.id
+    and d.id=o.detailtype_id
     <if test="orderstate!=7">
       and o.state=#{orderstate}
     </if>
  </select>
+
+  <select id="listbystafftwo"  parameterType="int" resultMap="listall">
+    select *,t.id as tid,s.id as sid from i_order o,i_staff s,i_order_staff os,i_tool t,i_detailtype d where s.id=#{staffid}
+    and os.staff_id=s.id
+    and o.id=os.order_id
+    and o.state!=5
+    and o.detailtype_id=t.detailtype_id
+    and d.id=o.detailtype_id
+    <if test="orderstate!=7">
+      and o.state=#{orderstate}
+    </if>
+  </select>
 
 
   <select id="listbyuserTypeid" parameterType="int" resultMap="listall">

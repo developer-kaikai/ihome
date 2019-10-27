@@ -20,4 +20,6 @@ public interface FinanceService {
 
     boolean modifyBaseSalar(ISalary iSalary);
 
+    Map listcount(int staffid,Date nowtime);
+
 }
