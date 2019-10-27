@@ -1,6 +1,8 @@
 package com.shixun.ihome.work.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.config.ApiJsonObject;
 import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@Controller
+@RestController
 @Api(description = "用户模块")
 @RequestMapping("json/user")
 public class UserController {
@@ -44,7 +46,6 @@ public class UserController {
     }
     @ApiOperation(value = "查询用户默认地址")
     @PostMapping("/selectUserDefaultAddress")
-    @ResponseBody
     public void selectUserDefaultAddress(@ApiJsonObject(name = "iUserDetail", value = {
             @ApiJsonProperty(key = "userId", example = "1", description = "用户ID")})
     @RequestBody JSONObject address, HttpServletResponse response) throws IOException {
@@ -60,7 +61,6 @@ public class UserController {
     }
     @ApiOperation(value = "查询用户地址")
     @PostMapping("/selectUserAddress")
-    @ResponseBody
     public void selectUserAddress(@ApiJsonObject(name = "iUserDetail", value = {
             @ApiJsonProperty(key = "userId", example = "1", description = "用户ID")})
                                   @RequestBody JSONObject address, HttpServletResponse response) throws IOException {
@@ -76,7 +76,6 @@ public class UserController {
     }
     @ApiOperation(value = "添加用户地址")
     @RequestMapping(value = "/addUserAddress", method = RequestMethod.POST)
-    @ResponseBody
     public ResultBase addUserAddress(@ApiJsonObject(name = "iUserDetail", value = {
             @ApiJsonProperty(key = "userId", example = "1", description = "用户id"),
             @ApiJsonProperty(key = "userName", example = "蔡先生", description = "用户名称"),
@@ -111,7 +110,6 @@ public class UserController {
     }
     @ApiOperation(value = "修改用户地址")
     @RequestMapping(value = "/updateUserAddress", method = RequestMethod.POST)
-    @ResponseBody
     public ResultBase updateUserAddress(@ApiJsonObject(name = "iUserDetail", value = {
             @ApiJsonProperty(key = "id", example = "1", description = "地址表id"),
             @ApiJsonProperty(key = "userId", example = "1", description = "用户id"),
@@ -166,7 +164,6 @@ public class UserController {
     }
     @ApiOperation(value = "删除用户地址")
     @RequestMapping(value = "/deleteUserAddress", method = RequestMethod.POST)
-    @ResponseBody
     public ResultBase deleteUserAddress(@ApiJsonObject(name = "iUserDetail", value = {
             @ApiJsonProperty(key = "id", example = "1", description = "地址表id")
     })@RequestBody JSONObject address) {
@@ -186,4 +183,35 @@ public class UserController {
         return ResultBase.fail("删除失败");
     }
 
+    @ApiOperation( value = "根据条件查询用户（用户表使用)")
+    @PostMapping("/searchUserByCondition")
+    public ResultBase searchUserByCondition(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "name", example = "姓名"),
+            @ApiJsonProperty(key = "phone", example = "手机号"),
+            @ApiJsonProperty(key = "pageNum", example = "1"),
+            @ApiJsonProperty(key = "pageSize", example = "10"),
+    })@RequestBody JSONObject params){
+        IUser user = params.toJavaObject(IUser.class);
+        Integer pageNum = params.getInteger("pageNum");
+        Integer pageSize = params.getInteger("pageSize");
+        PageInfo<IUser> lists = userService.selectUserByCondition(user, pageNum, pageSize);
+        JSONArray arr = new JSONArray(lists.getSize());
+        JSONObject data = new JSONObject();
+        arr.addAll(lists.getList());
+        JSONObject page = new JSONObject();
+        page.put("pageSize", lists.getPageSize());
+        page.put("pageNum", lists.getPageNum());
+        page.put("total",lists.getTotal());
+        data.put("page", page);
+        data.put("users",arr);
+        return ResultBase.success(data);
+    }
+
+    @ApiOperation(value = "获取用户的地址信息")
+    @GetMapping("/getUserDetail/{id}")
+    @ApiImplicitParam(name = "id", value = "1", required = true, paramType = "path", dataTypeClass = Integer.class)
+    public ResultBase getUserDetail(@PathVariable Integer id){
+        List<IUserDetail> lists  = userService.selectUserAddress(id);
+        return ResultBase.success(lists);
+    }
 }

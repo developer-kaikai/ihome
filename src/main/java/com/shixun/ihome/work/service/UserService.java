@@ -2,6 +2,7 @@ package com.shixun.ihome.work.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.pojo.IUser;
 import com.shixun.ihome.publicservice.pojo.IUserDetail;
 
@@ -21,6 +22,10 @@ public interface UserService {
     boolean addUserDetail(IUserDetail iUserDetail);
 
     boolean updateUserDetail(IUserDetail iUserDetail);
+
+    //根据条件查询用户信息
+    PageInfo<IUser> selectUserByCondition(IUser user, int pageNum, int pageSize);
+
 
     //获取用户的openid
     String getOpenId(int userId);
