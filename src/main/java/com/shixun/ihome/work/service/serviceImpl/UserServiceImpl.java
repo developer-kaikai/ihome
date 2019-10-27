@@ -2,6 +2,8 @@ package com.shixun.ihome.work.service.serviceImpl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.mapper.IUserDetailMapper;
 import com.shixun.ihome.publicservice.mapper.IUserMapper;
 import com.shixun.ihome.publicservice.pojo.IUser;
@@ -72,5 +74,22 @@ public class UserServiceImpl implements UserService {
             arr.add(obj);
         }
         return arr;
+    }
+
+    @Override
+    public PageInfo<IUser> selectUserByCondition(IUser user, int pageNum, int pageSize) {
+        IUserExample userExample = new IUserExample();
+        IUserExample.Criteria criteria = userExample.createCriteria();
+        if(user.getName() != null){
+            criteria.andNameLike(user.getName() + "%");
+        }
+        if(user.getPhone()!= null){
+            criteria.andPhoneLike(user.getPhone() + "%");
+        }
+        userExample.setOrderByClause("id");
+        PageHelper.startPage(pageNum,pageSize);
+        PageInfo<IUser> lists = new PageInfo<>(iUserMapper.selectByExample(userExample));
+
+        return lists;
     }
 }
