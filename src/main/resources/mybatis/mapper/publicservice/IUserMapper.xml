@@ -225,6 +225,9 @@
         and a.phone like "%"#{phone}"%"
       </if>
   </select>
+  <select id="selectAllUser" parameterType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="BaseResultMap">
+    SELECT * FROM i_user
+  </select>
 
   <resultMap id="UserWeixinResultMap" type="com.shixun.ihome.publicservice.pojo.IUser" extends="BaseResultMap">
       <association property="weixin" resultMap="weixinResultMap" ></association>

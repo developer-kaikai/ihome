@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.constraints.Min;
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -82,5 +83,16 @@ public class qiaoTests {
         json.put("fuck", "fuck");
     }
 
+
+    @Test
+    public void testf(){
+        Object  o1 = "asd";
+        Object o2 = null;
+        String s1 = o1 + "";
+        String s2 = o2 + "";
+        System.out.println(s2.equals("null"));
+        System.out.println(s1);
+        System.out.println(s2);
+    }
 
 }

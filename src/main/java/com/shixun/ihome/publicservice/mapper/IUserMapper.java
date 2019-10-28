@@ -36,6 +36,7 @@ public interface IUserMapper {
 
     IUser getOpenId(Integer userId);
 
+    List<IUser> selectAllUser(IUser iUser);
 
     IUser getuser(int userid);
 
