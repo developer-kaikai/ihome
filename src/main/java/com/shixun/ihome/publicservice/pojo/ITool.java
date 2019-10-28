@@ -1,6 +1,8 @@
 package com.shixun.ihome.publicservice.pojo;
 
-public class ITool {
+import java.io.Serializable;
+
+public class ITool implements Serializable {
     private Integer id;
 
     private String tname;

@@ -251,13 +251,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PageInfo<IOrder> selectByCondition(IOrder order, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-//        姓名
-//                性别
-//        手机号
-//                服务类型
-//        状态
-
-        return null;
+        IOrderExample orderExample = new IOrderExample();
+        IOrderExample.Criteria criteria = orderExample.createCriteria();
+        if (order.getState() != null){
+            criteria.andStateEqualTo(order.getState());
+        }
+        orderExample.setOrderByClause("id");
+        PageInfo<IOrder> orders = new PageInfo<>(orderMapper.selectByExample(orderExample));
+        return orders;
     }
 
     @Override

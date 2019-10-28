@@ -420,4 +420,26 @@ public class OrderController {
         }
         return ResultBase.fail("出现未知问题");
     }
+
+
+    @ApiOperation(value = "订单查询")
+    @PostMapping("/getOrderDataByCondition")
+    public ResultBase getOrderDataByCondition(@ApiJsonObject(name = "params", value = {
+           @ApiJsonProperty(key = "state", example = "0", description = "订单状态"),
+            @ApiJsonProperty(key = "pageSize", example = "10", description = "一页显示的数据量"),
+            @ApiJsonProperty(key = "pageNum", example = "1", description = "页数")
+    })@RequestBody JSONObject params){
+        Integer pageSize = params.getInteger("pageSize");
+        Integer pageNum = params.getInteger("pageNum");
+        IOrder order = params.toJavaObject(IOrder.class);
+        PageInfo<IOrder> pages = orderService.selectByCondition(order, pageNum, pageSize);
+        JSONObject data = new JSONObject();
+        JSONObject page = new JSONObject();
+        page.put("pageSize", pages.getPageSize());
+        page.put("pageNum", pages.getPageNum());
+        page.put("total", pages.getTotal());
+        data.put("page", page);
+        data.put("list", pages.getList());
+        return ResultBase.success(data);
+    }
 }

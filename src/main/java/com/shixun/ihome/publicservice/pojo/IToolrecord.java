@@ -1,6 +1,8 @@
 package com.shixun.ihome.publicservice.pojo;
 
-public class IToolrecord {
+import java.io.Serializable;
+
+public class IToolrecord implements Serializable {
     private Integer id;
 
     private Integer orderId;
@@ -18,7 +20,18 @@ public class IToolrecord {
 
     private IOrder iOrder;
 
+    private IStaff staff;
+
     private IDetailtype iDetailtype;
+
+
+    public IStaff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(IStaff staff) {
+        this.staff = staff;
+    }
 
     public IDetailtype getiDetailtype() {
         return iDetailtype;
