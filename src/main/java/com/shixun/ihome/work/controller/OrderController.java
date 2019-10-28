@@ -163,6 +163,11 @@ public class OrderController {
         order.setComm(comm);
         //处理订单的日期和时间 开始时间|结束时间
         String [] s = date.split("\\|");
+        for (String s1 :
+                s) {
+            System.out.println(s1);
+        }
+        System.out.println(s.length);
         if (s.length > 2){
             return ResultBase.fail("请检测时间的格式是否正确");
         }
@@ -170,7 +175,7 @@ public class OrderController {
         try {
             Date startTimer = sdf.parse(s[0]);
             order.setStartTime(startTimer);
-            if (s[1] != null){
+            if (s.length == 2){
                 Date endTimer = sdf.parse(s[1]);
                 order.setFinalyTime(endTimer);
             }
