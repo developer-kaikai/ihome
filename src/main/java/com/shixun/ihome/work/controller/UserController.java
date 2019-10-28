@@ -229,4 +229,12 @@ public class UserController {
         List<IUserDetail> lists  = userService.selectUserAddress(id);
         return ResultBase.success(lists);
     }
+
+    @ApiOperation(value = "获取订单的详细地址")
+    @GetMapping("/getOrderDetail/{id}")
+    @ApiImplicitParam(name = "id", value = "1", required = true, paramType = "path", dataTypeClass = Integer.class)
+    public ResultBase getOrderDetail(@PathVariable Integer id){
+        IUserDetail detail = userService.getOrderDetail(id);
+        return ResultBase.success(detail);
+    }
 }

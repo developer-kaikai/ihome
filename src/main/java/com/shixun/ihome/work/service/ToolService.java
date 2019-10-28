@@ -46,7 +46,7 @@ public interface ToolService {
     //获取工具
     ITool getOne(int detailId);
 
-
+    List<IToolrecord> selectByOrderId(int orderId);
 
 
 }

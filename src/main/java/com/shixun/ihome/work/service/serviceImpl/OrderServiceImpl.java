@@ -27,9 +27,6 @@ public class OrderServiceImpl implements OrderService {
     private RedisTemplate<Object,Object> redisTemplate;
     @Autowired
     private IOrderLongMapper orderLongMapper;
-
-
-
     @Autowired
     private IOrderStaffMapper orderStaffMapper;
 
@@ -267,5 +264,10 @@ public class OrderServiceImpl implements OrderService {
         order.setId(orderId);
         order.setState(state);
         return false;
+    }
+
+    @Override
+    public List<IOrderStaff> selectOrderStaffs(int orderId) {
+        return orderStaffMapper.selectStaffsByOrderId(orderId);
     }
 }

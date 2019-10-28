@@ -30,4 +30,6 @@ public interface IOrderStaffMapper {
     int updateByPrimaryKeySelective(IOrderStaff record);
 
     int updateByPrimaryKey(IOrderStaff record);
+
+    List<IOrderStaff> selectStaffsByOrderId(int orderId);
 }

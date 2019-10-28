@@ -31,4 +31,6 @@ public interface UserService {
     String getOpenId(int userId);
 
     JSONArray getWeiXinId(String phone);
+
+    IUserDetail getOrderDetail(int orderId);
 }

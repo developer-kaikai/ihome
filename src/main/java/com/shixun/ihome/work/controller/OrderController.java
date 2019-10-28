@@ -442,4 +442,12 @@ public class OrderController {
         data.put("list", pages.getList());
         return ResultBase.success(data);
     }
+
+    @ApiOperation(value = "获取订单员工")
+    @GetMapping("/getOrderStaffs/{orderId}")
+    @ApiImplicitParam(name = "orderId", value = "1", dataTypeClass = Integer.class, required = true, paramType = "path")
+    public ResultBase getOrderStaffs(@PathVariable Integer orderId){
+        List<IOrderStaff> staffs = orderService.selectOrderStaffs(orderId);
+        return ResultBase.success(staffs);
+    }
 }

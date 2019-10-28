@@ -1,6 +1,7 @@
 package com.shixun.ihome.publicservice.pojo;
 
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -8,7 +9,7 @@ import java.util.TimeZone;
 /**
  * 订单和时间表的中间类
  */
-public class OrderTimer {
+public class OrderTimer implements Serializable {
     //时间安排
     private String timer;
     //订单表

@@ -25,6 +25,8 @@ public class IToolrecord implements Serializable {
     private IDetailtype iDetailtype;
 
 
+
+
     public IStaff getStaff() {
         return staff;
     }

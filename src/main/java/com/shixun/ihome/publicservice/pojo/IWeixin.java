@@ -1,6 +1,8 @@
 package com.shixun.ihome.publicservice.pojo;
 
-public class IWeixin {
+import java.io.Serializable;
+
+public class IWeixin implements Serializable {
     private Integer id;
 
     private String openId;

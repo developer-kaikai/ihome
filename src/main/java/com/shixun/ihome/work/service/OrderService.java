@@ -3,6 +3,7 @@ package com.shixun.ihome.work.service;
 import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
+import com.shixun.ihome.publicservice.pojo.IOrderStaff;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 
 import java.util.List;
@@ -72,6 +73,8 @@ public interface OrderService {
 
 
     PageInfo<IOrder> selectByCondition(IOrder order, int pageNum, int pageSize);
+
+    List<IOrderStaff> selectOrderStaffs(int orderId);
 
 
 }

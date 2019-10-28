@@ -1,6 +1,8 @@
 package com.shixun.ihome.publicservice.pojo;
 
-public class LabelValue {
+import java.io.Serializable;
+
+public class LabelValue implements Serializable {
     private String value;
     private String label;
 

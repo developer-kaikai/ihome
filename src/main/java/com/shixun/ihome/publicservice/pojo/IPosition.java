@@ -1,6 +1,8 @@
 package com.shixun.ihome.publicservice.pojo;
 
-public class IPosition {
+import java.io.Serializable;
+
+public class IPosition implements Serializable {
     private Integer id;
 
     private String position;

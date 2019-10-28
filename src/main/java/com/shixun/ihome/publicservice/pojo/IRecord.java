@@ -2,9 +2,10 @@ package com.shixun.ihome.publicservice.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class IRecord {
+public class IRecord  implements Serializable {
     private Integer id;
 
     private String bywho;

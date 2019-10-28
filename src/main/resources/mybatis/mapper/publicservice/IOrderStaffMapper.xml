@@ -176,4 +176,16 @@
       staff_id = #{staffId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap id="staffsMap" type="com.shixun.ihome.publicservice.pojo.IOrderStaff" extends="BaseResultMap">
+      <association property="staffs" autoMapping="true">
+        <id jdbcType="INTEGER" column="sid" property="id"></id>
+      </association>
+  </resultMap>
+  <select id="selectStaffsByOrderId" resultMap="staffsMap" parameterType="int" >
+    SELECT o.id, o.order_id, o.staff_id,
+s.id as sid, s.name, s.sex, s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status, s.basesalary
+FROM i_order_staff o
+left join i_staff s on s.id = o.staff_id
+where o.order_id = #{orderId}
+  </select>
 </mapper>

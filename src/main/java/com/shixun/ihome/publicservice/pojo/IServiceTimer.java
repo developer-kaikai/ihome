@@ -1,8 +1,9 @@
 package com.shixun.ihome.publicservice.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class IServiceTimer {
+public class IServiceTimer implements Serializable {
     private Integer id;
 
     private Integer servicelid;

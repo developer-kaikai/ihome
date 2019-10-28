@@ -283,7 +283,25 @@
 
 
   </resultMap>
+  <resultMap id="recordStaffOrder" type="com.shixun.ihome.publicservice.pojo.IToolrecord" extends="BaseResultMap">
 
+    <association property="staff" autoMapping="true" >
+      <id column="sid" jdbcType="INTEGER" property="id"></id>
+    </association>
+    <association property="iTool" autoMapping="true">
+      <id column="tid" jdbcType="INTEGER" property="id"></id>
+    </association>
+  </resultMap>
+
+  <select id="selectByOrderId" parameterType="int" resultMap="recordStaffOrder">
+    SELECT r.id, r.order_id, r.staff_id, r.tool_id, r.count, r.state,
+  s.id as sid, s.name, s.sex, s.phone, s.detailtype_id, s.wechat_id, s.qualification, s.health, s.id_card, s.status,
+  t.id as tid, t.tname, t.detailtype_id, t.tcount
+  FROM i_toolrecord r
+  left join i_staff  s on s.id = staff_id
+  left join i_tool t on t.id = r.tool_id
+  where r.order_id = #{id}
+  </select>
 
 <select id="selectbystaff" parameterType="int" resultMap="recordMap">
   select *,o.id as oid,t.id as tid,d.id as did from i_toolrecord tr,i_tool t,i_order_staff os,i_detailtype d,i_order o

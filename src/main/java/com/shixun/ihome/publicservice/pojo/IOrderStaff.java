@@ -7,6 +7,17 @@ public class IOrderStaff {
 
     private Integer staffId;
 
+    private IStaff staffs;
+
+
+    public IStaff getStaffs() {
+        return staffs;
+    }
+
+    public void setStaffs(IStaff staffs) {
+        this.staffs = staffs;
+    }
+
     public Integer getId() {
         return id;
     }

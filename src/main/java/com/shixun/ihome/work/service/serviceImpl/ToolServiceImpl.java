@@ -126,4 +126,9 @@ public class ToolServiceImpl implements ToolService {
         ITool tool  = iToolMapper.selectByExample(toolExample).get(0);
         return tool;
     }
+
+    @Override
+    public List<IToolrecord> selectByOrderId(int orderId) {
+        return iToolrecordMapper.selectByOrderId(orderId);
+    }
 }

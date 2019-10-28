@@ -1,6 +1,8 @@
 package com.shixun.ihome.publicservice.pojo;
 
-public class ISalaryRate {
+import java.io.Serializable;
+
+public class ISalaryRate  implements Serializable {
     private Integer id;
 
     private Double bonusrate;

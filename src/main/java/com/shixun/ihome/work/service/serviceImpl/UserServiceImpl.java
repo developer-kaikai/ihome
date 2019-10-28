@@ -10,6 +10,7 @@ import com.shixun.ihome.publicservice.pojo.IUser;
 
 
 import com.shixun.ihome.publicservice.pojo.IUserDetail;
+import com.shixun.ihome.publicservice.pojo.IUserDetailExample;
 import com.shixun.ihome.publicservice.pojo.IUserExample;
 import com.shixun.ihome.work.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +92,10 @@ public class UserServiceImpl implements UserService {
         PageInfo<IUser> lists = new PageInfo<>(iUserMapper.selectByExample(userExample));
 
         return lists;
+    }
+
+    @Override
+    public IUserDetail getOrderDetail(int orderId) {
+        return iUserDetailMapper.selectByPrimaryKey(orderId);
     }
 }

@@ -2,9 +2,10 @@ package com.shixun.ihome.publicservice.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ISalary {
+public class ISalary implements Serializable {
     private Integer id;
 
     private Double basesalary;

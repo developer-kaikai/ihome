@@ -2,18 +2,17 @@ package com.shixun.ihome.work.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.json.Result;
+import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.ITool;
 import com.shixun.ihome.publicservice.pojo.IToolrecord;
 import com.shixun.ihome.work.service.ToolService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -133,5 +132,12 @@ public class ToolController {
     }
 
 
+    @ApiOperation(value = "根据订单id获取工具记录")
+    @GetMapping("/getToolRecordsByOrderId/{orderId}")
+    @ApiImplicitParam(name = "orderId", value = "1", dataTypeClass = Integer.class, required = true, paramType = "path")
+    public ResultBase getToolRecordsByOrderId(@PathVariable Integer orderId){
+        List<IToolrecord> list = toolService.selectByOrderId(orderId);
+        return ResultBase.success(list);
+    }
 
 }
