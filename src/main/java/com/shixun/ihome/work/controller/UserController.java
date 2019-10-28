@@ -44,6 +44,19 @@ public class UserController {
         }
 
     }
+    @ApiOperation(value = "查询用户")
+    @ApiImplicitParam(name = "user", value = "用户实体类", required = false, dataType = "IUser")
+    @PostMapping("/selectAllUser")
+    public void selectAllUser(@RequestBody IUser iUser,HttpServletResponse response) throws IOException {
+        List<IUser> userList=userService.selectAllUser(iUser);
+        if (userList!= null) {
+            response.setContentType("application/json;charset=utf-8");
+            String json;
+            json = Result.build(ResultType.Success).appendData("userList", userList).convertIntoJSON();
+            response.getWriter().write(json);
+        }
+
+    }
     @ApiOperation(value = "查询用户默认地址")
     @PostMapping("/selectUserDefaultAddress")
     public void selectUserDefaultAddress(@ApiJsonObject(name = "iUserDetail", value = {

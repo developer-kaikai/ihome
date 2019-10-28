@@ -33,4 +33,6 @@ public interface UserService {
     JSONArray getWeiXinId(String phone);
 
     IUserDetail getOrderDetail(int orderId);
+
+    List<IUser> selectAllUser(IUser iUser);
 }

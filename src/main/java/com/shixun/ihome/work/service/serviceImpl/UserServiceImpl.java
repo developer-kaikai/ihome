@@ -98,4 +98,10 @@ public class UserServiceImpl implements UserService {
     public IUserDetail getOrderDetail(int orderId) {
         return iUserDetailMapper.selectByPrimaryKey(orderId);
     }
+
+    @Override
+    public List<IUser> selectAllUser(IUser iUser) {
+        List<IUser> usersList=iUserMapper.selectAllUser(iUser);
+        return usersList;
+    }
 }
