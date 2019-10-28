@@ -40,6 +40,7 @@ public class RedisTimerServiceImpl implements RedisTimerService {
                 redisTimerInfo.setTimer(time);
                 timerInfos.add(redisTimerInfo);
             }
+            calendar.add(Calendar.DAY_OF_MONTH ,1);
         }
 
 
@@ -167,14 +168,17 @@ public class RedisTimerServiceImpl implements RedisTimerService {
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         String s = null;
+        System.out.println(calendar.getTime());
+        System.out.println(calendar.get(Calendar.DAY_OF_WEEK));
+        System.out.println(calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH));
         switch (calendar.get(Calendar.DAY_OF_WEEK)){
-            case 7: s = "周一";break;
-            case 1: s = "周二";break;
-            case 2: s = "周三";break;
-            case 3: s = "周四";break;
-            case 4: s = "周五";break;
-            case 5: s = "周六";break;
-            case 6: s = "周日";break;
+            case 2: s = "周一";break;
+            case 3: s = "周二";break;
+            case 4: s = "周三";break;
+            case 5: s = "周四";break;
+            case 6: s = "周五";break;
+            case 7: s = "周六";break;
+            case 1: s = "周日";break;
         }
         return String.format("%d年%d月%d日(%s)", year, month, day, s);
     }
