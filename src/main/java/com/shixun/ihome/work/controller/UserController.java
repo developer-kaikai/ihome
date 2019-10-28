@@ -100,7 +100,22 @@ public class UserController {
         iUserDetail.setDetail(detail);
         iUserDetail.setPhone(phone);
         iUserDetail.setStatus(status);
-        boolean flag=userService.addUserDetail(iUserDetail);
+        boolean flag=false;
+        if(status==2){
+            IUserDetail iUserDetail1=userService.selectUserDefaultAddress(userId);
+            if(iUserDetail1==null){
+                 flag=userService.addUserDetail(iUserDetail);
+            }
+            else{
+                iUserDetail1.setStatus(0);
+                flag=userService.updateUserDetail(iUserDetail1);
+                flag=userService.addUserDetail(iUserDetail);
+            }
+
+        }else{
+            flag=userService.addUserDetail(iUserDetail);
+        }
+        //boolean flag=userService.addUserDetail(iUserDetail);
         //System.out.println(flag);
         if (flag){
 
