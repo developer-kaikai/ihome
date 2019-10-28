@@ -243,4 +243,15 @@
      select * from i_evaluate e,i_order_staff os,i_staff s,i_detailtype d,i_order o where s.id=1 and s.id=os.staff_id and os.order_id=o.id and e.order_id=o.id
   </select>
 
+  <select id="listEvaluete"  resultType="map">
+      select s.id,s.name,avg(e.attitude_valuation),avg(e.quality_valuation),(avg(e.attitude_valuation)+avg(e.quality_valuation))/2 as summ
+from i_order o,i_order_staff os,i_staff s,i_evaluate e
+where s.id=os.staff_id
+and os.order_id=e.order_id
+and os.order_id=o.id
+GROUP BY s.id
+ORDER BY summ desc
+
+  </select>
+
 </mapper>

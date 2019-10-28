@@ -9,6 +9,7 @@ import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.publicservice.pojo.ISalary;
 import com.shixun.ihome.test.service.WechatService;
+import com.shixun.ihome.work.service.EvaluateService;
 import com.shixun.ihome.work.service.FinanceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +34,21 @@ public class FinanceController {
     private FinanceService financeService;
     @Autowired
     private WechatService wechatService;
+    @Autowired
+    private EvaluateService evaluateService;
 
+
+    @ApiOperation(value = "员工评价排行")
+    @ResponseBody
+    @RequestMapping(value = "/staffnews",method = RequestMethod.GET)
+    public void listevaluate(HttpServletResponse response)throws IOException {
+        List<Map<String,Object>> map=evaluateService.listevaluate();
+
+        response.setContentType("application/json;charset=utf-8");
+        String json ;
+        json = Result.build(ResultType.Success).appendData("map", map).convertIntoJSON();
+        response.getWriter().write(json);
+    }
 
     @ApiOperation(value = "登录测试接口")
     @RequestMapping(value="/longintest",method = RequestMethod.POST)

@@ -8,10 +8,7 @@ import com.shixun.ihome.test.service.WechatService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -24,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("json")
 public class WechatController {
     @Autowired
@@ -32,10 +29,11 @@ public class WechatController {
 
 
     @RequestMapping(value="/updateOrderState",method = RequestMethod.POST)
-    public void addphone(@RequestBody JSONObject name){
+    public Boolean addphone(@RequestBody JSONObject name){
         int userid=name.getInteger("userid");
         String phone=name.getString("phone");
         Boolean sucess=wechatService.addphone(userid,phone);
+        return true;
 
     }
 
@@ -45,8 +43,8 @@ public class WechatController {
 
         String code=getcode.getString("getcode");
         System.out.println(code);
-        JSONObject userInfo=getcode.getJSONObject("userInfo");
-        System.out.println(userInfo);
+//        JSONObject userInfo=getcode.getJSONObject("userInfo");
+//        System.out.println(userInfo);
 
         String WX_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 

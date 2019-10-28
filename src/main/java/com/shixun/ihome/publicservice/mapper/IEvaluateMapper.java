@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface IEvaluateMapper {
@@ -36,5 +37,5 @@ public interface IEvaluateMapper {
     List<IEvaluate> listBystaffid(int staffid);
 
 
-    //待服务 服务中 已完成
+    List<Map<String,Object>> listEvaluete();
 }

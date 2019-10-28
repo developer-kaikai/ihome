@@ -8,10 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class EvaluateServiceImpl implements EvaluateService {
     @Autowired
     private IEvaluateMapper iEvaluateMapper;
+
+    @Override
+    public List<Map<String, Object>> listevaluate() {
+        return iEvaluateMapper.listEvaluete();
+    }
 
     @Override
     public List<IEvaluate> listAll(int userid) {

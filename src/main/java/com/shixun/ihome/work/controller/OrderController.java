@@ -131,6 +131,7 @@ public class OrderController {
 
         Integer userId = params.getInteger("userId");
         Integer detailTypeId = params.getInteger("detailTypeId");
+        System.out.println(params);
         if (detailTypeId == null){
             return ResultBase.fail("订单缺少详细服务类型");
         }
