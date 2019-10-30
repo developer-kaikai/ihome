@@ -70,8 +70,6 @@ public class LongTermController {
 //        String scale=request.getParameter("scale");
 //        String email=request.getParameter("email");
 
-//        System.out.println(type+time+introduction);
-        //boolean result=false;
         if (file.isEmpty()) {
             System.out.println("文件为空");
         }
@@ -170,13 +168,13 @@ public class LongTermController {
 
 
     }
-//    @ApiOperation(value = "查看空闲长期工")
-//    @RequestMapping(value = "/selectLongTerm",method = RequestMethod.POST)
-//    @ResponseBody
-//    public List<IStaff> selectLongTermStaffs(){
-//        //List<IStaff> iStaffList=longTermService.selectLongTermStaffs();
-//        return iStaffList;
-//    }
+    @ApiOperation(value = "查看空闲长期工")
+    @RequestMapping(value = "/selectLongTerm",method = RequestMethod.GET)
+    @ResponseBody
+    public List<IStaff> selectLongTermStaffs(){
+        List<IStaff> iStaffList=longTermService.selectLongTermStaffs();
+        return iStaffList;
+    }
     @ApiOperation(value = "测试")
     @RequestMapping(value = "/test",method = RequestMethod.POST)
     @ResponseBody

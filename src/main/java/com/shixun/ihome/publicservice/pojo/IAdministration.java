@@ -1,6 +1,9 @@
 package com.shixun.ihome.publicservice.pojo;
 
-public class IAdministration {
+import java.io.Serializable;
+
+
+public class IAdministration implements Serializable {
     private Integer id;
 
     private String idCard;
@@ -99,5 +102,21 @@ public class IAdministration {
 
     public void setPositionId(Integer positionId) {
         this.positionId = positionId;
+    }
+
+    @Override
+    public String toString() {
+        return "IAdministration{" +
+                "id=" + id +
+                ", idCard='" + idCard + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", sex=" + sex +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", account='" + account + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", positionId=" + positionId +
+                '}';
     }
 }

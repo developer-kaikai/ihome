@@ -3,9 +3,11 @@ package com.shixun.ihome.publicservice.mapper;
 import com.shixun.ihome.publicservice.pojo.IAdministration;
 import com.shixun.ihome.publicservice.pojo.IAdministrationExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface IAdministrationMapper {
     int countByExample(IAdministrationExample example);
 

@@ -59,9 +59,9 @@ public class LongTermServiceImpl implements LongTermService {
         return true;
     }
 
-//    @Override
-//    public List<IStaff> selectLongTermStaffs() {
-//        List<IStaff> iStaffList=iStaffMapper.selectLongTermStaffs();
-//        return iStaffList;
-//    }
+    @Override
+    public List<IStaff> selectLongTermStaffs() {
+        List<IStaff> iStaffList=iStaffMapper.selectFreeLongTermsWorks();
+        return iStaffList;
+    }
 }
