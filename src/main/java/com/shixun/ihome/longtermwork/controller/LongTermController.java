@@ -6,6 +6,7 @@ import com.shixun.ihome.longtermwork.service.LongTermService;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
 import com.shixun.ihome.publicservice.pojo.IStaff;
+import com.shixun.ihome.publicservice.pojo.IUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -181,19 +182,33 @@ public class LongTermController {
     @ResponseBody
     public void test(@RequestBody JSONObject getcode){
 
-        String code=getcode.getString("code");
-        JSONObject userInfo=getcode.getJSONObject("userInfo");
-        int id=userInfo.getInteger("id");
-        JSONArray name=userInfo.getJSONArray("name");
-        List<Integer> list1=(List)name;
-        System.out.println(code);
-        System.out.println(userInfo);
-        System.out.println(id);
-        for (Integer id1:list1) {
-            System.out.println(id1);
+//        String code=getcode.getString("code");
+//        JSONObject userInfo=getcode.getJSONObject("userInfo");
+//        int id=userInfo.getInteger("id");
+//        JSONArray name=userInfo.getJSONArray("name");
+//        List<Integer> list1=(List)name;
+//        System.out.println(code);
+//        System.out.println(userInfo);
+//        System.out.println(id);
+//        for (Integer id1:list1) {
+//            System.out.println(id1);
+//        }
+//        System.out.println(name);
+        IUser iUser=new IUser();
+        iUser.setWeixinId(1);
+        //iUser.setWeixin();
+        System.out.println(iUser.getPhone());
+//        if(iUser.getPhone().equals("")){
+//        if("".equals(iUser.getPhone())){
+//            System.out.println(1);
+//        }else {
+//            System.out.println(0);
+//        }
+        if(iUser.getPhone()== null){
+            System.out.println(1);
+        }else {
+            System.out.println(0);
         }
-        System.out.println(name);
-
     }
 
 }
