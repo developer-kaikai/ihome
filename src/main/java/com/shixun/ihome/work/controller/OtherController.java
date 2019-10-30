@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.config.ApiJsonObject;
 import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.ResultBase;
+import com.shixun.ihome.publicservice.pojo.IPosition;
+import com.shixun.ihome.work.service.OtherService;
 import com.shixun.ihome.work.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Api(description = "杂项")
 @RestController
@@ -21,6 +24,8 @@ import javax.servlet.http.HttpSession;
 public class OtherController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private OtherService otherService;
 
     @ApiOperation("根据用户手机号获取用户的微信id（添加员工使用）")
     @GetMapping("getWeixinIdFromUserPhone/{phone}")
@@ -52,6 +57,13 @@ public class OtherController {
     public ResultBase getUserInfo(@ApiIgnore HttpSession session){
         String name = (String) session.getAttribute("name");
         return ResultBase.success(name);
+    }
+
+    @ApiOperation(value = "获取职位信息")
+    @GetMapping("/getPositions")
+    public ResultBase getPosition(){
+       JSONArray arr = otherService.getPositions();
+        return ResultBase.success(arr);
     }
 
 }
