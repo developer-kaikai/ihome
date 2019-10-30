@@ -1,5 +1,7 @@
 package com.shixun.ihome.test.service;
 
+import com.shixun.ihome.publicservice.pojo.IUser;
+
 public interface WechatService {
     int wechatlogin(String openid);
 
@@ -9,4 +11,8 @@ public interface WechatService {
 
 
     Boolean addphone(int userid,String phone);
+
+    Boolean addusernews(int userid,String name,int gender,String country,String language,String province,String city);
+
+    IUser selectuser(int userid);
 }
