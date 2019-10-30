@@ -343,7 +343,7 @@
 
   <select id="listByCondition" parameterType="com.shixun.ihome.publicservice.pojo.IOrder"  resultMap="listall">
      select * from i_order o,i_user u,i_detailtype d,i_user_detail a
-    where o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id and o.state!=5
+    where o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id and o.state!=5 and  d.servicetpye_id=4
     <if test="detailtypeId!=null">
         and o.detailtype_id=#{detailtypeId}
     </if>
