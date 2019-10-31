@@ -1,7 +1,10 @@
 package com.shixun.ihome.backgroundsystem.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.backgroundsystem.service.ComplaintService;
 import com.shixun.ihome.publicservice.mapper.IOrderComplaintMapper;
+import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderComplaint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +34,9 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public List<IOrderComplaint> selectComplaintByStatus(IOrderComplaint complaint) {
-        return iOrderComplaintMapper.selectComplaintByStatus(complaint);
+    public PageInfo<IOrderComplaint> selectComplaintByStatus(IOrderComplaint complaint,int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<IOrderComplaint> pages = new PageInfo<>(iOrderComplaintMapper.selectComplaintByStatus(complaint));
+        return pages;
     }
 }
