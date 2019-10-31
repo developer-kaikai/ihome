@@ -1,6 +1,8 @@
 package com.shixun.ihome.work.service;
 
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.pojo.IOrder;
+import com.shixun.ihome.publicservice.pojo.IOrderComplaint;
 import com.shixun.ihome.publicservice.pojo.ITool;
 import com.shixun.ihome.publicservice.pojo.IToolrecord;
 
@@ -36,7 +38,7 @@ public interface ToolService {
     List<ITool> selectAll();
 
     /*工具记录*/
-    List<IToolrecord> allRecord(int state);
+    PageInfo<IToolrecord> allRecord(int state,int pageNum, int pageSize);
 
     Boolean deteToolrecord(int recordid);
 

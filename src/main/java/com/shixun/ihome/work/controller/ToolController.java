@@ -1,6 +1,9 @@
 package com.shixun.ihome.work.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
+import com.shixun.ihome.config.ApiJsonObject;
+import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
@@ -109,12 +112,18 @@ public class ToolController {
 
     @ApiOperation(value = "查看所有工具记录")
     @RequestMapping(value = "/alltoolrecord",method = RequestMethod.POST)
-    public void allToolrecord(@RequestBody JSONObject name, HttpServletResponse response)throws IOException{
+    public void allToolrecord(@ApiJsonObject(name = "tool", value = {
+            @ApiJsonProperty(key = "state", example = "0", description = "状态"),
+            @ApiJsonProperty(key = "pageNum", example = "0", description = ""),
+            @ApiJsonProperty(key = "pageSize", example = "0", description = ""),
+    })@RequestBody JSONObject name, HttpServletResponse response)throws IOException{
         int state=name.getInteger("state");
-        List<IToolrecord> iToolrecordList=toolService.allRecord(state);
+        int pageNum = name.getInteger("pageNum");
+        int pageSize = name.getInteger("pageSize");
+        PageInfo<IToolrecord> pages =toolService.allRecord(state,pageNum,pageSize);
         response.setContentType("application/json;charset=utf-8");
         String json ;
-        json = Result.build(ResultType.Success).appendData("iToolrecordList",iToolrecordList).convertIntoJSON();
+        json = Result.build(ResultType.Success).appendData("pages",pages).convertIntoJSON();
         response.getWriter().write(json);
     }
 
