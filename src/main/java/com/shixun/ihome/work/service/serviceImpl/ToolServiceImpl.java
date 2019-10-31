@@ -1,6 +1,8 @@
 package com.shixun.ihome.work.service.serviceImpl;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.mapper.IOrderMapper;
 import com.shixun.ihome.publicservice.mapper.IToolMapper;
 import com.shixun.ihome.publicservice.mapper.IToolrecordMapper;
@@ -92,8 +94,10 @@ public class ToolServiceImpl implements ToolService {
     }
 
     @Override
-    public List<IToolrecord> allRecord(int state) {
-        return iToolrecordMapper.selectall(state);
+    public PageInfo<IToolrecord> allRecord(int state,int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<IToolrecord> pages = new PageInfo<>(iToolrecordMapper.selectall(state));
+        return pages;
     }
 
     @Override
