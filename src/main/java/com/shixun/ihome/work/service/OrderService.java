@@ -76,5 +76,7 @@ public interface OrderService {
 
     List<IOrderStaff> selectOrderStaffs(int orderId);
 
+    boolean addOrderLongDetail(IOrderLong orderLong,IOrderStaff orderStaff);
+
 
 }

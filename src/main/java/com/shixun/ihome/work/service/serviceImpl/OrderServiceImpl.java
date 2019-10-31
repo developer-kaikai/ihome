@@ -6,6 +6,7 @@ import com.shixun.ihome.publicservice.mapper.*;
 import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.OrderService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
     private IOrderLongMapper orderLongMapper;
     @Autowired
     private IOrderStaffMapper orderStaffMapper;
+
 
     @Override
     public List<IOrder> listbystaffidtwo(int staffid, int orderstate) {
@@ -269,5 +271,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<IOrderStaff> selectOrderStaffs(int orderId) {
         return orderStaffMapper.selectStaffsByOrderId(orderId);
+    }
+
+    @Override
+    public boolean addOrderLongDetail(IOrderLong orderLong, IOrderStaff orderStaff) {
+        orderStaffMapper.insert(orderStaff);
+        orderLongMapper.insert(orderLong);
+        return true;
     }
 }

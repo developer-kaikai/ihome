@@ -2,7 +2,10 @@ package com.shixun.ihome.longtermwork.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.shixun.ihome.json.Result;
+import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.longtermwork.service.LongTermService;
+import com.shixun.ihome.publicservice.mapper.IStaffMapper;
 import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
 import com.shixun.ihome.publicservice.pojo.IStaff;
@@ -171,9 +174,12 @@ public class LongTermController {
     @ApiOperation(value = "查看空闲长期工")
     @RequestMapping(value = "/selectLongTerm",method = RequestMethod.GET)
     @ResponseBody
-    public List<IStaff> selectLongTermStaffs(){
-        List<IStaff> iStaffList=longTermService.selectLongTermStaffs();
-        return iStaffList;
+    public void selectLongTermStaffs( HttpServletResponse response)throws IOException{
+        List<IStaff> iStaffList= longTermService.selectLongTermStaffs();
+        response.setContentType("application/json;charset=utf-8");
+        String json ;
+        json = Result.build(ResultType.Success).appendData("iStaffList", iStaffList).convertIntoJSON();
+        response.getWriter().write(json);
     }
     @ApiOperation(value = "测试")
     @RequestMapping(value = "/test",method = RequestMethod.POST)
