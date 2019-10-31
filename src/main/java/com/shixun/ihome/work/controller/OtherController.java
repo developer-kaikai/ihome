@@ -77,7 +77,7 @@ public class OtherController {
         }
 
         String fileName = file.getOriginalFilename();
-        String filePath = "E:/Files/";
+        String filePath = "C:/Files/";
         File dest = new File(filePath + fileName);
         try {
             file.transferTo(dest);
