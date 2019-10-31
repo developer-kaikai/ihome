@@ -224,17 +224,16 @@ public class StaffController {
         switch(type){
             case 0: {
                 //判断旧的记录是否存在文件
-                oldStaff.getIdCard();
                 path = "C:/Files/IdCard" + filepath;
-                staff.setIdCard(path);
+                staff.setIdCard("/image/IdCard/" + filepath);
             }break;
             case 1:{
                 path = "C:/Files/Qualification" +filepath;
-                staff.setQualification(path);
+                staff.setQualification("/image/Qualification/" + filepath);
             }break;
             case 2:{
                 path = "C:/Files/Health" + filepath;
-                staff.setHealth(path);
+                staff.setHealth("/image/Health/" + filepath);
             }break;
         }
         Qutil.deleteFile(path);

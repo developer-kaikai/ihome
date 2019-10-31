@@ -37,7 +37,7 @@ public class Qutil {
     //文件删除
     public static void deleteFile(String path){
         //检测路径是否为空
-        if(path.equals("")){
+        if(path.equals("")||path.equals(null)){
             return;
         }
         File file = new File(path);

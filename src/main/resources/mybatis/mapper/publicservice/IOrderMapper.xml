@@ -361,6 +361,7 @@ select * from i_order o,i_user u,i_detailtype d,i_user_detail a
     </if>
     <if test="orderstate!=7&amp;orderstate==6">
       and o.state=#{orderstate} or o.state=4
+    </if>
     <if test="orderstate!=7&amp;orderstate!=6&amp;orderstate!=4">
       and o.state=#{orderstate}
     </if>
