@@ -265,7 +265,8 @@ public class OrderServiceImpl implements OrderService {
         IOrder order = new IOrder();
         order.setId(orderId);
         order.setState(state);
-        return false;
+        orderMapper.updateByPrimaryKeySelective(order);
+        return true;
     }
 
     @Override

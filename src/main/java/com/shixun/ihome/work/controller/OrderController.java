@@ -216,7 +216,9 @@ public class OrderController {
         orderLong.setMonth(month);
         orderLong.setAboutFile("无");
         if(orderService.addOrderLongDetail(orderLong,orderStaff)){
+            orderService.updateOrderState(orderId,2);
             return new ResultBase(200, "插入成功");
+
         }
         return new ResultBase(400, "插入失败");
 
