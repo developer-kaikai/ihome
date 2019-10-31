@@ -224,15 +224,15 @@ public class StaffController {
         switch(type){
             case 0: {
                 //判断旧的记录是否存在文件
-                path = "C:/Files/IdCard" + filepath;
+                path = "C:/Files/IdCard/" + filepath;
                 staff.setIdCard("/image/IdCard/" + filepath);
             }break;
             case 1:{
-                path = "C:/Files/Qualification" +filepath;
+                path = "C:/Files/Qualification/" +filepath;
                 staff.setQualification("/image/Qualification/" + filepath);
             }break;
             case 2:{
-                path = "C:/Files/Health" + filepath;
+                path = "C:/Files/Health/" + filepath;
                 staff.setHealth("/image/Health/" + filepath);
             }break;
         }
@@ -242,12 +242,11 @@ public class StaffController {
             file.transferTo(dest);
             //更新数据库
             staffService.updateStaffFile(staff);
-
+            return ResultBase.success();
         }catch (IOException e){
             e.printStackTrace();
             return ResultBase.fail("文件上传发生错误");
         }
-        return ResultBase.fail("上传失败");
     }
 
 
