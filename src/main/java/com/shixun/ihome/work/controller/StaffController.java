@@ -41,6 +41,9 @@ public class StaffController {
     @Transactional
     public ResultBase  addStaff(@RequestBody IStaff iStaff){
         //获取session中的工号
+        iStaff.setHealth("");
+        iStaff.setIdCard("");
+        iStaff.setQualification("");
         staffService.addStaffRecord(iStaff, "乔哥");
         //为员工添加时间表
         timerService.addTimer(iStaff.getId());

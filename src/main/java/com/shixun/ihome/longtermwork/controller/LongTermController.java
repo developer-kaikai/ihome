@@ -3,6 +3,7 @@ package com.shixun.ihome.longtermwork.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.json.Result;
+import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.json.ResultType;
 import com.shixun.ihome.longtermwork.service.LongTermService;
 import com.shixun.ihome.publicservice.mapper.IStaffMapper;
@@ -28,7 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 @Api(description = "长期工订单模块")
 @RequestMapping("json/longTermOrder")
 public class LongTermController {
@@ -38,7 +39,6 @@ public class LongTermController {
     @ApiOperation(value = "添加长期工订单")
     @ApiImplicitParam(name = "order",value="订单实体类",required = true,dataType = "IOrder")
     @PostMapping("/addOrder")
-    @ResponseBody
     public Boolean addOrder(@RequestBody IOrder order){
         IOrderLong orderLong=new  IOrderLong();
         boolean result=longTermService.addOrder(order);
@@ -46,22 +46,21 @@ public class LongTermController {
     }
     @ApiOperation(value = "取消维修订单")
     @RequestMapping(value = "/cancelOrder",method = RequestMethod.POST)
-    @ResponseBody
     public Boolean cancelOrder(int id){
         boolean result=longTermService.cancelOrder(id);
         return result;
     }
     @ApiOperation(value = "确认维修订单")
     @RequestMapping(value = "/confirmOrder",method = RequestMethod.POST)
-    @ResponseBody
     public Boolean confirmOrder(int id){
         boolean result=longTermService.confirmOrder(id);
         return result;
     }
 
+
+
     @ApiOperation(value = "文件上传")
     @PostMapping(value = "/fileUpload")
-    @ResponseBody
     public boolean fileUpload(@RequestParam(value = "file") MultipartFile file, Model model, HttpServletRequest request) throws ParseException {
 //        String name=request.getParameter("name");
 //        String address=request.getParameter("address");
@@ -121,7 +120,6 @@ public class LongTermController {
     }
     @ApiOperation(value = "文件下载")
     @PostMapping("/download")
-    @ResponseBody
     public void download(HttpServletResponse response) throws UnsupportedEncodingException {
 
         //String path=examineService.select1(examineId).getPath();
@@ -173,7 +171,6 @@ public class LongTermController {
     }
     @ApiOperation(value = "查看空闲长期工")
     @RequestMapping(value = "/selectLongTerm",method = RequestMethod.GET)
-    @ResponseBody
     public void selectLongTermStaffs( HttpServletResponse response)throws IOException{
         List<IStaff> iStaffList= longTermService.selectLongTermStaffs();
         response.setContentType("application/json;charset=utf-8");
@@ -183,7 +180,6 @@ public class LongTermController {
     }
     @ApiOperation(value = "测试")
     @RequestMapping(value = "/test",method = RequestMethod.POST)
-    @ResponseBody
     public void test(@RequestBody JSONObject getcode){
 
 //        String code=getcode.getString("code");
