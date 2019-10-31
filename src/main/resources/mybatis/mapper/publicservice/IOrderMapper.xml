@@ -289,16 +289,54 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <resultMap type="com.shixun.ihome.publicservice.pojo.IOrder" id="listall"  extends="BaseResultMap">
-    <id column="id" property="id"/>
+  <resultMap type="com.shixun.ihome.publicservice.pojo.IOrder" id="listall">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="useraddress_id" property="useraddressId" jdbcType="INTEGER" />
+    <result column="detailtype_id" property="detailtypeId" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="finaly_time" property="finalyTime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="comm" property="comm" jdbcType="VARCHAR" />
 
-    <association property="user" javaType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="com.shixun.ihome.publicservice.mapper.IUserMapper.BaseResultMap">
+    <association property="user" javaType="com.shixun.ihome.publicservice.pojo.IUser" >
+      <id column="uid" property="id" jdbcType="INTEGER" />
+      <result column="weixin_id" property="weixinId" jdbcType="INTEGER" />
+      <result column="phone" property="phone" jdbcType="VARCHAR" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="gender" property="gender" jdbcType="INTEGER" />
+      <result column="country" property="country" jdbcType="VARCHAR" />
+      <result column="language" property="language" jdbcType="VARCHAR" />
+      <result column="province" property="province" jdbcType="VARCHAR" />
+      <result column="city" property="city" jdbcType="VARCHAR" />
     </association>
 
-    <association property="userDetail" javaType="com.shixun.ihome.publicservice.pojo.IUserDetail" resultMap="com.shixun.ihome.publicservice.mapper.IUserDetailMapper.BaseResultMap">
+    <association property="userDetail" javaType="com.shixun.ihome.publicservice.pojo.IUserDetail" >
+      <id column="aid" property="id" jdbcType="INTEGER" />
+      <result column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="username" property="username" jdbcType="VARCHAR" />
+      <result column="province" property="province" jdbcType="VARCHAR" />
+      <result column="city" property="city" jdbcType="VARCHAR" />
+      <result column="detail" property="detail" jdbcType="VARCHAR" />
+      <result column="phone" property="phone" jdbcType="VARCHAR" />
+      <result column="status" property="status" jdbcType="INTEGER" />
     </association>
 
-    <association property="detailtype" javaType="com.shixun.ihome.publicservice.pojo.IDetailtype" resultMap="com.shixun.ihome.publicservice.mapper.IDetailtypeMapper.BaseResultMap">
+    <association property="detailtype" javaType="com.shixun.ihome.publicservice.pojo.IDetailtype" >
+      <id column="did" property="id" jdbcType="INTEGER" />
+      <result column="typename" property="typename" jdbcType="VARCHAR" />
+      <result column="servicetpye_id" property="servicetpyeId" jdbcType="INTEGER" />
+      <result column="ddescribe" property="ddescribe" jdbcType="VARCHAR" />
+      <result column="charge_type" property="chargeType" jdbcType="VARCHAR" />
+      <result column="comm" property="comm" jdbcType="VARCHAR" />
+      <result column="explains" property="explains" jdbcType="VARCHAR" />
+      <result column="picturepath1" property="picturepath1" jdbcType="VARCHAR" />
+      <result column="picturepath2" property="picturepath2" jdbcType="VARCHAR" />
+      <result column="price" property="price" jdbcType="DOUBLE" />
+      <result column="type_id" property="typeId" jdbcType="INTEGER" />
+
     </association>
 
     <association property="iStaff" javaType="com.shixun.ihome.publicservice.pojo.IStaff" >
@@ -354,15 +392,15 @@
   </select>
 
   <select id="listbyuser" parameterType="int" resultMap="listall">
-select * from i_order o,i_user u,i_detailtype d,i_user_detail a
+select *,d.id as did,a.id as aid,u.id as uid from i_order o,i_user u,i_detailtype d,i_user_detail a
     where u.id=#{userid} and o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id and o.state!=5
-    <if test="orderstate!=7&amp;orderstate==4">
-      and o.state=#{orderstate} or o.state=6
+    <if test="orderstate!=7 and orderstate==4">
+      and (o.state=#{orderstate} or o.state=6)
     </if>
-    <if test="orderstate!=7&amp;orderstate==6">
-      and o.state=#{orderstate} or o.state=4
+    <if test="orderstate!=7 and orderstate==6">
+      and (o.state=#{orderstate} or o.state=4)
     </if>
-    <if test="orderstate!=7&amp;orderstate!=6&amp;orderstate!=4">
+    <if test="orderstate!=7 and orderstate!=6 and orderstate!=4">
       and o.state=#{orderstate}
     </if>
 
