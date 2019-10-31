@@ -356,14 +356,13 @@
   <select id="listbyuser" parameterType="int" resultMap="listall">
 select * from i_order o,i_user u,i_detailtype d,i_user_detail a
     where u.id=#{userid} and o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id and o.state!=5
-    <if test="orderstate!=7">
+    <if test="orderstate!=7&amp;orderstate==4">
+      and o.state=#{orderstate} or o.state=6
+    </if>
+    <if test="orderstate!=7&amp;orderstate==6">
+      and o.state=#{orderstate} or o.state=4
+    <if test="orderstate!=7&amp;orderstate!=6&amp;orderstate!=4">
       and o.state=#{orderstate}
-    </if>
-    <if test="orderstate==4">
-      or o.state=6
-    </if>
-    <if test="orderstate==6">
-      or o.state=4
     </if>
 
   </select>
