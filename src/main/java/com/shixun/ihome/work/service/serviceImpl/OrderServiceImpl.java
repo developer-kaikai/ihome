@@ -144,6 +144,10 @@ public class OrderServiceImpl implements OrderService {
         evaluate.setFinallytime(new Date());
         evaluateMapper.insert(evaluate);
 
+        IOrder order=orderMapper.selectByPrimaryKey(id);
+        order.setState(6);
+        orderMapper.updateByPrimaryKeySelective(order);
+
         return true;
     }
 

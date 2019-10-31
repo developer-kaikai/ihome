@@ -359,6 +359,13 @@ select * from i_order o,i_user u,i_detailtype d,i_user_detail a
     <if test="orderstate!=7">
       and o.state=#{orderstate}
     </if>
+    <if test="orderstate==4">
+      and o.state=6
+    </if>
+    <if test="orderstate==6">
+      and o.state=4
+    </if>
+
   </select>
 
   <select id="listbystaff" parameterType="int" resultMap="listall">
