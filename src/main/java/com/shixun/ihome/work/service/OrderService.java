@@ -56,7 +56,7 @@ public interface OrderService {
     boolean removeStaffForOrder(int orderId, int staffId);
 
     /*订单高级筛选*/
-    List<IOrder> listByCondition(IOrder order);
+    PageInfo<IOrder> listByCondition(IOrder order,int pageNum,int pageSize);
 
     PageInfo<IOrder> listByConditionPage(IOrder order, int pageNum,int pageSize);
 

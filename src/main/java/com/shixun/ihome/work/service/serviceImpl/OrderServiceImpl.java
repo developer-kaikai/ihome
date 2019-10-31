@@ -233,15 +233,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<IOrder> listByCondition(IOrder order) {
-        List<IOrder> listh=(List<IOrder>) redisTemplate.opsForValue().get("orderbyCondition");
-        System.out.println("从缓存读出");
-        if (listh==null) {
-            listh=orderMapper.listByCondition(order);
-            System.out.println("从数据库读取");
-            redisTemplate.opsForValue().set("orderall", listh);
-        }
-        return orderMapper.listByCondition(order);
+    public PageInfo<IOrder> listByCondition(IOrder order,int pageNum,int pageSize) {
+//        PageInfo<IOrder> listh=(PageInfo<IOrder>) redisTemplate.opsForValue().get("orderbyCondition");
+//        System.out.println("从缓存读出");
+
+//        if (listh==null) {
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<IOrder> pages = new PageInfo<>(orderMapper.listByCondition(order));
+        return pages;
+        //System.out.println("从数据库读取");
+        //redisTemplate.opsForValue().set("orderall", pages);
+//        }
+        //return orderMapper.listByCondition(order);
     }
 
     @Override
