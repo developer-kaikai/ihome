@@ -4,6 +4,7 @@ package com.shixun.ihome.publicservice.util;
 import com.shixun.ihome.publicservice.pojo.IRecord;
 
 import javax.xml.bind.SchemaOutputResolver;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,19 @@ public class Qutil {
         iRecord.setNewContent(newRecord);
         iRecord.setBywho(byWho);
         return iRecord;
+    }
+
+
+    //文件删除
+    public static void deleteFile(String path){
+        //检测路径是否为空
+        if(path.equals("")){
+            return;
+        }
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
+        }
     }
 
 

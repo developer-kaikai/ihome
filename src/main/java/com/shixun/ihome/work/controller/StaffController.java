@@ -9,6 +9,7 @@ import com.shixun.ihome.config.ApiJsonObject;
 import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.ResultBase;
 import com.shixun.ihome.publicservice.pojo.IStaff;
+import com.shixun.ihome.publicservice.util.Qutil;
 import com.shixun.ihome.work.service.ServiceTimerService;
 import com.shixun.ihome.work.service.ServicetypeService;
 import com.shixun.ihome.work.service.StaffService;
@@ -17,7 +18,11 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -155,59 +160,101 @@ public class StaffController {
             @ApiJsonProperty(key = "id", example = "1"),
             @ApiJsonProperty(key = "sex", example = "1"),
             @ApiJsonProperty(key = "phone", example = "手机号"),
-            @ApiJsonProperty(key = "health", example = "健康证"),
-            @ApiJsonProperty(key = "idCard", example = "身份证"),
             @ApiJsonProperty(key = "detailtypeId", example = "1"),
-            @ApiJsonProperty(key = "qualification", example = "从业资格证"),
             @ApiJsonProperty(key = "status", example = "状态")
     })@RequestBody JSONObject params) {
         //读取数据
         IStaff iStaff2 =params.toJavaObject(IStaff.class);
         System.out.println(iStaff2);
         IStaff iStaff = new IStaff();
-//        Integer id =params.getInteger("id");
-//        Integer sex =params.getInteger("sex");
-//        String phone =params.getString("phone");
-//        String health =params.getString("health");
-//        String idCard =params.getString("idCard");
-//        Integer detailtypeId =params.getInteger("detailtypeId");
-//        String qualification =params.getString("qualification");
-//        Integer status =params.getInteger("status");
-//        iStaff.setId(id);
-//        iStaff.setSex(sex);
-//        iStaff.setPhone(phone);
-//        iStaff.setHealth(health);
-//        iStaff.setStatus(status);
-//        iStaff.setIdCard(idCard);
-//        iStaff.setDetailtypeId(detailtypeId);
-//        iStaff.setQualification(qualification);
-//
-//
-//        //获取旧记录
-//        IStaff iStaff1 = staffService.getOne(iStaff.getId());
-//
-//
-//        //获取session之中的修改人
-//        int detailId1  = iStaff1.getDetailtypeId();
-//        int detailId2 = iStaff.getDetailtypeId();
-//
-//        String bywho = "";
-//        //
-//        if (staffService.updateStaffRecord(iStaff1,iStaff,bywho)){
-//            //如果管理员修改了员工的详细服务，就重新修改服务类时间表
-//            if (detailId1 != detailId2){
-//                int serviceId1 = servicetypeService.getServiceType(detailId1);
-//                int serviceId2 = servicetypeService.getServiceType(detailId2);
-//                serviceTimerService.changeStaff(serviceId1, -1);
-//                serviceTimerService.changeStaff(serviceId2, 1);
-//            }
-//            return ResultBase.success();
-//        }
+        Integer id =params.getInteger("id");
+        Integer sex =params.getInteger("sex");
+        String phone =params.getString("phone");
+        Integer detailtypeId =params.getInteger("detailtypeId");
+        iStaff.setId(id);
+        iStaff.setSex(sex);
+        iStaff.setPhone(phone);
+        iStaff.setDetailtypeId(detailtypeId);
+
+
+        //获取旧记录
+        IStaff iStaff1 = staffService.getOne(iStaff.getId());
+
+
+        //获取session之中的修改人
+        int detailId1  = iStaff1.getDetailtypeId();
+        int detailId2 = iStaff.getDetailtypeId();
+
+        String bywho = "";
+        //
+        if (staffService.updateStaffRecord(iStaff1,iStaff,bywho)){
+            //如果管理员修改了员工的详细服务，就重新修改服务类时间表
+            if (detailId1 != detailId2){
+                int serviceId1 = servicetypeService.getServiceType(detailId1);
+                int serviceId2 = servicetypeService.getServiceType(detailId2);
+                serviceTimerService.changeStaff(serviceId1, -1);
+                serviceTimerService.changeStaff(serviceId2, 1);
+            }
+            return ResultBase.success(iStaff1);
+        }
         return ResultBase.fail();
     }
 
+
+    //文件上传（包括身份证、从业资格证、健康证）
+    @ApiOperation(value = "文件上传（包括身份证、从业资格证、健康证）")
+    @PostMapping("/uploadFile")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "staffId", value = "1", paramType = "path", dataTypeClass = Integer.class, required = true),
+            @ApiImplicitParam(name = "type", value = "0",example = "0:身份证，1：从业资格证、2：健康证", paramType = "path", dataTypeClass = Integer.class, required = true)
+    })
+    public ResultBase uploadFile(@RequestParam MultipartFile file, @PathVariable Integer staffId, @PathVariable Integer type){
+        //获取文件
+        if(file == null){
+            return ResultBase.fail("没有接收到文件");
+        }
+        //获取旧记录
+        IStaff oldStaff = staffService.getOne(staffId );
+        //构建新记录
+        IStaff staff = new IStaff();
+        staff.setId(staffId);
+        String filename = file.getOriginalFilename();
+        Date date = new Date();
+        String filepath =  date.getTime() + filename;
+        String path = "";
+        switch(type){
+            case 0: {
+                //判断旧的记录是否存在文件
+                oldStaff.getIdCard();
+                path = "C:/Files/IdCard" + filepath;
+                staff.setIdCard(path);
+            }break;
+            case 1:{
+                path = "C:/Files/Qualification" +filepath;
+                staff.setQualification(path);
+            }break;
+            case 2:{
+                path = "C:/Files/Health" + filepath;
+                staff.setHealth(path);
+            }break;
+        }
+        Qutil.deleteFile(path);
+        File dest = new File(path );
+        try{
+            file.transferTo(dest);
+            //更新数据库
+            staffService.updateStaffFile(staff);
+
+        }catch (IOException e){
+            e.printStackTrace();
+            return ResultBase.fail("文件上传发生错误");
+        }
+        return ResultBase.fail("上传失败");
+    }
+
+
     @ApiOperation(value = "删除员工")
-    @PostMapping("deleteStaff")
+    @PostMapping("/deleteStaff")
     @Transactional
     public ResultBase deleteStaff(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key = "id", example = "1", description = "员工id")

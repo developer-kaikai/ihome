@@ -23,6 +23,8 @@ public interface StaffService {
     //获取单个员工信息
     IStaff getOne(int id);
 
+    //更新身份证、健康证、从业资格证
+    boolean updateStaffFile(IStaff staff);
     //获取钟点工
     PageInfo<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map);
 

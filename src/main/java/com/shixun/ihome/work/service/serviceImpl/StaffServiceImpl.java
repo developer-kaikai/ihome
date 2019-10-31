@@ -66,6 +66,15 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    public boolean updateStaffFile(IStaff staff) {
+        int result = staffMapper.updateByPrimaryKeySelective(staff);
+        if(result > 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean addStaffRecord(IStaff record, String byWho) {
         return staffMapper.insertSelective(record) > 0;
     }
