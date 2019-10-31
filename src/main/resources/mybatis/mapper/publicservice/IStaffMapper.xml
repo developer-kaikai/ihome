@@ -416,4 +416,5 @@
     AND d.detailtype_id = c.id
     AND c.servicetpye_id =4
   </select>
+
 </mapper>

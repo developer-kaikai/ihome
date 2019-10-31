@@ -201,9 +201,8 @@ public class StaffController {
     }
 
 
-    //文件上传（包括身份证、从业资格证、健康证）
     @ApiOperation(value = "文件上传（包括身份证、从业资格证、健康证）")
-    @PostMapping("/uploadFile")
+    @PostMapping("/uploadFile/{staffId}/{type}")
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "staffId", value = "1", paramType = "path", dataTypeClass = Integer.class, required = true),
             @ApiImplicitParam(name = "type", value = "0",example = "0:身份证，1：从业资格证、2：健康证", paramType = "path", dataTypeClass = Integer.class, required = true)
