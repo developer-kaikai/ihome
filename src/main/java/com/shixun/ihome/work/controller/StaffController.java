@@ -200,6 +200,14 @@ public class StaffController {
         return ResultBase.fail();
     }
 
+    @ApiOperation(value = "获取单个员工数据")
+    @GetMapping("/getOne")
+    @ApiImplicitParam(name = "id", value = "1", paramType = "path", dataTypeClass = Integer.class, required = true)
+    public ResultBase getOne(@PathVariable Integer id){
+        IStaff staff = staffService.getOne(id);
+        return ResultBase.success(staff);
+    }
+
 
     @ApiOperation(value = "文件上传（包括身份证、从业资格证、健康证）")
     @PostMapping("/uploadFile/{staffId}/{type}")
