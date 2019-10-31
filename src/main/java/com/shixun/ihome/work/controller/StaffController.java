@@ -201,7 +201,7 @@ public class StaffController {
     }
 
     @ApiOperation(value = "获取单个员工数据")
-    @GetMapping("/getOne")
+    @GetMapping("/getOne/{id}")
     @ApiImplicitParam(name = "id", value = "1", paramType = "path", dataTypeClass = Integer.class, required = true)
     public ResultBase getOne(@PathVariable Integer id){
         IStaff staff = staffService.getOne(id);
