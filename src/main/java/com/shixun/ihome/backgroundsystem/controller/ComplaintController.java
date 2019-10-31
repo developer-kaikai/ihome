@@ -2,11 +2,13 @@ package com.shixun.ihome.backgroundsystem.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.backgroundsystem.service.ComplaintService;
 import com.shixun.ihome.config.ApiJsonObject;
 import com.shixun.ihome.config.ApiJsonProperty;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultType;
+import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderComplaint;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -62,27 +64,34 @@ public class ComplaintController {
     @RequestMapping(value="/selectComplaintByStatus",method = RequestMethod.POST)
     @ResponseBody
     public void selectComplaintByStatus(@ApiJsonObject(name = "complaint", value = {
-            @ApiJsonProperty(key = "cstatus", example = "0", description = "状态")})
+            @ApiJsonProperty(key = "cstatus", example = "0", description = "状态"),
+            @ApiJsonProperty(key = "pageNum", example = "0", description = ""),
+            @ApiJsonProperty(key = "pageSize", example = "0", description = ""),
+    })
           @RequestBody JSONObject complaint,HttpServletResponse response)throws IOException {
         String cstatus=complaint.getString("cstatus");
+        int pageNum = complaint.getInteger("pageNum");
+        int pageSize = complaint.getInteger("pageSize");
         IOrderComplaint complaint1 =new IOrderComplaint();
         List<IOrderComplaint> complaints= new ArrayList<>();
+        PageInfo<IOrderComplaint> pages=new PageInfo<>();
+
         if(cstatus==null){
-             complaints=complaintService.selectComplaintByStatus(complaint1);
+             pages=complaintService.selectComplaintByStatus(complaint1,pageNum,pageSize);
         }
         else if (cstatus.equals("0")) {
             //System.out.println(111111);
             complaint1.setCstatus(0);
-            complaints=complaintService.selectComplaintByStatus(complaint1);
+            pages=complaintService.selectComplaintByStatus(complaint1,pageNum,pageSize);
         }else{
             complaint1.setCstatus(1);
-            complaints=complaintService.selectComplaintByStatus(complaint1);
+            pages=complaintService.selectComplaintByStatus(complaint1,pageNum,pageSize);
         }
         //complaint1.setCstatus(cstatus);
 
         response.setContentType("application/json;charset=utf-8");
         String json ;
-        json = Result.build(ResultType.Success).appendData("complaints", complaints).convertIntoJSON();
+        json = Result.build(ResultType.Success).appendData("pages",pages).convertIntoJSON();
         response.getWriter().write(json);
 
     }
