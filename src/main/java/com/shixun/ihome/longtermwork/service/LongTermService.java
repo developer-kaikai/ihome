@@ -32,5 +32,5 @@ public interface LongTermService {
     /*
     * 查询空闲状态的长期工
     * */
-    //List<IStaff> selectLongTermStaffs();
+    List<IStaff> selectLongTermStaffs();
 }

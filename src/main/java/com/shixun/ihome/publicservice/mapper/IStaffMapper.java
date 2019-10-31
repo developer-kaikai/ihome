@@ -65,4 +65,6 @@ public interface IStaffMapper {
     List<IStaff> selectHourworkStaffsByStatus(Map<String, Object> map);
 
     List<IStaff> selectStaffForOrder(Integer orderID);
+
+    List<IStaff> selectFreeLongTermsWorks();
 }

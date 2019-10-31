@@ -6,6 +6,11 @@
     <result column="weixin_id" property="weixinId" jdbcType="INTEGER" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="INTEGER" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, weixin_id, phone, name
+    id, weixin_id, phone, name, gender, country, language, province, city
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shixun.ihome.publicservice.pojo.IUserExample" >
     select
@@ -102,10 +107,12 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into i_user (weixin_id, phone, name
-      )
-    values (#{weixinId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
-      )
+    insert into i_user (weixin_id, phone, name, 
+      gender, country, language, 
+      province, city)
+    values (#{weixinId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shixun.ihome.publicservice.pojo.IUser" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -122,6 +129,21 @@
       <if test="name != null" >
         name,
       </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="weixinId != null" >
@@ -132,6 +154,21 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -156,6 +193,21 @@
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=INTEGER},
+      </if>
+      <if test="record.country != null" >
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.language != null" >
+        language = #{record.language,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +218,12 @@
     set id = #{record.id,jdbcType=INTEGER},
       weixin_id = #{record.weixinId,jdbcType=INTEGER},
       phone = #{record.phone,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR}
+      name = #{record.name,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=INTEGER},
+      country = #{record.country,jdbcType=VARCHAR},
+      language = #{record.language,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +240,21 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -190,7 +262,12 @@
     update i_user
     set weixin_id = #{weixinId,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR}
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      country = #{country,jdbcType=VARCHAR},
+      language = #{language,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <resultMap id="userDetailsResultMap" type="com.shixun.ihome.publicservice.pojo.IUserDetail" >
@@ -218,19 +295,19 @@
     SELECT a.*,<include refid="iUserDetail"/>
     FROM i_user a,i_user_detail b
     where b.user_id=a.id
-      <if test="name!=null">
-        and a.name like "%"#{name}"%"
-      </if>
-      <if test="phone!=null">
-        and a.phone like "%"#{phone}"%"
-      </if>
+    <if test="name!=null">
+      and a.name like "%"#{name}"%"
+    </if>
+    <if test="phone!=null">
+      and a.phone like "%"#{phone}"%"
+    </if>
   </select>
   <select id="selectAllUser" parameterType="com.shixun.ihome.publicservice.pojo.IUser" resultMap="BaseResultMap">
     SELECT * FROM i_user
   </select>
 
   <resultMap id="UserWeixinResultMap" type="com.shixun.ihome.publicservice.pojo.IUser" extends="BaseResultMap">
-      <association property="weixin" resultMap="weixinResultMap" ></association>
+    <association property="weixin" resultMap="weixinResultMap" ></association>
   </resultMap>
 
 

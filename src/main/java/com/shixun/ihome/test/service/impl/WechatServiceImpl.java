@@ -18,6 +18,23 @@ public class WechatServiceImpl implements WechatService {
     private IUserMapper iUserMapper;
 
 
+    @Override
+    public IUser selectuser(int userid) {
+        return iUserMapper.selectByPrimaryKey(userid);
+    }
+
+    @Override
+    public Boolean addusernews(int userid, String name, int gender, String country, String language, String province, String city) {
+        IUser user=iUserMapper.getuser(userid);
+        user.setCity(city);
+        user.setCountry(country);;
+        user.setGender(gender);
+        user.setLanguage(language);
+        user.setProvince(province);
+        user.setName(name);
+        iUserMapper.updateByPrimaryKeySelective(user);
+        return true;
+    }
 
     @Override
     public int wechatlogin(String openid) {

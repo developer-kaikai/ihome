@@ -1,7 +1,6 @@
 package com.shixun.ihome.publicservice.pojo;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class IUser implements Serializable {
     private Integer id;
@@ -12,9 +11,25 @@ public class IUser implements Serializable {
 
     private String name;
 
+    private Integer gender;
+
+    private String country;
+
+    private String language;
+
+    private String province;
+
+    private String city;
+
     private IWeixin weixin;
 
-    private List<IUserDetail> userDetail;
+    public IWeixin getWeixin() {
+        return weixin;
+    }
+
+    public void setWeixin(IWeixin weixin) {
+        this.weixin = weixin;
+    }
 
     public Integer getId() {
         return id;
@@ -48,20 +63,43 @@ public class IUser implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public List<IUserDetail> getUserDetail() {
-        return userDetail;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setUserDetail(List<IUserDetail> userDetail) {
-        this.userDetail = userDetail;
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
-
-    public IWeixin getWeixin() {
-        return weixin;
+    public String getCountry() {
+        return country;
     }
 
-    public void setWeixin(IWeixin weixin) {
-        this.weixin = weixin;
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language == null ? null : language.trim();
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province == null ? null : province.trim();
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
     }
 }

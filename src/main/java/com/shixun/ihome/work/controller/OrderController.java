@@ -194,11 +194,40 @@ public class OrderController {
 
 
 
+    @ApiOperation(value = "添加长期工订单详情")
+    @Transactional
+    @PostMapping("addLongOrderDetail")
+    public ResultBase addLongOrderDetail(@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "orderId", example = "1", description = "订单id"),
+            @ApiJsonProperty(key = "staffId", example = "1", description = "员工id"),
+            @ApiJsonProperty(key = "salary", example = "0", description = "工资"),
+            @ApiJsonProperty(key = "month", example = "1", description = "月份")})
+    @RequestBody JSONObject detail) {
+        int orderId=detail.getInteger("orderId");
+        int staffId=detail.getInteger("staffId");
+        Double salary=detail.getDouble("salary");
+        int month=detail.getInteger("month");
+        IOrderStaff orderStaff=new IOrderStaff();
+        orderStaff.setOrderId(orderId);
+        orderStaff.setStaffId(staffId);
+        IOrderLong orderLong=new IOrderLong();
+        orderLong.setOrderId(orderId);
+        orderLong.setSalary(salary);
+        orderLong.setMonth(month);
+        orderLong.setAboutFile("无");
+        if(orderService.addOrderLongDetail(orderLong,orderStaff)){
+            orderService.updateOrderState(orderId,2);
+            return new ResultBase(200, "插入成功");
+
+        }
+        return new ResultBase(400, "插入失败");
+
+    }
     @ApiOperation(value = "添加长期工的订单")
     @Transactional
     @ApiImplicitParam(name = "orderLong", value = "长期工订单实体类", dataType = "IOrderLong")
     @PostMapping("addLongOrder")
-    public ResultBase addLongOrder(@RequestBody IOrderLong orderLong) {
+    public ResultBase addLongOrderDetail(@RequestBody IOrderLong orderLong) {
         if( orderService.addOrderRecord(orderLong.getOrder(), "乔哥")){
             return new ResultBase(400,"长期工订单添加失败");
         }
@@ -456,4 +485,17 @@ public class OrderController {
         List<IOrderStaff> staffs = orderService.selectOrderStaffs(orderId);
         return ResultBase.success(staffs);
     }
+//    @ApiOperation(value = "添加长期工-订单记录")
+//    @PostMapping("/addLongTermOrderStaff")
+//    public ResultBase addLongTermOrderStaff(@ApiJsonObject(name = "params", value = {
+//            @ApiJsonProperty(key = "state", example = "0", description = "订单状态"),
+//            @ApiJsonProperty(key = "pageSize", example = "10", description = "一页显示的数据量"),
+//            @ApiJsonProperty(key = "pageNum", example = "1", description = "页数")
+//    })@RequestBody JSONObject params){
+//        int pageSize = params.getInteger("pageSize");
+//        int pageNum = params.getInteger("pageNum");
+//        IOrder order = params.toJavaObject(IOrder.class);
+//
+//        return ResultBase.success();
+//    }
 }
