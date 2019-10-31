@@ -12,7 +12,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
-public class Swagger2 {
+public class Swagger2{
 
     @Bean
     public Docket createRestApi() {
@@ -25,6 +25,8 @@ public class Swagger2 {
                 .paths(PathSelectors.any())
                 .build();
     }
+
+
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()

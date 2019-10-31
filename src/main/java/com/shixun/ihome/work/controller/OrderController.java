@@ -103,13 +103,9 @@ public class OrderController {
         List<IOrder> iOrderList = new ArrayList<>();
         //员工
         if(id==1){
-
                 iOrderList = orderService.listbystaffidtwo(userid,state);
-
         }else{
-
                 iOrderList = orderService.listbyuserid(userid, state);
-
         }
         response.setContentType("application/json;charset=utf-8");
         String json;
@@ -314,7 +310,7 @@ public class OrderController {
     public ResultBase getOrderByStatus(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key =  "pageNum", example = "1"),
             @ApiJsonProperty(key = "pageSize", example = "10"),
-            @ApiJsonProperty(key = "staus", example = "0")
+            @ApiJsonProperty(key = "status", example = "0")
     })@RequestBody JSONObject params) {
         IOrder order = new IOrder();
         int pageNum = params.getInteger("pageNum");
@@ -323,9 +319,7 @@ public class OrderController {
         order.setState(status);
         PageInfo<IOrder> pages = orderService.listByConditionPage(order, pageNum, pageSize);
         JSONObject object = new JSONObject(4);
-        JSONArray array = new JSONArray();
-        array.addAll(pages.getList());
-        object.put("list", array);
+        object.put("list", pages.getList());
         object.put("pageSize", pages.getPageSize());
         object.put("pageNum", pages.getPageNum());
         object.put("total", pages.getTotal());
