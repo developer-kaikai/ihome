@@ -13,9 +13,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Api(description = "杂项")
@@ -64,6 +67,25 @@ public class OtherController {
     public ResultBase getPosition(){
        JSONArray arr = otherService.getPositions();
         return ResultBase.success(arr);
+    }
+
+    @ApiOperation(value = "文件上传")
+    @PostMapping("/fileUpload")
+    public ResultBase fileUpload(@RequestParam("file")MultipartFile file){
+        if (file.isEmpty()){
+            return ResultBase.fail("上传失败，请选择文件");
+        }
+
+        String fileName = file.getOriginalFilename();
+        String filePath = "E:/Files/";
+        File dest = new File(filePath + fileName);
+        try {
+            file.transferTo(dest);
+            return ResultBase.success();
+        }catch (IOException e){
+            e.printStackTrace();
+            return ResultBase.fail("文件上传发生错误");
+        }
     }
 
 }
