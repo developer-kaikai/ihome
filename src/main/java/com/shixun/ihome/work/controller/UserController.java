@@ -69,6 +69,12 @@ public class UserController {
             String json;
             json = Result.build(ResultType.Success).appendData("iUserDetail", iUserDetail).convertIntoJSON();
             response.getWriter().write(json);
+            //return new ResultBase(200, "成功");
+        }else {
+            response.setContentType("application/json;charset=utf-8");
+            String json;
+            json = Result.build(ResultType.Failed).appendData("iUserDetail", iUserDetail).convertIntoJSON();
+            response.getWriter().write(json);
         }
 
     }
