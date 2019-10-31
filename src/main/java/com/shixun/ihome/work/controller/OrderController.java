@@ -75,7 +75,7 @@ public class OrderController {
 
     @ApiOperation(value = "用户查看订单评价")
     @RequestMapping(value = "/evlistByid", method = RequestMethod.POST)
-    public void orderAllByType(@RequestBody JSONObject name, HttpServletResponse response) throws IOException {
+    public void evlistByid(@RequestBody JSONObject name, HttpServletResponse response) throws IOException {
 
         int userid=name.getInteger("userid");
         int id=name.getInteger("temp");
@@ -362,14 +362,22 @@ public class OrderController {
         }
     }
 
-    @ApiOperation(value = "高级查询订单")
+    @ApiOperation(value = "查询长期工订单")
     @RequestMapping(value = "/listByType", method = RequestMethod.POST)
-    public void orderAllByType(@RequestBody IOrder order, HttpServletResponse response) throws IOException {
-
-        List<IOrder> orderList = orderService.listByCondition(order);
+    public void orderAllByType(@ApiJsonObject(name = "tool", value = {
+            @ApiJsonProperty(key = "state", example = "0", description = "状态"),
+            @ApiJsonProperty(key = "pageNum", example = "0", description = ""),
+            @ApiJsonProperty(key = "pageSize", example = "0", description = ""),
+    })@RequestBody JSONObject order, HttpServletResponse response) throws IOException {
+        int state=order.getInteger("state");
+        int pageNum = order.getInteger("pageNum");
+        int pageSize = order.getInteger("pageSize");
+        IOrder iOrder=new IOrder();
+        iOrder.setState(state);
+        PageInfo<IOrder> pages = orderService.listByCondition(iOrder,pageNum,pageSize);
         response.setContentType("application/json;charset=utf-8");
         String json;
-        json = Result.build(ResultType.Success).appendData("orderList", orderList).convertIntoJSON();
+        json = Result.build(ResultType.Success).appendData("orderList", pages).convertIntoJSON();
         response.getWriter().write(json);
     }
 
