@@ -24,6 +24,18 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @ApiOperation(value = "登录")
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public int selectaccount(@ApiJsonObject (name = "name", value = {
+            @ApiJsonProperty(key = "account", example = "帐号"),
+            @ApiJsonProperty(key = "pwd", example = "密码")})@RequestBody JSONObject name){
+
+        String account=name.getString("account");
+        String pwd=name.getString("pwd");
+        int success=adminService.selectPwd(account,pwd);
+        return success;
+    }
+
     @ApiOperation(value = "添加管理员")
     @PostMapping("/addAdmin")
     public ResultBase addAdmin(@ApiJsonObject (name = "params", value = {

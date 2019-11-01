@@ -13,6 +13,24 @@ import org.springframework.stereotype.Service;
 public class AdminServiceImpl implements AdminService {
     @Autowired
     IAdministrationMapper adminMap;
+
+
+
+    @Override
+    public int selectPwd(String account, String pwd) {
+        IAdministration admin=adminMap.selectaccount(account);
+        if (admin==null){
+            return 1;
+        }else{
+            IAdministration admin2=adminMap.selectpwd(account,pwd);
+            if (admin2==null){
+                return 2;
+            }else{
+                return 3;
+            }
+        }
+    }
+
     @Override
     public IAdministration getOne(int id) {
         return adminMap.selectByPrimaryKey(id);

@@ -40,6 +40,20 @@ public class StaffController {
     private ServicetypeService servicetypeService;
 
 
+    @ApiOperation(value = "用户变成员工")
+    @RequestMapping(value = "/userStaff",method = RequestMethod.POST)
+    public Boolean selectaccount(@ApiJsonObject (name = "name", value = {
+            @ApiJsonProperty(key = "phone", example = "手机号码"),
+            @ApiJsonProperty(key = "typeid", example = "工种")})@RequestBody JSONObject name){
+
+        String phone=name.getString("phone");
+        int typeid=name.getInteger("typeid");
+        Boolean success=staffService.success(phone,typeid);
+
+        return success;
+    }
+
+
     @ApiOperation(value = "添加员工")
     @ApiImplicitParam(name="iStaff", required = true, dataType = "IStaff" )
     @PostMapping("addStaff")

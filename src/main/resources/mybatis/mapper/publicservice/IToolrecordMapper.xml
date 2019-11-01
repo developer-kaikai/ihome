@@ -306,16 +306,16 @@
 <select id="selectbystaff" parameterType="int" resultMap="recordMap">
   select *,o.id as oid,t.id as tid,d.id as did from i_toolrecord tr,i_tool t,i_order_staff os,i_detailtype d,i_order o
   where tr.staff_id=#{staffid}
-  and tr.state=#{state}
+
   and o.id=tr.order_id
   and os.order_id=o.id
   and t.detailtype_id=o.detailtype_id
   and d.id=o.detailtype_id
 <if test="state==2">
-  or tr.state=3
+  and (tr.state=#{state} or tr.state=3)
 </if>
 <if test="state==3">
- or tr.state=2
+  and (tr.state=#{state} or tr.state=2)
 </if>
 </select>
 

@@ -37,5 +37,7 @@ public interface IUserMapper {
 
     IUser getuser(int userid);
 
+    IUser selectByphone(String phone);
+
 
 }

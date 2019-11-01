@@ -1,8 +1,6 @@
 package com.shixun.ihome.publicservice.pojo;
 
-import java.io.Serializable;
-
-public class IStaff implements Serializable {
+public class IStaff {
     private Integer id;
 
     private String name;
@@ -26,6 +24,13 @@ public class IStaff implements Serializable {
 
     private Double basesalary;
 
+    private String country;
+
+    private String language;
+
+    private String province;
+
+    private String city;
     //特性字段用于判断空闲状态
     private Integer timer;
 
@@ -131,5 +136,37 @@ public class IStaff implements Serializable {
 
     public void setBasesalary(Double basesalary) {
         this.basesalary = basesalary;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language == null ? null : language.trim();
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province == null ? null : province.trim();
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
     }
 }
