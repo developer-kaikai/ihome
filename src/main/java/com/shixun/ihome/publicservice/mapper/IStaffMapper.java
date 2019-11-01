@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-
 @Repository
 public interface IStaffMapper {
+
     //休闲的
     int FREE = 0;
     //假期中
@@ -18,8 +18,6 @@ public interface IStaffMapper {
     int WORKING = 2;
     //无效的
     int IVALID = 3;
-
-
     int countByExample(IStaffExample example);
 
     int deleteByExample(IStaffExample example);
@@ -54,7 +52,7 @@ public interface IStaffMapper {
      * @param istaff
      * @return
      */
-    List<IStaff> selectStaffs(Map<String,Object> istaff);
+    List<IStaff> selectStaffs(Map<String, Object> istaff);
 
 
     /**

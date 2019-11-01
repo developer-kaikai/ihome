@@ -287,4 +287,13 @@
       position_id = #{positionId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectaccount" parameterType="String" resultType="com.shixun.ihome.publicservice.pojo.IAdministration">
+    select * from i_administration where account=#{account}
+  </select>
+
+  <select id="selectpwd" parameterType="String" resultType="com.shixun.ihome.publicservice.pojo.IAdministration">
+    select * from i_administration where account=#{account} and pwd=#{pwd}
+  </select>
+
 </mapper>

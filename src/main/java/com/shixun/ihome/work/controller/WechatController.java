@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shixun.ihome.json.Result;
 import com.shixun.ihome.json.ResultType;
+import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.IUser;
 import com.shixun.ihome.test.service.WechatService;
 import io.swagger.annotations.ApiOperation;
@@ -55,18 +56,27 @@ public class WechatController {
         String sessionkey=(String) convertvalue.get("session_key");
 
         int existence=wechatService.wechatlogin(openid);
-        int userid=wechatService.userid(openid);
-        IUser user=wechatService.selectuser(userid);
-        String havephone=wechatService.havaphone(userid);
-
-
-
-
         Map map=new HashMap();
-        map.put("havephone",havephone);
-        map.put("userid",userid);
-        map.put("existence",existence);
-        map.put("user",user);
+        if(existence==4) {
+            int userid = wechatService.userid(openid);
+            IUser user = wechatService.selectuser(userid);
+            String havephone=wechatService.havaphone(userid);
+            map.put("havephone",havephone);
+            map.put("userid",userid);
+            map.put("existence",existence);
+            map.put("user",user);
+        }else {
+            IStaff user=wechatService.selectbyopenid(openid);
+            int userid=user.getId();
+            String havephone="true";
+            map.put("havephone",havephone);
+            map.put("userid",userid);
+            map.put("existence",existence);
+            map.put("user",user);
+        }
+
+
+
         response.setContentType("application/json;charset=utf-8");
 
         String json ;
