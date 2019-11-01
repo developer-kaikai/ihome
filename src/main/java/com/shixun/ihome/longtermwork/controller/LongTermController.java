@@ -11,6 +11,7 @@ import com.shixun.ihome.publicservice.pojo.IOrder;
 import com.shixun.ihome.publicservice.pojo.IOrderLong;
 import com.shixun.ihome.publicservice.pojo.IStaff;
 import com.shixun.ihome.publicservice.pojo.IUser;
+import com.shixun.ihome.publicservice.util.Qutil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -61,62 +62,30 @@ public class LongTermController {
 
     @ApiOperation(value = "文件上传")
     @PostMapping(value = "/fileUpload")
-    public boolean fileUpload(@RequestParam(value = "file") MultipartFile file, Model model, HttpServletRequest request) throws ParseException {
-//        String name=request.getParameter("name");
-//        String address=request.getParameter("address");
-//        String time=request.getParameter("time");
-//        String phone=request.getParameter("phone");
-//        String type=request.getParameter("type");
-//        String website=request.getParameter("website");
-//        String introduction=request.getParameter("introduction");
-//        String scale=request.getParameter("scale");
-//        String email=request.getParameter("email");
-
-        if (file.isEmpty()) {
-            System.out.println("文件为空");
+    public void fileUpload(@RequestParam(value = "file") MultipartFile file, Model model, HttpServletRequest request,HttpServletResponse response) throws ParseException,IOException {
+//获取文件
+        response.setContentType("application/json;charset=utf-8");
+        if(file == null){
+            response.getWriter().write("文件为空");
         }
-//        System.out.println(email);
-        String path1=request.getServletContext().getRealPath("staffInfo");
-        String fileName = file.getOriginalFilename();  // 文件名
-        String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
-        fileName = UUID.randomUUID() + suffixName; // 新文件名
-//        Enterprise enterprise=new Enterprise();
-//        enterprise.setAddress(address);
-//        enterprise.setIntroduction(introduction);
-//        enterprise.setName(name);
-//        enterprise.setPath("/userImages"+fileName);
-//        enterprise.setPhone(phone);
-//        enterprise.setScale(scale);
-//        enterprise.setState(1);
-
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-//        Date date=sdf.parse(time);
-//        enterprise.setTime(date);
-//        enterprise.setWebsite(website);
-//        enterprise.setType(type);
-
-//        if(enterpriseService.insert(enterprise)==false){
-//            return "fail";
-//        }
-        System.out.println("---------------------------"+path1);
-        System.out.println(path1);
-        File dest = new File(path1 + fileName);
-        //int Adminid=userService.findByAdminEmail(email);
-        //Admin admin=userService.selectAdmin(Adminid);
-        //int enterpriseId=enterpriseService.selectByName(name).getId();
-        //Enterprise enterprise1=enterpriseService.select(enterpriseId);
-       // admin.setEnterpriseid(enterprise1.getId());
-       // userService.updateAdmin(admin);
-        if (!dest.getParentFile().exists()) {
-            dest.getParentFile().mkdirs();
-        }
-        try {
+        String filename = file.getOriginalFilename();
+        Date date = new Date();
+        String filepath =  date.getTime() + filename;
+        String path = "";
+        //C:\Files\aboutFiles
+        path = "C:/Files/aboutFiles" + filepath;
+        File dest = new File(path);
+//        System.out.println(filename);
+//        System.out.println(path);
+        try{
             file.transferTo(dest);
-            return true;
-        } catch (IOException e) {
+           //更新数据库
+            //System.out.println(path);
+            response.getWriter().write(path);
+       }catch (IOException e){
             e.printStackTrace();
-            return  false;
-        }
+            response.getWriter().write("上传失败");
+         }
     }
     @ApiOperation(value = "文件下载")
     @PostMapping("/download")

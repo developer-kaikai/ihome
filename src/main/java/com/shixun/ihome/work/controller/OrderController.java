@@ -201,12 +201,14 @@ public class OrderController {
             @ApiJsonProperty(key = "orderId", example = "1", description = "订单id"),
             @ApiJsonProperty(key = "staffId", example = "1", description = "员工id"),
             @ApiJsonProperty(key = "salary", example = "0", description = "工资"),
-            @ApiJsonProperty(key = "month", example = "1", description = "月份")})
+            @ApiJsonProperty(key = "month", example = "1", description = "月份"),
+            @ApiJsonProperty(key = "aboutFile", example = "1", description = "相关文件"),})
     @RequestBody JSONObject detail) {
         int orderId=detail.getInteger("orderId");
         int staffId=detail.getInteger("staffId");
         Double salary=detail.getDouble("salary");
         int month=detail.getInteger("month");
+        String aboutFile=detail.getString("aboutFile");
         IOrderStaff orderStaff=new IOrderStaff();
         orderStaff.setOrderId(orderId);
         orderStaff.setStaffId(staffId);
@@ -214,7 +216,7 @@ public class OrderController {
         orderLong.setOrderId(orderId);
         orderLong.setSalary(salary);
         orderLong.setMonth(month);
-        orderLong.setAboutFile("无");
+        orderLong.setAboutFile(aboutFile);
         if(orderService.addOrderLongDetail(orderLong,orderStaff)){
             orderService.updateOrderState(orderId,2);
             return new ResultBase(200, "插入成功");
