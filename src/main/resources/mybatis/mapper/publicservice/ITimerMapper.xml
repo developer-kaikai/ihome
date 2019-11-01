@@ -237,7 +237,7 @@ order by timer desc, s.id asc
         d.servicetpye_id = #{serviceId}
       </if>
       <if test="_parameter.containsKey('index')">
-        and ((t.timer &gt;&gt; (datediff(now(), t.update_time))) &gt;&gt; #{ index }) &amp; 1 = 0
+        and ((t.timer &gt;&gt; (datediff(now(), t.update_time)*6)) &gt;&gt; #{ index }) &amp; 1 = 0
       </if>
     </where>
 
@@ -249,7 +249,7 @@ order by timer desc, s.id asc
     where s.detailtype_id = #{detailType}
   </select>
   <select id="selectOtherStaffTimer" parameterType="Integer" resultType="com.shixun.ihome.publicservice.pojo.ITimer">
-    select t.id, t.timer &gt;&gt; (datediff(now(), t.update_time)) as timer, t.update_time, t.staff_id
+    select t.id, t.timer &gt;&gt; (datediff(now(), t.update_time) * 6) as timer, t.update_time, t.staff_id
     from i_staff s left join i_timer t on t.staff_id = s.id
     where s.detailtype_id = #{detailType}
   </select>

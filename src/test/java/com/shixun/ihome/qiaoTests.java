@@ -66,7 +66,7 @@ public class qiaoTests {
         order.setFinalyTime(sdf.parse("2019-10-24 10:00:00"));
         order.setState(3);
         order.setComm("asdasd");
-        timeService.removeTimerByOrder(1, order, 2);
+        timeService.removeTimerByOrder(1, order,2);
     }
 
 

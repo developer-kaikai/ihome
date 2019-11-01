@@ -7,10 +7,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 @Configuration
 public class MvcInterceptor extends WebMvcConfigurationSupport {
-    String RESOURCE_LOCATION = "classpath:/META-INF/resources/";
+
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/swagger-ui.html").addResourceLocations(RESOURCE_LOCATION);
+        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**") .addResourceLocations("classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("/image/**").addResourceLocations("file:C:/Files/");// 1
     }
 

@@ -38,9 +38,8 @@ public class TimeServiceImpl implements TimeService {
         long timer = timer1.getTimer();
 
         long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
+        timer = timer >> (6 * uTimer);
         if(serviceId == 1){
-            //先更新现有时间
-            timer = timer >> (6 * uTimer);
             //计算订单的时间表
             //处理
             timer2 = worktimer(timer2);
@@ -53,9 +52,7 @@ public class TimeServiceImpl implements TimeService {
             }
         }else{
             //不是钟点工
-            timer = timer >> uTimer;
-            System.out.println(Qutil.consumDays(order.getStartTime(), now));
-            int t = 1<<(Qutil.consumDays(order.getStartTime(), now) );
+            int t = 63 <<(Qutil.consumDays(order.getStartTime(), now) * 6 );
             if((timer & t) > 0){
                 throw new RuntimeException("当前员工时间端没有空");
             }

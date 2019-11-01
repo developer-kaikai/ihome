@@ -360,7 +360,7 @@ public class OrderController {
     public ResultBase removeStaffFromOrder (Integer orderId, Integer staffId) {
         IOrder order = orderService.getOrder(orderId);
         if (orderService.removeStaffForOrder(orderId, staffId)) {
-            timeService.removeTimerByOrder(staffId, order, 2);
+            timeService.removeTimerByOrder(staffId, order,2);
             staffService.updateStaffStatus(staffId, 0, 2);
             return new ResultBase(200, "员工移除成功");
         }
