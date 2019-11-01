@@ -15,6 +15,8 @@ public interface UserService {
     * */
     List<IUser> selectUsers(IUser iUser);
 
+    IUser getOne(int id);
+
     List<IUserDetail> selectUserAddress(int id);
 
     IUserDetail selectUserDefaultAddress(int id);

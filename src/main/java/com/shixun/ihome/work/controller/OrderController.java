@@ -42,6 +42,10 @@ public class OrderController {
     private UserService userService;
     @Autowired
     private ToolService toolService;
+    @Autowired
+    private DetailTypeService detailTypeService;
+    @Autowired
+    private AddressService addressService;
 
     @ApiOperation(value="双向确认")
     @RequestMapping(value="/updateOrderState",method = RequestMethod.POST)
@@ -297,6 +301,25 @@ public class OrderController {
 
     }
 
+
+    //最蠢的方法
+    @ApiOperation(value ="获取单个详细数据")
+    @GetMapping("/getOne/{id}")
+    @ApiImplicitParam(name = "id", value = "1", paramType = "path", dataTypeClass = Integer.class, required = true)
+    public ResultBase getOne(@PathVariable Integer id){
+        //先获取订单数据
+        IOrder order = orderService.getOrder(id);
+        //获取详细类型数据
+        IDetailtype detailtype = detailTypeService.getOne(order.getDetailtypeId());
+        order.setDetailtype(detailtype);
+        //获取下单用户信息
+        IUser user = userService.getOne(order.getUserId());
+        order.setUser(user);
+        //获取用户地址信息
+        IUserDetail userDetail = addressService.getOne(order.getUseraddressId());
+        order.setUserDetail(userDetail);
+        return ResultBase.success(order);
+    }
 
     @ApiOperation(value = "查看所有订单测试")
     @RequestMapping(value = "/listAllTest", method = RequestMethod.GET)

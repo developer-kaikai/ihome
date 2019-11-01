@@ -31,6 +31,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public IUser getOne(int id) {
+        return iUserMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public IUserDetail selectUserDefaultAddress(int id) {
         IUserDetail iUserDetail=iUserDetailMapper.selectUserDefaultAddress(id);
         return iUserDetail;
