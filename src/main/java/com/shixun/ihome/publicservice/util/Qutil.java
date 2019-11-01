@@ -2,6 +2,7 @@ package com.shixun.ihome.publicservice.util;
 
 
 import com.shixun.ihome.publicservice.pojo.IRecord;
+import org.omg.SendingContext.RunTime;
 
 import javax.xml.bind.SchemaOutputResolver;
 import java.io.File;
@@ -49,6 +50,16 @@ public class Qutil {
 
     public static Date toDate(String s){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try{
+            date = sdf.parse(s);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return date;
+    }
+    public static Date toDateTime(String s){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date date = null;
         try{
             date = sdf.parse(s);
@@ -142,13 +153,40 @@ public class Qutil {
     public static int getTimer(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        //设置开始时间
+        Calendar start = Calendar.getInstance();
+        start.setTime(date);
+        start.set(Calendar.HOUR_OF_DAY,8);
+        start.set(Calendar.MINUTE,0);
+        //设置结束时间
+        Calendar end = Calendar.getInstance();
+        end.setTime(date);
+        end.set(Calendar.HOUR_OF_DAY,10);
+        end.set(Calendar.MINUTE, 0);
+        //开始计算
+        int time = 0;
+        for(int i = 0; i < 6; i++){
+            if((start.before(calendar)||start.equals(calendar) )&& end.after(calendar)){
 
-        int hour = calendar.get(Calendar.HOUR_OF_DAY) + (calendar.get(Calendar.MINUTE) > 0?1:0);
-        hour =( hour - 8) / 2 + 1;
-        if (hour > 6){
-            return 6;
+                break;
+            }
+            //添加时间
+            time++;
+            end.add(Calendar.HOUR_OF_DAY,2);
+            start.add(Calendar.HOUR_OF_DAY,2);
         }
-        return hour;
+        if(time > 5){
+            throw new RuntimeException();
+        }
+        return 1 << time;
+    }
+
+
+    public static boolean before(Date date){
+        Calendar calendar = Calendar.getInstance();
+        Calendar cdate = Calendar.getInstance();
+        cdate.setTime(date);
+        return calendar.before(cdate);
     }
 
     /**

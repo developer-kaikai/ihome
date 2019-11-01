@@ -34,10 +34,6 @@ public class TimerController {
 
 
 
-
-
-
-
     @ApiOperation(value="动态生成可选日期和时间")
     @PostMapping("/getMessage")
     public ResultBase getMessage(@ApiJsonObject ( name = "name",value = {
@@ -64,7 +60,7 @@ public class TimerController {
     @PostMapping("/getFreeStaffs")
     public ResultBase getFreeStaffs(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key = "startTime", example = "订单开始日期"),
-            @ApiJsonProperty(key = "serviceId", example = "详细服务类型id(可有可无)"),
+            @ApiJsonProperty(key = "serviceId", example = "1"),
             @ApiJsonProperty(key = "pageSize", example = "10"),
             @ApiJsonProperty(key = "pageNum", example = "1"),
     })@RequestBody JSONObject params){
@@ -73,17 +69,25 @@ public class TimerController {
         Integer pageSize = params.getInteger("pageSize");
         Integer pageNum = params.getInteger("pageNum");
         String startTime = params.getString("startTime");
-        Date startDate = Qutil.toDate(startTime);
+        Date startDate = Qutil.toDateTime(startTime);
+        //作日期检测
+        if(!Qutil.before(startDate)){
+            return ResultBase.fail("订单日期存在问题");
+        }
         Integer index = Qutil.consumDays(new Date(),startDate);
         map.put("pageSize",pageSize);
         map.put("pageNum",pageNum);
         map.put("index", index);
+        map.put("serviceId", serviceId);
         PageInfo<IStaff> pageInfo = null;
         if (serviceId != 1){
+            int time = 63 ;
+            map.put("time", time);
             //如果存在服务大类id不为1就是不是钟点工，就搜索其他员工
-            map.put("serviceId", serviceId);
-            pageInfo = timeService.selectStaffByFreeForOther(map);
+            pageInfo = timeService.selectStaffByFree(map);
         }else{
+            int time = Qutil.getTimer(startDate);
+            map.put("time", time);
             pageInfo = timeService.selectStaffByFree(map);
         }
         Map<String, Object> data = new HashMap<>();

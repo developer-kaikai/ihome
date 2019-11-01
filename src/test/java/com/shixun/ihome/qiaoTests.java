@@ -95,4 +95,15 @@ public class qiaoTests {
         System.out.println(s2);
     }
 
+
+    @Test
+    public void testT() throws Exception{
+        String time = "2019-11-02 18:00:00";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = sdf.parse(time);
+        System.out.println(Qutil.getTimer(date));
+        System.out.println(Qutil.before(date));
+    }
+
+
 }
