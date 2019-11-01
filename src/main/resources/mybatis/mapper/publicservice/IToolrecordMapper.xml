@@ -317,6 +317,9 @@
 <if test="state==3">
   and (tr.state=#{state} or tr.state=2)
 </if>
+  <if test="state!=2 and state!=3">
+    and tr.state=#{state}
+  </if>
 </select>
 
 
