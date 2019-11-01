@@ -379,16 +379,17 @@
     where o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id and o.state!=5
   </select>
 
-  <select id="listByCondition" parameterType="com.shixun.ihome.publicservice.pojo.IOrder"  resultMap="listall">
-     select * from i_order o,i_user u,i_detailtype d,i_user_detail a
-    where o.user_id=u.id and o.useraddress_id=a.id and o.detailtype_id=d.id and o.state!=5 and  d.servicetpye_id=4
-    <if test="detailtypeId!=null">
-        and o.detailtype_id=#{detailtypeId}
-    </if>
-    <if test="state!=null">
-      and o.state=#{state}
-    </if>
-
+  <select id="listByCondition" parameterType="com.shixun.ihome.publicservice.pojo.IOrder"  resultMap="BaseResultMap">
+     select id, user_id, useraddress_id, detailtype_id, start_time, price, order_time, finaly_time, state, comm
+     from i_order
+    <where>
+      <if test="detailtypeId!=null">
+        detailtype_id=#{detailtypeId}
+      </if>
+      <if test="state!=null">
+        and state=#{state}
+      </if>
+    </where>
   </select>
 
   <select id="listbyuser" parameterType="int" resultMap="listall">
