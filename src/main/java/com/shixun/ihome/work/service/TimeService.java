@@ -36,10 +36,4 @@ public interface TimeService {
      */
     PageInfo selectStaffByFree(Map<String, Object> map);
 
-    /**
-     * 获取空闲员工（其他）
-     * @param map index (今天到7天（0-7）） detailType 服务类型  status 状态
-     * @return 员工列表
-     */
-    PageInfo selectStaffByFreeForOther(Map<String, Object> map);
 }

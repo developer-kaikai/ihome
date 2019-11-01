@@ -77,14 +77,7 @@ public class TimeServiceImpl implements TimeService {
         return pageInfo;
     }
 
-    @Override
-    public PageInfo selectStaffByFreeForOther(Map<String, Object> map) {
-        Integer pageNum = (Integer) map.get("pageNum");
-        Integer pageSize = (Integer) map.get("pageSize");
-        PageHelper.startPage(pageNum, pageSize);
-        PageInfo<IStaff> pageInfo = new PageInfo<>(iTimerMapper.selectStaffByFreeOther(map));
-        return pageInfo;
-    }
+
 
     @Override
     public boolean removeTimerByOrder(int id, IOrder order, int serviceId) {
