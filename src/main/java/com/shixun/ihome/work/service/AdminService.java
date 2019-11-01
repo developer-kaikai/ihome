@@ -4,6 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.pojo.IAdministration;
 
 public interface AdminService {
+
+    //登录密码验证
+    int selectPwd(String account,String pwd);
     //获取单个数据
     IAdministration getOne(int id);
     //添加管理员

@@ -3,9 +3,9 @@ package com.shixun.ihome.work.service.serviceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.mapper.IStaffMapper;
-import com.shixun.ihome.publicservice.pojo.IOrderLong;
-import com.shixun.ihome.publicservice.pojo.IStaff;
-import com.shixun.ihome.publicservice.pojo.IStaffExample;
+import com.shixun.ihome.publicservice.mapper.IUserMapper;
+import com.shixun.ihome.publicservice.mapper.IWeixinMapper;
+import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.work.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,35 @@ import java.util.Map;
 public class StaffServiceImpl implements StaffService {
     @Autowired
     private IStaffMapper staffMapper;
+    @Autowired
+    private IUserMapper iUserMapper;
+    @Autowired
+    private IWeixinMapper iWeixinMapper;
 
+
+    @Override
+    public Boolean success(String phone,int typeid) {
+        IUser user=iUserMapper.selectByphone(phone);
+        if (phone==null){
+            return false;
+        }else {
+            IWeixin iWeixin=iWeixinMapper.selectByPrimaryKey(user.getWeixinId());
+            iWeixin.setPositionId(1);
+            iWeixinMapper.updateByPrimaryKeySelective(iWeixin);
+            IStaff staff=new IStaff();
+            staff.setName(user.getName());
+            staff.setDetailtypeId(typeid);
+            staff.setSex(user.getGender());
+            staff.setWechatId(user.getWeixinId());
+            staff.setCity(user.getCity());
+            staff.setPhone(phone);
+            staff.setProvince(user.getProvince());
+            staff.setCountry(user.getCountry());
+            staffMapper.insertSelective(staff);
+            return true;
+        }
+
+    }
 
     @Override
     public PageInfo<IStaff> selectStaffs(IStaff istaff, int pageNum, int pageSize) {

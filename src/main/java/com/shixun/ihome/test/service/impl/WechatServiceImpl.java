@@ -1,6 +1,7 @@
 package com.shixun.ihome.test.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.shixun.ihome.publicservice.mapper.IStaffMapper;
 import com.shixun.ihome.publicservice.mapper.IUserMapper;
 import com.shixun.ihome.publicservice.mapper.IWeixinMapper;
 import com.shixun.ihome.publicservice.pojo.*;
@@ -16,7 +17,26 @@ public class WechatServiceImpl implements WechatService {
     private IWeixinMapper iWeixinMapper;
     @Autowired
     private IUserMapper iUserMapper;
+    @Autowired
+    private IStaffMapper iStaffMapper;
 
+
+    @Override
+    public IStaff selectbyopenid(String openid) {
+        IWeixinExample example=new IWeixinExample();
+        IWeixinExample.Criteria criteria=example.createCriteria();
+        criteria.andOpenIdEqualTo(openid);
+        List<IWeixin> iWeixinList=iWeixinMapper.selectByExample(example);
+        int id=iWeixinList.get(0).getId();
+
+        IStaffExample example1=new IStaffExample();
+        IStaffExample.Criteria criteria1=example1.createCriteria();
+        criteria1.andWechatIdEqualTo(id);
+
+        List<IStaff> userList=iStaffMapper.selectByExample(example1);
+        return userList.get(0);
+
+    }
 
     @Override
     public IUser selectuser(int userid) {

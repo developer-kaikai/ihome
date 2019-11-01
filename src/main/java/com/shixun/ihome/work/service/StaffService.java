@@ -9,6 +9,9 @@ import java.util.Map;
 
 public interface StaffService {
 
+    //用户变员工
+    Boolean success(String phone,int typeid);
+
     //根据条件搜索员工
     PageInfo<IStaff> selectStaffs(IStaff istaff, int pageNum, int pageSize);
 

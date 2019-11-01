@@ -30,4 +30,8 @@ public interface IAdministrationMapper {
     int updateByPrimaryKeySelective(IAdministration record);
 
     int updateByPrimaryKey(IAdministration record);
+
+    IAdministration selectaccount(String account);
+
+    IAdministration selectpwd(String account,String pwd);
 }
