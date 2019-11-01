@@ -104,7 +104,9 @@ public class StaffServiceImpl implements StaffService {
         if(staffMapper.updateByExampleSelective(iStaff, iStaffExample) > 0){
             return true;
         }
-        throw new RuntimeException("修改员工状态失败");
+        else{
+            return false;
+        }
     }
 
 
