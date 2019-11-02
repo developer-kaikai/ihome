@@ -352,16 +352,18 @@ public class OrderController {
 
     @ApiOperation(value = "移除订单中的某个员工")
     @Transactional
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "int", paramType = "query"),
-    })
     @PostMapping("removeStaffFromOrder")
-    public ResultBase removeStaffFromOrder (Integer orderId, Integer staffId) {
+    public ResultBase removeStaffFromOrder (@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "orderId", example = "1"),
+            @ApiJsonProperty(key = "staffId", example = "1"),
+            @ApiJsonProperty(key = "serviceId", example = "1")
+    })@RequestBody JSONObject params) {
+        Integer orderId = params.getInteger("orderId");
+        Integer staffId = params.getInteger("staffId");
+        Integer serviceId = params.getInteger("serviceId");
         IOrder order = orderService.getOrder(orderId);
         if (orderService.removeStaffForOrder(orderId, staffId)) {
-            timeService.removeTimerByOrder(staffId, order,2);
-            staffService.updateStaffStatus(staffId, 0, 2);
+            timeService.removeTimerByOrder(staffId, order,serviceId);
             return new ResultBase(200, "员工移除成功");
         }
 
@@ -405,12 +407,14 @@ public class OrderController {
     public ResultBase plantOtherStaffs(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key = "orderId", example = "1", description = "订单"),
             @ApiJsonProperty(key = "staffIds", example = "[1,2,3,4,5]", description = "员工Id"),
+            @ApiJsonProperty(key = "serviceId", example = "1", description = "服务大类id"),
     })@RequestBody JSONObject params ) {
 //        Integer orderId, @RequestParam(name = "staffIds") List<Integer> staffIds, Integer timer
         //为订单分配员工
         //获取订单
         Integer orderId = params.getInteger("orderId");
         JSONArray jsonArray = params.getJSONArray("staffIds");
+        Integer serviceId = params.getInteger("serviceId");
         IOrder order = orderService.getOrder(orderId);
         if (Qutil.assertTimer(new Date(), order.getOrderTime(), Qutil.MINUTE, 15)){
             return ResultBase.fail("订单请在15分钟内取消");
@@ -429,7 +433,7 @@ public class OrderController {
                 //插入到订单员工表之中
                 orderService.addStaffForOrder(orderId, id);
                 //更新员工的时间表
-                timeService.updateTimerByOrder(id, order, 2);
+                timeService.updateTimerByOrder(id, order, serviceId);
                 //更新员工的状态(为服务中2)
                 staffService.updateStaffStatus(id, 2, 0);
                 //添加工具记录

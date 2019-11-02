@@ -48,15 +48,15 @@ public class TimeServiceImpl implements TimeService {
             if ((timer & timer2) == 0){
                 timer = (timer ^ timer2) & ITimerMapper.MAXTIMER;
             } else {
-                throw new RuntimeException("这个错误你知道的");
+                throw new RuntimeException("该员工当前时间段没有空闲");
             }
         }else{
             //不是钟点工
             int t = 63 <<(Qutil.consumDays(order.getStartTime(), now) * 6 );
             if((timer & t) > 0){
-                throw new RuntimeException("当前员工时间端没有空");
+                throw new RuntimeException("当前员工时间段没有空");
             }
-            timer = (timer ^ t) & 255;
+            timer = (timer ^ t) & ITimerMapper.MAXTIMER;
         }
 
         timer1.setTimer(timer);
@@ -86,26 +86,19 @@ public class TimeServiceImpl implements TimeService {
         long timer1 = timer.getTimer();
         //更新时间表
         Date now = new Date();
-        timer1 = timer1 << Qutil.consumDays(now, timer.getUpdateTime());
+        timer1 = timer1 << ( Qutil.consumDays(now, timer.getUpdateTime()) * 6);
         timer.setUpdateTime(now);
         //根据订单获得时间表
         if(serviceId == 1){
             long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
             timer2 = worktimer(timer2);
-            timer2 = timer2 << ((timerLeft(order.getStartTime()) + 1 ) * 6);
+            timer2 = timer2 << ((timerLeft(order.getStartTime())) * 6);
             //开始运算
-            if ((timer2 & timer1) != 0){
-                timer1 = (timer1 ^ timer2) & ITimerMapper.MAXTIMER;
-            }else {
-                throw new RuntimeException("检测是否存在问题");
-            }
+            timer1 =( timer1 & ~timer2) & ITimerMapper.MAXTIMER;
         }else{
-            int t =  1 << Qutil.consumDays(order.getStartTime(), now);
-            if ((timer1 & t )> 0){
-                timer1 -= t;
-            }else{
-                throw new RuntimeException("这段时间是空闲的");
-            }
+            int t =  63 << (( Qutil.consumDays(order.getStartTime(), now)) * 6);
+//            计算
+            timer1 = (timer1 & ~t) & ITimerMapper.MAXTIMER;
         }
 
         System.out.println(timer1);
