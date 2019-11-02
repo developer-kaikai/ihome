@@ -509,7 +509,7 @@ public class OrderController {
     @GetMapping("/getOrderStaffs/{orderId}")
     @ApiImplicitParam(name = "orderId", value = "1", dataTypeClass = Integer.class, required = true, paramType = "path")
     public ResultBase getOrderStaffs(@PathVariable Integer orderId){
-        List<IOrderStaff> staffs = orderService.selectOrderStaffs(orderId);
+        List<IStaff> staffs = orderService.selectOrderStaffs(orderId);
         return ResultBase.success(staffs);
     }
 //    @ApiOperation(value = "添加长期工-订单记录")

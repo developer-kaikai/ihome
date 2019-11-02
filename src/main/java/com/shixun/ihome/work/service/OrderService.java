@@ -74,7 +74,7 @@ public interface OrderService {
 
     PageInfo<IOrder> selectByCondition(IOrder order, int pageNum, int pageSize);
 
-    List<IOrderStaff> selectOrderStaffs(int orderId);
+    List<IStaff> selectOrderStaffs(int orderId);
 
     boolean addOrderLongDetail(IOrderLong orderLong,IOrderStaff orderStaff);
 

@@ -32,8 +32,6 @@ public class TimerController {
     @Autowired
     private ServicetypeService servicetypeService;
 
-
-
     @ApiOperation(value="动态生成可选日期和时间")
     @PostMapping("/getMessage")
     public ResultBase getMessage(@ApiJsonObject ( name = "name",value = {

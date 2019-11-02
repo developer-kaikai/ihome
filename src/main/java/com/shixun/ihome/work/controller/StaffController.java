@@ -246,15 +246,15 @@ public class StaffController {
         switch(type){
             case 0: {
                 //判断旧的记录是否存在文件
-                path = "C:/Files/IdCard/" + filepath;
+                path = "/usr/java/IdCard/" + filepath;
                 staff.setIdCard("/image/IdCard/" + filepath);
             }break;
             case 1:{
-                path = "C:/Files/Qualification/" +filepath;
+                path = "/usr/java/Qualification/" +filepath;
                 staff.setQualification("/image/Qualification/" + filepath);
             }break;
             case 2:{
-                path = "C:/Files/Health/" + filepath;
+                path = "/usr/java/Health/" + filepath;
                 staff.setHealth("/image/Health/" + filepath);
             }break;
         }
