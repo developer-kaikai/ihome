@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class ServiceTimerServiceImpl implements ServiceTimerService {
         double index = timer.getAindex();
         int result = (int)((staffNum * num * index )/6);
         List<Integer> list = timerSpilt(timer.getAdate());
+        Collections.reverse(list);
         StringBuffer stringBuffer = new StringBuffer();
         for(int i  = 0; i < list.size(); i++){
             stringBuffer.append(list.get(i) <= result?0:1);
