@@ -46,6 +46,10 @@ public class OrderController {
     private DetailTypeService detailTypeService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private ServiceTimerService serviceTimerService;
+    @Autowired
+    private ServicetypeService servicetypeService;
 
     @ApiOperation(value="双向确认")
     @RequestMapping(value="/updateOrderState",method = RequestMethod.POST)
@@ -187,6 +191,10 @@ public class OrderController {
 
         String openId = userService.getOpenId(userId);
         if (orderService.addOrderRecord(order, openId)){
+            //获取服务id
+            Integer serviceId = servicetypeService.getServiceType(order.getDetailtypeId());
+            IServiceTimer serviceTimer = serviceTimerService.getOne(serviceId);
+            serviceTimerService.changeTimer(serviceTimer,new Date(), 1);
             return ResultBase.success();
         }
         return ResultBase.fail("添加订单失败");
@@ -354,16 +362,18 @@ public class OrderController {
 
     @ApiOperation(value = "移除订单中的某个员工")
     @Transactional
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "orderId", value = "订单id", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "staffId", value = "员工id", required = true, dataType = "int", paramType = "query"),
-    })
     @PostMapping("removeStaffFromOrder")
-    public ResultBase removeStaffFromOrder (Integer orderId, Integer staffId) {
+    public ResultBase removeStaffFromOrder (@ApiJsonObject(name = "params", value = {
+            @ApiJsonProperty(key = "orderId", example = "1"),
+            @ApiJsonProperty(key = "staffId", example = "1"),
+            @ApiJsonProperty(key = "serviceId", example = "1")
+    })@RequestBody JSONObject params) {
+        Integer orderId = params.getInteger("orderId");
+        Integer staffId = params.getInteger("staffId");
+        Integer serviceId = params.getInteger("serviceId");
         IOrder order = orderService.getOrder(orderId);
         if (orderService.removeStaffForOrder(orderId, staffId)) {
-            timeService.removeTimerByOrder(staffId, order,2);
-            staffService.updateStaffStatus(staffId, 0, 2);
+            timeService.removeTimerByOrder(staffId, order,serviceId);
             return new ResultBase(200, "员工移除成功");
         }
 
@@ -407,36 +417,43 @@ public class OrderController {
     public ResultBase plantOtherStaffs(@ApiJsonObject(name = "params", value = {
             @ApiJsonProperty(key = "orderId", example = "1", description = "订单"),
             @ApiJsonProperty(key = "staffIds", example = "[1,2,3,4,5]", description = "员工Id"),
+            @ApiJsonProperty(key = "serviceId", example = "1", description = "服务大类id"),
     })@RequestBody JSONObject params ) {
 //        Integer orderId, @RequestParam(name = "staffIds") List<Integer> staffIds, Integer timer
         //为订单分配员工
         //获取订单
         Integer orderId = params.getInteger("orderId");
         JSONArray jsonArray = params.getJSONArray("staffIds");
+        Integer serviceId = params.getInteger("serviceId");
         IOrder order = orderService.getOrder(orderId);
         if (Qutil.assertTimer(new Date(), order.getOrderTime(), Qutil.MINUTE, 15)){
             return ResultBase.fail("订单请在15分钟内取消");
         }
         //生成工具
-        ITool tool = toolService.getOne(order.getDetailtypeId());
-        IToolrecord toolrecord = new IToolrecord();
-        toolrecord.setOrderId(orderId);
-        toolrecord.setToolId(tool.getId());
-        toolrecord.setCount(1);
-        toolrecord.setState(0);
         //循环员工id
         if (!jsonArray.isEmpty()){
+            ITool tool = toolService.getOne(order.getDetailtypeId());
+            IToolrecord toolrecord = null;
+            if(tool != null){
+                toolrecord = new IToolrecord();
+                toolrecord.setOrderId(orderId);
+                toolrecord.setToolId(tool.getId());
+                toolrecord.setCount(1);
+                toolrecord.setState(0);
+            }
             List<Integer> staffIds = jsonArray.toJavaList(Integer.class);
             for(Integer id: staffIds){
                 //插入到订单员工表之中
                 orderService.addStaffForOrder(orderId, id);
                 //更新员工的时间表
-                timeService.updateTimerByOrder(id, order, 2);
+                timeService.updateTimerByOrder(id, order, serviceId);
                 //更新员工的状态(为服务中2)
                 staffService.updateStaffStatus(id, 2, 0);
                 //添加工具记录
-                toolrecord.setStaffId(id);
-                toolService.addToolrecord(toolrecord);
+                if(toolrecord != null){
+                    toolrecord.setStaffId(id);
+                    toolService.addToolrecord(toolrecord);
+                }
 
             }
             //更新订单状态
@@ -511,7 +528,7 @@ public class OrderController {
     @GetMapping("/getOrderStaffs/{orderId}")
     @ApiImplicitParam(name = "orderId", value = "1", dataTypeClass = Integer.class, required = true, paramType = "path")
     public ResultBase getOrderStaffs(@PathVariable Integer orderId){
-        List<IOrderStaff> staffs = orderService.selectOrderStaffs(orderId);
+        List<IStaff> staffs = orderService.selectOrderStaffs(orderId);
         return ResultBase.success(staffs);
     }
 //    @ApiOperation(value = "添加长期工-订单记录")

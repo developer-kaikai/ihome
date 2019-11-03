@@ -32,8 +32,6 @@ public class TimerController {
     @Autowired
     private ServicetypeService servicetypeService;
 
-
-
     @ApiOperation(value="动态生成可选日期和时间")
     @PostMapping("/getMessage")
     public ResultBase getMessage(@ApiJsonObject ( name = "name",value = {
@@ -70,10 +68,10 @@ public class TimerController {
         Integer pageNum = params.getInteger("pageNum");
         String startTime = params.getString("startTime");
         Date startDate = Qutil.toDateTime(startTime);
-        //作日期检测
         if(!Qutil.before(startDate)){
-            return ResultBase.fail("订单日期存在问题");
+            return ResultBase.fail("当前订单已过期");
         }
+        //作日期检测
         Integer index = Qutil.consumDays(new Date(),startDate);
         map.put("pageSize",pageSize);
         map.put("pageNum",pageNum);

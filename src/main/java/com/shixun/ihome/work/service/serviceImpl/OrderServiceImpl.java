@@ -277,8 +277,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<IOrderStaff> selectOrderStaffs(int orderId) {
-        return orderStaffMapper.selectStaffsByOrderId(orderId);
+    public List<IStaff> selectOrderStaffs(int orderId) {
+        List<IOrderStaff> orderStaffs = orderStaffMapper.selectStaffsByOrderId(orderId);
+        List<IStaff> staffs = new ArrayList<>();
+        for (IOrderStaff orderStaff: orderStaffs) {
+            staffs.add(orderStaff.getStaffs());
+        }
+        return staffs;
     }
 
     @Override

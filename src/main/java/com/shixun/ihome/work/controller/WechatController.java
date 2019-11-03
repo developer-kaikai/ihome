@@ -64,7 +64,7 @@ public class WechatController {
             map.put("havephone",havephone);
             map.put("userid",userid);
             map.put("existence",existence);
-            map.put("user",user);
+          //  map.put("user",user);
         }else {
             IStaff user=wechatService.selectbyopenid(openid);
             int userid=user.getId();
@@ -72,7 +72,7 @@ public class WechatController {
             map.put("havephone",havephone);
             map.put("userid",userid);
             map.put("existence",existence);
-            map.put("user",user);
+           // map.put("user",user);
         }
 
 
