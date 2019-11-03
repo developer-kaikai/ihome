@@ -127,7 +127,11 @@ public class ToolServiceImpl implements ToolService {
         IToolExample toolExample = new IToolExample();
         IToolExample.Criteria criteria = toolExample.createCriteria();
         criteria.andDetailtypeIdEqualTo(detailId);
-        ITool tool  = iToolMapper.selectByExample(toolExample).get(0);
+        List<ITool> tools = iToolMapper.selectByExample(toolExample);
+        ITool tool = null;
+        if(tools.size() != 0){
+            tool = tools.get(0);
+        }
         return tool;
     }
 

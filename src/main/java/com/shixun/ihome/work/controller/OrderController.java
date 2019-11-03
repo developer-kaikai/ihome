@@ -428,14 +428,17 @@ public class OrderController {
             return ResultBase.fail("订单请在15分钟内取消");
         }
         //生成工具
-        ITool tool = toolService.getOne(order.getDetailtypeId());
-        IToolrecord toolrecord = new IToolrecord();
-        toolrecord.setOrderId(orderId);
-        toolrecord.setToolId(tool.getId());
-        toolrecord.setCount(1);
-        toolrecord.setState(0);
         //循环员工id
         if (!jsonArray.isEmpty()){
+            ITool tool = toolService.getOne(order.getDetailtypeId());
+            IToolrecord toolrecord = null;
+            if(tool != null){
+                toolrecord = new IToolrecord();
+                toolrecord.setOrderId(orderId);
+                toolrecord.setToolId(tool.getId());
+                toolrecord.setCount(1);
+                toolrecord.setState(0);
+            }
             List<Integer> staffIds = jsonArray.toJavaList(Integer.class);
             for(Integer id: staffIds){
                 //插入到订单员工表之中
@@ -445,8 +448,10 @@ public class OrderController {
                 //更新员工的状态(为服务中2)
                 staffService.updateStaffStatus(id, 2, 0);
                 //添加工具记录
-                toolrecord.setStaffId(id);
-                toolService.addToolrecord(toolrecord);
+                if(toolrecord != null){
+                    toolrecord.setStaffId(id);
+                    toolService.addToolrecord(toolrecord);
+                }
 
             }
             //更新订单状态
