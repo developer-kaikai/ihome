@@ -73,15 +73,17 @@ public class LongTermController {
         String filepath =  date.getTime() + filename;
         String path = "";
         //C:\Files\aboutFiles
-        path = "C:/Files/aboutFiles" + filepath;
+        path = "/usr/java/aboutFile/" + filepath;
         File dest = new File(path);
 //        System.out.println(filename);
 //        System.out.println(path);
+        //数据路径
+        String datapath="/image/aboutFile/" + filepath;
         try{
             file.transferTo(dest);
            //更新数据库
             //System.out.println(path);
-            response.getWriter().write(path);
+            response.getWriter().write(datapath);
        }catch (IOException e){
             e.printStackTrace();
             response.getWriter().write("上传失败");
