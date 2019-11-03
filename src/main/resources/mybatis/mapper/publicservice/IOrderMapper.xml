@@ -391,6 +391,20 @@
       </if>
     </where>
   </select>
+  <select id="listByLongTermOrder" parameterType="com.shixun.ihome.publicservice.pojo.IOrder"  resultMap="listall">
+    SELECT
+    a.*,
+    b.typename
+    FROM
+    i_order a,
+    i_detailtype b
+    WHERE
+    a.detailtype_id = b.id
+    AND b.servicetpye_id =4
+    <if test="state!=null">
+        and state=#{state}
+    </if>
+  </select>
 
   <select id="listbyuser" parameterType="int" resultMap="listall">
 select *,d.id as did,a.id as aid,u.id as uid from i_order o,i_user u,i_detailtype d,i_user_detail a

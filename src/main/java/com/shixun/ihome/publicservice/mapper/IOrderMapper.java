@@ -61,6 +61,7 @@ public interface IOrderMapper {
    List<IOrder> oderbyuserTypename(int userid,int id);
    List<IOrder> oderbystaffTypename(int staffid,int id);
 
+   List<IOrder> listByLongTermOrder(IOrder record);
 
 
 }

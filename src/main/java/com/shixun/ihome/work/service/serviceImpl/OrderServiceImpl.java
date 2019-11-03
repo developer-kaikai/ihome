@@ -239,7 +239,7 @@ public class OrderServiceImpl implements OrderService {
 
 //        if (listh==null) {
         PageHelper.startPage(pageNum, pageSize);
-        PageInfo<IOrder> pages = new PageInfo<>(orderMapper.listByCondition(order));
+        PageInfo<IOrder> pages = new PageInfo<>(orderMapper.listByLongTermOrder(order));
         return pages;
         //System.out.println("从数据库读取");
         //redisTemplate.opsForValue().set("orderall", pages);
