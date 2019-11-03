@@ -40,7 +40,7 @@ public class FinanceController {
 
     @ApiOperation(value = "员工评价排行")
     @ResponseBody
-    @RequestMapping(value = "/staffnews",method = RequestMethod.GET)
+    @RequestMapping(value = "/ssstaffnews",method = RequestMethod.GET)
     public void listevaluate(HttpServletResponse response)throws IOException {
         List<Map<String,Object>> map=evaluateService.listevaluate();
 

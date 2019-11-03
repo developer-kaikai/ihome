@@ -26,9 +26,9 @@ public class FinanceServiceImpl implements FinanceService {
         Map map=new HashMap();
         map.put("nowtime",nowtime);
         map.put("staffid",staffid);
-        int sum=iSalaryMapper.findsum(map);
-        int monthcount=iSalaryMapper.findmonthcount(map);
-        int count=iSalaryMapper.findcount(map);
+        String sum=iSalaryMapper.findsum(map);
+        String monthcount=iSalaryMapper.findmonthcount(map);
+        String count=iSalaryMapper.findcount(map);
         Map map1=new HashMap();
         map1.put("sum",sum);
         map1.put("monthcount",monthcount);

@@ -46,8 +46,8 @@ public interface ISalaryMapper {
     int insertSalaryMonth(List<Map<String, Object>> map);
 
 
-    int findmonthcount(Map map);
-    int findcount(Map map);
-    int findsum(Map map);
+    String findmonthcount(Map map);
+    String findcount(Map map);
+    String findsum(Map map);
 
 }
