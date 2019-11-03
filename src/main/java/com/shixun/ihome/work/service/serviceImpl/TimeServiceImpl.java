@@ -33,10 +33,11 @@ public class TimeServiceImpl implements TimeService {
         //获取时间表
         ITimer timer1= getITimeByStaffId(id);
         Date now = new Date();
-        timer1.setUpdateTime(now);
         int uTimer = Qutil.consumDays(now , timer1.getUpdateTime());
         long timer = timer1.getTimer();
 
+
+        timer1.setUpdateTime(now);
         long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
         timer = timer >> (6 * uTimer);
         if(serviceId == 1){
