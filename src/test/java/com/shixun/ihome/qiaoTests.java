@@ -34,6 +34,8 @@ public class qiaoTests {
     private UserService userService;
     @Autowired
     private ITimerMapper iTimerMapper;
+    @Autowired
+    private ServiceTimerService serviceTimerService;
     @Test
     public void test1() throws Exception{
 
@@ -126,6 +128,26 @@ public class qiaoTests {
         Date now = new Date();
         int t =  63 << (( Qutil.consumDays(order.getStartTime(), now)) * 6);
         System.out.println(t);
+    }
+
+    @Test
+    public void test7(){
+        String s ="2019年11月4日 9:00";
+        Date date = parseDate(s);
+        IServiceTimer timer  = serviceTimerService.getOne(4);
+        serviceTimerService.changeTimer(timer,date,1 );
+    }
+
+
+    public  Date parseDate(String s){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 hh:mm");
+        Date date = null;
+        try{
+            date = sdf.parse(s);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return date;
     }
 
 

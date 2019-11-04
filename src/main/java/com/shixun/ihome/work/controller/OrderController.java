@@ -194,7 +194,7 @@ public class OrderController {
             //获取服务id
             Integer serviceId = servicetypeService.getServiceType(order.getDetailtypeId());
             IServiceTimer serviceTimer = serviceTimerService.getOne(serviceId);
-            serviceTimerService.changeTimer(serviceTimer,new Date(), 1);
+            serviceTimerService.changeTimer(serviceTimer,order.getStartTime(), 1);
             return ResultBase.success();
         }
         return ResultBase.fail("添加订单失败");
