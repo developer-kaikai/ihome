@@ -65,4 +65,6 @@ public interface IStaffMapper {
     List<IStaff> selectStaffForOrder(Integer orderID);
 
     List<IStaff> selectFreeLongTermsWorks();
+
+    IStaff selectbuphone(String phone);
 }

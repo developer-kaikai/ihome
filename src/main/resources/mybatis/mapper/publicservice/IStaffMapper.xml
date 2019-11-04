@@ -478,4 +478,8 @@
     AND d.detailtype_id = c.id
     AND c.servicetpye_id =4
   </select>
+
+  <select id="selectbuphone" resultType="com.shixun.ihome.publicservice.pojo.IStaff" parameterType="String">
+    select * from i_staff where phone=#{phone}
+  </select>
 </mapper>

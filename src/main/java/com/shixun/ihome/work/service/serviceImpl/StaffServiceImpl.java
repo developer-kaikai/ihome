@@ -3,6 +3,7 @@ package com.shixun.ihome.work.service.serviceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shixun.ihome.publicservice.mapper.IStaffMapper;
+import com.shixun.ihome.publicservice.mapper.ITimerMapper;
 import com.shixun.ihome.publicservice.mapper.IUserMapper;
 import com.shixun.ihome.publicservice.mapper.IWeixinMapper;
 import com.shixun.ihome.publicservice.pojo.*;
@@ -10,6 +11,7 @@ import com.shixun.ihome.work.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,8 @@ public class StaffServiceImpl implements StaffService {
     private IUserMapper iUserMapper;
     @Autowired
     private IWeixinMapper iWeixinMapper;
+    @Autowired
+    private ITimerMapper iTimerMapper;
 
 
     @Override
@@ -43,6 +47,15 @@ public class StaffServiceImpl implements StaffService {
             staff.setProvince(user.getProvince());
             staff.setCountry(user.getCountry());
             staffMapper.insertSelective(staff);
+            ITimer iTimer=new ITimer();
+            iTimer.setTimer(0L);
+            Date date=new Date();
+            iTimer.setUpdateTime(date);
+            IStaff staff1=staffMapper.selectbuphone(phone);
+            iTimer.setStaffId(staff1.getId());
+            iTimerMapper.insert(iTimer);
+
+
             return true;
         }
 
