@@ -380,9 +380,11 @@ public class OrderController {
         return new ResultBase(400, "员工移除失败");
     }
 
+
     @ApiOperation(value = "删除订单")
-    @RequestMapping(value = "/deleteOrder", method = RequestMethod.GET)
-    public ResultBase deleteorder(Integer id) {
+    @GetMapping("/deleteOrder/{id}")
+    @ApiImplicitParam(name = "id", value = "1", paramType = "path", dataTypeClass = Integer.class, required = true)
+    public ResultBase deleteorder(@PathVariable Integer id) {
         boolean success = orderService.deleteOrder(id);
         if (success){
             return ResultBase.success();
