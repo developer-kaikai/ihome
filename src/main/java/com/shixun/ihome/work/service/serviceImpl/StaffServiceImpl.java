@@ -2,10 +2,7 @@ package com.shixun.ihome.work.service.serviceImpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.shixun.ihome.publicservice.mapper.IStaffMapper;
-import com.shixun.ihome.publicservice.mapper.ITimerMapper;
-import com.shixun.ihome.publicservice.mapper.IUserMapper;
-import com.shixun.ihome.publicservice.mapper.IWeixinMapper;
+import com.shixun.ihome.publicservice.mapper.*;
 import com.shixun.ihome.publicservice.pojo.*;
 import com.shixun.ihome.work.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,10 @@ public class StaffServiceImpl implements StaffService {
     private IWeixinMapper iWeixinMapper;
     @Autowired
     private ITimerMapper iTimerMapper;
+    @Autowired
+    private IDetailtypeMapper detailtypeMapper;
+    @Autowired
+    private IServiceTimerMapper iServiceTimerMapper;
 
 
     @Override
@@ -54,7 +55,10 @@ public class StaffServiceImpl implements StaffService {
             IStaff staff1=staffMapper.selectbuphone(phone);
             iTimer.setStaffId(staff1.getId());
             iTimerMapper.insert(iTimer);
-
+            IDetailtype detailtype=detailtypeMapper.selectByPrimaryKey(typeid);
+            IServiceTimer iServiceTimer=iServiceTimerMapper.selectByserviceid(detailtype.getServicetpyeId());
+            iServiceTimer.setStaffnum(iServiceTimer.getStaffnum()+1);
+            iServiceTimerMapper.updateByPrimaryKeySelective(iServiceTimer);
 
             return true;
         }

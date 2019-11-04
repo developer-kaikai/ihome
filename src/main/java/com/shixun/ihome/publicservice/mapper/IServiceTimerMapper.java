@@ -31,4 +31,6 @@ public interface IServiceTimerMapper {
     int updateByPrimaryKeySelective(IServiceTimer record);
 
     int updateByPrimaryKey(IServiceTimer record);
+
+    IServiceTimer selectByserviceid(int serviceid);
 }

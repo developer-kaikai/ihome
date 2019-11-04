@@ -240,4 +240,7 @@
       num = #{num,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByserviceid" parameterType="int" resultType="com.shixun.ihome.publicservice.pojo.IServiceTimer">
+    select * from i_service_timer where servicelId=#{serviceid}
+  </select>
 </mapper>
