@@ -39,7 +39,7 @@ public class TimeServiceImpl implements TimeService {
 
         timer1.setUpdateTime(now);
         timer = timer >> (6 * uTimer);
-        if(serviceId == 1){
+        if(order.getFinalyTime() != null){
             long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
             //计算订单的时间表
             //处理
@@ -89,7 +89,7 @@ public class TimeServiceImpl implements TimeService {
         Date now = new Date();
         timer.setUpdateTime(now);
         //根据订单获得时间表
-        if(serviceId == 1){
+        if(order.getFinalyTime() != null){
             timer1 = timer1 << ( Qutil.consumDays(now, timer.getUpdateTime()) * 6);
             long timer2 = consumTimer(order.getStartTime(), order.getFinalyTime());
             timer2 = worktimer(timer2);
