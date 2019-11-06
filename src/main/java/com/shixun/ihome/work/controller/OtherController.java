@@ -38,7 +38,7 @@ public class OtherController {
         return ResultBase.success(arr);
     }
 
-    @ApiOperation(value = "登录测试")
+    @ApiOperation(value = "登录")
     @PostMapping("/pcLogin")
     public ResultBase pcLogin (@ApiJsonObject (name = "params", value = {
             @ApiJsonProperty(key = "name", example = "user", description = "用户名"),
@@ -46,6 +46,7 @@ public class OtherController {
     })@RequestBody JSONObject params, @ApiIgnore HttpSession session){
         String name = params.getString("name");
         String password = params.getString("password");
+
         if (password.equals("123456")){
             session.setAttribute("name", name);
             return ResultBase.success();

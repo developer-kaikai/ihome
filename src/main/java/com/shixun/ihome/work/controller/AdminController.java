@@ -25,15 +25,16 @@ public class AdminController {
     private AdminService adminService;
 
     @ApiOperation(value = "登录")
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public int selectaccount(@ApiJsonObject (name = "name", value = {
+    @PostMapping("/login")
+    public ResultBase Login(@ApiJsonObject (name = "name", value = {
             @ApiJsonProperty(key = "account", example = "帐号"),
             @ApiJsonProperty(key = "pwd", example = "密码")})@RequestBody JSONObject name){
-
         String account=name.getString("account");
         String pwd=name.getString("pwd");
-        int success=adminService.selectPwd(account,pwd);
-        return success;
+        int result=adminService.login(account,pwd);
+        if(result == 1) return ResultBase.fail("账号不存在");
+        else if(result ==2) return ResultBase.fail("密码不正确");
+        return ResultBase.success();
     }
 
     @ApiOperation(value = "添加管理员")

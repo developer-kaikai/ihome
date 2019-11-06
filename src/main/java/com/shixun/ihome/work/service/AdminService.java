@@ -5,8 +5,13 @@ import com.shixun.ihome.publicservice.pojo.IAdministration;
 
 public interface AdminService {
 
-    //登录密码验证
-    int selectPwd(String account,String pwd);
+    /**
+     * 登录
+     * @param account
+     * @param pwd
+     * @return 1:账号不存在， 2：密码不正确，3：登录成功
+     */
+    int login(String account,String pwd);
     //获取单个数据
     IAdministration getOne(int id);
     //添加管理员

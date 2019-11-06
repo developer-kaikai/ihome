@@ -17,18 +17,15 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public int selectPwd(String account, String pwd) {
+    public int login(String account, String pwd) {
         IAdministration admin=adminMap.selectaccount(account);
         if (admin==null){
             return 1;
         }else{
-            IAdministration admin2=adminMap.selectpwd(account,pwd);
-            if (admin2==null){
-                return 2;
-            }else{
-                return 3;
-            }
+            String pwd1 = admin.getPwd();
+            if(!pwd1.equals(pwd)) return 2;
         }
+        return 3;
     }
 
     @Override
