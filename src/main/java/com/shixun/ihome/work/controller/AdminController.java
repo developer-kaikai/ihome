@@ -42,7 +42,11 @@ public class AdminController {
         Integer positionId = admin.getPositionId();
         session.setAttribute("id",id);
         session.setAttribute("positionId",positionId);
-        return ResultBase.success(positionId);
+        JSONObject data = new JSONObject();
+        data.put("positionId", positionId);
+        data.put("name", admin.getName());
+
+        return ResultBase.success(data);
     }
 
     @ApiOperation(value = "添加管理员")
