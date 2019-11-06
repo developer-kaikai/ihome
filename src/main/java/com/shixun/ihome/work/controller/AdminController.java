@@ -28,13 +28,21 @@ public class AdminController {
     @PostMapping("/login")
     public ResultBase Login(@ApiJsonObject (name = "name", value = {
             @ApiJsonProperty(key = "account", example = "帐号"),
-            @ApiJsonProperty(key = "pwd", example = "密码")})@RequestBody JSONObject name){
+            @ApiJsonProperty(key = "pwd", example = "密码")})@RequestBody JSONObject name, @ApiIgnore HttpSession session){
         String account=name.getString("account");
         String pwd=name.getString("pwd");
-        int result=adminService.login(account,pwd);
-        if(result == 1) return ResultBase.fail("账号不存在");
-        else if(result ==2) return ResultBase.fail("密码不正确");
-        return ResultBase.success();
+        IAdministration admin =adminService.login(account);
+        if(admin == null){
+            return ResultBase.fail("账号不存在");
+        }else if (!admin.getPwd().equals(pwd)){
+            return ResultBase.fail("密码不正确");
+        }
+        //存入session
+        Integer id = admin.getId();
+        Integer positionId = admin.getPositionId();
+        session.setAttribute("id",id);
+        session.setAttribute("positionId",positionId);
+        return ResultBase.success(positionId);
     }
 
     @ApiOperation(value = "添加管理员")

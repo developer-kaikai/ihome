@@ -17,15 +17,9 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public int login(String account, String pwd) {
+    public IAdministration login(String account) {
         IAdministration admin=adminMap.selectaccount(account);
-        if (admin==null){
-            return 1;
-        }else{
-            String pwd1 = admin.getPwd();
-            if(!pwd1.equals(pwd)) return 2;
-        }
-        return 3;
+        return admin;
     }
 
     @Override
